@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-import { useGetPostsQuery } from '@/services/posts';
+import { useGetPostsQuery } from '@/services/blog/posts';
 
 export default function useAllPosts() {
-  const { data, error, isLoading } = useGetPostsQuery();
+  const { data, error, isLoading } = useGetPostsQuery({ page: 1 });
   console.log('data', data);
 
   const [searchBy, setSearchBy] = useState('');

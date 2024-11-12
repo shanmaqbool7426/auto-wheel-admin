@@ -1,3 +1,3 @@
 export const PROVIDES_TAGS = [
-  'Posts',
+  'BLOG_POSTS',
 ]

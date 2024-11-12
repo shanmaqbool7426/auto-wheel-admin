@@ -1,16 +1,16 @@
 import { BASE_API } from '@/services/base-api';
 import { END_POINTS } from '@/constants/endpoints';
-import { PROVIDES_TAGS } from '@/services/providesTags';
 
 export const postAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
 
     getPosts: builder.query({
       query: (params) => ({
-        url: `${END_POINTS.BLOG_LISTING}/page/${params.page}`,
+        url: `${END_POINTS.BLOG_LISTING}`,
         method: 'GET',
+        params,
       }),
-      providesTags: [PROVIDES_TAGS.BLOG_POSTS],
+      providesTags: ['BLOG_POSTS'],
     }),
 
     addPost: builder.mutation({
@@ -19,12 +19,12 @@ export const postAPIs = BASE_API.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: [PROVIDES_TAGS.BLOG_POSTS],
+      invalidatesTags: ['BLOG_POSTS'],
     }),
 
     getPost: builder.query({
       query: (id) => `${END_POINTS.BLOG_LISTING}/${id}`,
-      providesTags: [PROVIDES_TAGS.BLOG_POSTS],
+      providesTags: ['BLOG_POSTS'],
     }),
 
     updatePost: builder.mutation({
@@ -36,7 +36,7 @@ export const postAPIs = BASE_API.injectEndpoints({
           body,
         };
       },
-      invalidatesTags: [PROVIDES_TAGS.BLOG_POSTS],
+      invalidatesTags: ['BLOG_POSTS'],
     }),
 
     deletePost: builder.mutation({
@@ -46,7 +46,7 @@ export const postAPIs = BASE_API.injectEndpoints({
           method: 'DELETE',
         };
       },
-      invalidatesTags: [PROVIDES_TAGS.BLOG_POSTS],
+      invalidatesTags: ['BLOG_POSTS'],
     }),
 
   }),

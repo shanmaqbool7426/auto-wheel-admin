@@ -14,13 +14,13 @@ const baseQuery = fetchBaseQuery({
   // },
 })
 
-const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 })
+// const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 })
 
 export const BASE_API = createApi({
 
   reducerPath: 'api',
 
-  baseQuery: baseQueryWithRetry,
+  baseQuery: baseQuery,
 
   tagTypes: PROVIDES_TAGS,
 

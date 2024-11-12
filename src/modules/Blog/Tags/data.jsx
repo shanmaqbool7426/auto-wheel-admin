@@ -13,29 +13,27 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
   {
     accessor: 'description',
     title: 'Description',
-    textAlign: 'center',
   },
   {
     accessor: 'slug',
     title: 'Slug',
-    textAlign: 'center',
   },
   {
-    accessor: 'count',
+    accessor: '__v',
     title: 'Count',
     textAlign: 'center',
   },
   {
-    accessor: 'id',
+    accessor: '_id',
     title: 'Actions',
     textAlign: 'center',
-    render: ({ id }) => {
+    render: ({ _id }) => {
       return (
         <Group justify='center' wrap='nowrap'>
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickEdit(e, id)}
+            onClick={(e) => onClickEdit(e, _id)}
           >
             <IconPencil />
           </ActionIcon>
@@ -43,7 +41,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDelete(e, id)}
+            onClick={(e) => onClickDelete(e, _id)}
           >
             <IconTrash />
           </ActionIcon>
@@ -51,7 +49,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDuplicate(e, id)}
+            onClick={(e) => onClickDuplicate(e, _id)}
           >
             <IconEye />
           </ActionIcon>
@@ -59,49 +57,4 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
       )
     },
   },
-]
-
-export const tagsData = [
-  {
-    id: "111",
-    name: "Analysis & Feature",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "112011",
-    name: "Modified Cars",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "1176541",
-    name: "News",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "11132",
-    name: "Analysis & Feature",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "12211",
-    name: "Analysis & Feature",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "1411",
-    name: "Analysis & Feature",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  }, ,
 ]

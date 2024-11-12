@@ -6,13 +6,16 @@ import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
 import CustomButton from '@/components/CustomButton';
 import useTags from './useTags';
-import { getColumns, tagsData } from './data';
+import { getColumns, data } from './data';
 import { IconPlus } from '@/assets/icons';
 import styles from './Tags.module.css';
 import AddTag from './AddTag';
 
 export default function Tags() {
   const {
+    tagsData,
+    errorTags,
+    loadingTags,
     setSearchBy,
     filterParams,
     handleChangeFilter,
@@ -23,7 +26,8 @@ export default function Tags() {
     isTagModalOpen
   } = useTags();
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
+  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate);
+  // console.log('tagsData::: ', tagsData);
 
   return (
     <>
@@ -77,7 +81,8 @@ export default function Tags() {
       <Box>
         <DataTable
           columns={columns}
-          records={tagsData || []}
+          records={tagsData?.data || []}
+          fetching={loadingTags && !tagsData?.data.length}
         />
       </Box>
 

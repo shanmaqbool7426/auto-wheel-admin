@@ -1,6 +1,5 @@
 import React from 'react';
 import { DataTable as MantineDataTable } from 'mantine-datatable';
-import 'mantine-datatable/styles.layer.css';
 import classes from './DataTable.module.css'
 
 export default function DataTable({ enablePagination = true, columns, records, ...rest }) {

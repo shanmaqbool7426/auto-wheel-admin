@@ -5,8 +5,8 @@ import { useForm } from '@mantine/form';
 import { useGetPostsQuery } from '@/services/blog/posts';
 
 export default function useAllPosts() {
-  const { data, error, isLoading } = useGetPostsQuery({ page: 1 });
-  console.log('data', data);
+  const { data, error, isLoading } = useGetPostsQuery();
+  console.log('data:::for: ', data);
 
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({

@@ -8,7 +8,7 @@ export default function DataTable({ enablePagination = true, columns, records, .
   // const [records, setRecords] = React.useState(records.slice(0, PAGE_SIZE));
   return (
     <MantineDataTable
-      rowKey="_id"
+      idAccessor="_id"
       columns={columns}
       records={records}
       totalRecords={enablePagination ? records.length : undefined}

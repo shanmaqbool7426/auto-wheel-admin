@@ -26,7 +26,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
     textAlign: 'center',
   },
   {
-    accessor: 'id',
+    accessor: '_id',
     title: 'Actions',
     textAlign: 'center',
     render: ({ id }) => {
@@ -63,45 +63,45 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
 
 export const categoriesData = [
   {
-    id: "111",
+    _id: "111dsdss",
     name: "Analysis & Feature",
     description: "Sed ut perspiciatis unde omnis iste",
     slug: "Sed ut perspiciatis unde omnis iste",
     count: 123,
   },
   {
-    id: "112011",
+    _id: "112sf011",
     name: "Modified Cars",
     description: "Sed ut perspiciatis unde omnis iste",
     slug: "Sed ut perspiciatis unde omnis iste",
     count: 123,
   },
   {
-    id: "1176541",
+    _id: "117sas6541",
     name: "News",
     description: "Sed ut perspiciatis unde omnis iste",
     slug: "Sed ut perspiciatis unde omnis iste",
     count: 123,
   },
   {
-    id: "11132",
+    _id: "11sasa132",
     name: "Analysis & Feature",
     description: "Sed ut perspiciatis unde omnis iste",
     slug: "Sed ut perspiciatis unde omnis iste",
     count: 123,
   },
   {
-    id: "12211",
+    _id: "122sasa11",
     name: "Analysis & Feature",
     description: "Sed ut perspiciatis unde omnis iste",
     slug: "Sed ut perspiciatis unde omnis iste",
     count: 123,
   },
   {
-    id: "1411",
+    _id: "14asas11",
     name: "Analysis & Feature",
     description: "Sed ut perspiciatis unde omnis iste",
     slug: "Sed ut perspiciatis unde omnis iste",
     count: 123,
-  }, ,
+  },
 ]

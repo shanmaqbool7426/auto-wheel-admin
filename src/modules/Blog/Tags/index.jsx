@@ -29,7 +29,6 @@ export default function Tags() {
   } = useTags();
 
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate);
-  // console.log('tagsData::: ', tagsData);
 
   return (
     <>

@@ -3,8 +3,11 @@ import { Grid } from '@mantine/core';
 import Card from '@/components/Card';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
+import TextEditor from '@/components/TextEditor';
 
 export default function PostCard({ form }) {
+  const [content, setContent] = React.useState('');
+
   return (
     <Card>
       <Grid gutter="30px">
@@ -18,12 +21,12 @@ export default function PostCard({ form }) {
         </Grid.Col>
 
         <Grid.Col span={12}>
-          <FormField
-            type="textarea"
-            rows={6}
-            {...form.getInputProps('description')}
+          <TextEditor
+            content={content}
+            setContent={setContent}
           />
         </Grid.Col>
+
         <Grid.Col span={12}>
           <CustomButton color='#1B84FF' fullWidth type='submit'>
             Upload Post

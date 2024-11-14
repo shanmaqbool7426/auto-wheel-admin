@@ -4,6 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 
 export default function useCategories() {
+  const [selectedRecords, setSelectedRecords] = useState([]);
   const [isCategoryModalOpen, setCategoryModalOpen] = useState(false);
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({
@@ -32,6 +33,8 @@ export default function useCategories() {
   }
 
   return {
+    selectedRecords,
+    setSelectedRecords,
     setSearchBy,
     filterParams,
     handleChangeFilter,

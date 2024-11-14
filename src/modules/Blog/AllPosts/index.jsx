@@ -12,6 +12,8 @@ import { IconPlus } from '@/assets/icons';
 
 export default function AllPosts() {
   const {
+    selectedRecords,
+    setSelectedRecords,
     setSearchBy,
     filterParams,
     handleChangeFilter,
@@ -19,7 +21,6 @@ export default function AllPosts() {
     handleClickDeleteRow,
     handleClickDuplicate,
   } = useAllPosts();
-
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
 
   return (
@@ -88,6 +89,9 @@ export default function AllPosts() {
         <DataTable
           columns={columns}
           records={postsData || []}
+          selection
+          selectedRecords={selectedRecords}
+          onSelectedRecordsChange={setSelectedRecords}
         />
       </Box>
     </>

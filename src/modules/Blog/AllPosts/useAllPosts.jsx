@@ -8,6 +8,7 @@ export default function useAllPosts() {
   const { data, error, isLoading } = useGetPostsQuery();
   console.log('data:::for: ', data);
 
+  const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({
     actions: '',
@@ -35,6 +36,8 @@ export default function useAllPosts() {
   }
 
   return {
+    selectedRecords,
+    setSelectedRecords,
     setSearchBy,
     filterParams,
     handleChangeFilter,

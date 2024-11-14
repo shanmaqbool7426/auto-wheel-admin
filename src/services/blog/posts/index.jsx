@@ -13,6 +13,15 @@ export const postAPIs = BASE_API.injectEndpoints({
       providesTags: ['BLOG_POSTS'],
     }),
 
+    searchPosts: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS.BLOG_SEARCH}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['BLOG_POSTS'],
+    }),
+
     addPost: builder.mutation({
       query: (body) => ({
         url: END_POINTS.BLOG_LISTING,
@@ -52,8 +61,10 @@ export const postAPIs = BASE_API.injectEndpoints({
   }),
 });
 
+
 export const {
   useGetPostsQuery,
+  useSearchPostsQuery,
   useAddPostMutation,
   useGetPostQuery,
   useUpdatePostMutation,

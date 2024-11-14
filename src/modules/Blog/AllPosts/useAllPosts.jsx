@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-import { useGetPostsQuery ,useDeletePostMutation, useSearchPostsQuery} from '@/services/blog/posts';
+import { useGetPostsQuery ,useDeletePostMutation, useSearchPostsQuery, useDeleteMultiplePostMutation} from '@/services/blog/posts';
 
 export default function useAllPosts() {
 
@@ -15,7 +15,9 @@ export default function useAllPosts() {
     date: '',
   });
 
-  const [deletePost] = useDeletePostMutation();
+  console.log('filterParams:::for: ', selectedRecords)
+
+  const [deleteMultiplePost] = useDeleteMultiplePostMutation();
 
   // Search query parameters
   const searchParams = {
@@ -59,12 +61,18 @@ export default function useAllPosts() {
   };
 
   const handleBulkAction = async (action) => {
-    if (action === 'delete' && selectedRows.length > 0) {
+    if (action === 'delete' && selectedRecords.length > 0) {
       try {
-        if (window.confirm(`Are you sure you want to delete ${selectedRows.length} selected posts?`)) {
-          await Promise.all(selectedRows.map(id => deletePost(id)));
-          setSelectedRows([]); // Clear selection after deletion
-        }
+
+        console.log('selectedRecords:::for: ', selectedRecords)
+        // if (window.confirm(`Are you sure you want to delete ${selectedRows.length} selected posts?`)) {
+        //   await Promise.all(selectedRows.map(id => deletePost(id)));
+        //   setSelectedRows([]); // Clear selection after deletion
+        // }
+        const ids = selectedRecords.map((item)=>item.id)
+
+        console.log('ids:::for: ', ids)
+        await deleteMultiplePost(ids)
       } catch (error) {
         console.error('Error deleting posts:', error);
       }

@@ -27,6 +27,7 @@ export default function AllPosts() {
     error,
   } = useAllPosts();
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
+  const [bulkActionValue, setBulkActionValue] = React.useState('');  // Add this line
 
 
   console.log('posts:::for: ', posts)
@@ -42,15 +43,19 @@ export default function AllPosts() {
           <Box className={styles.dropdown}>
             <FormField
               type="select"
+              disabled={selectedRecords.length === 0}
               name="actions"
               data={[
-                { value: 'Bulk Action', label: 'Bulk Action' },
-                { value: 'Bulk Action1', label: 'Bulk Action1' },
+                { value: 'delete', label: 'Delete' },
+                { value: 'duplicate', label: 'Duplicate' },
               ]}
               placeholder="Bulk Action"
               checkIconPosition="right"
-              value={filterParams.status}
-              onChange={(_value, option) => handleChangeFilter('actions', option.value)}
+            
+              onChange={(_value, option) => {
+                handleBulkAction(option?.value)
+               
+              }}
             />
           </Box>
           <Box className={styles.dropdown}>

@@ -58,6 +58,18 @@ export const postAPIs = BASE_API.injectEndpoints({
       invalidatesTags: ['BLOG_POSTS'],
     }),
 
+    deleteMultiplePost: builder.mutation({
+      query(ids) {
+        return {
+          url: `${END_POINTS.BLOG_DELETE}`,
+          method: 'DELETE',
+          body: { ids },
+        };
+      },
+      invalidatesTags: ['BLOG_POSTS'],
+    }),
+
+
   }),
 });
 
@@ -69,4 +81,5 @@ export const {
   useGetPostQuery,
   useUpdatePostMutation,
   useDeletePostMutation,
+  useDeleteMultiplePostMutation,
 } = postAPIs;

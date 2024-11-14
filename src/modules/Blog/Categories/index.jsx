@@ -13,6 +13,8 @@ import AddCategory from './AddCategory';
 
 export default function Categories() {
   const {
+    selectedRecords,
+    setSelectedRecords,
     setSearchBy,
     filterParams,
     handleChangeFilter,
@@ -78,6 +80,9 @@ export default function Categories() {
         <DataTable
           columns={columns}
           records={categoriesData || []}
+          selection
+          selectedRecords={selectedRecords}
+          onSelectedRecordsChange={setSelectedRecords}
         />
       </Box>
 

@@ -29,24 +29,35 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
   {
     accessor: 'categories',
     title: 'Categories',
-    render: ({ categories }) => categories.join(', '),
+    render: ({ categories }) => {
+      // Check if categories is an array and has items
+      if (!Array.isArray(categories) || categories.length === 0) {
+        return '-';
+      }
+      
+      // Map through categories and get the names
+      return categories
+        .map(category => category.name)
+        .join(', ');
+    },
   },
   {
     accessor: 'createdDate',
     title: 'Created',
-    render: ({ createdDate }) => {
+    render: ({ createdAt }) => {
       return (
         <>
           <Box className={styles.createdDate}>
-            {dayjs(createdDate).format('DD--MM-YYYY')}
+            {dayjs(createdAt).format('DD--MM-YYYY')}
           </Box>
           <Box className={styles.createdTime}>
-            {dayjs(createdDate).format('hh:mm A')}
+            {dayjs(createdAt).format('hh:mm A')}
           </Box>
         </>
       )
     },
   },
+
   {
     accessor: 'views',
     title: 'Views',

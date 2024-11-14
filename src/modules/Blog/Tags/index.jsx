@@ -13,6 +13,8 @@ import AddTag from './AddTag';
 
 export default function Tags() {
   const {
+    selectedRecords,
+    setSelectedRecords,
     tagsData,
     errorTags,
     loadingTags,
@@ -83,6 +85,9 @@ export default function Tags() {
           columns={columns}
           records={tagsData?.data || []}
           fetching={loadingTags && !tagsData?.data.length}
+          selection
+          selectedRecords={selectedRecords}
+          onSelectedRecordsChange={setSelectedRecords}
         />
       </Box>
 

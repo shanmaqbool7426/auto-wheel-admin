@@ -12,16 +12,24 @@ import { IconPlus } from '@/assets/icons';
 
 export default function AllPosts() {
   const {
+    selectedRecords,
+    setSelectedRecords,
     setSearchBy,
     filterParams,
     handleChangeFilter,
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,
+    handleSelectRow,
+    handleBulkAction,
+    posts,
+    isLoading,
+    error,
   } = useAllPosts();
-
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
 
+
+  console.log('posts:::for: ', posts)
   return (
     <>
       <Box className={styles.filterbar}>
@@ -48,12 +56,12 @@ export default function AllPosts() {
           <Box className={styles.dropdown}>
             <FormField
               type="select"
-              name="news"
+              name="categories"
               data={[
-                { value: 'Auto News', label: 'Auto News' },
-                { value: 'Latest News', label: 'Latest News' },
+                { value: 'News', label: 'News' },
+                { value: 'Tips', label: 'Tips' },
               ]}
-              placeholder="Auto News"
+              placeholder="Category"
               checkIconPosition="right"
               value={filterParams.news}
               onChange={(_value, option) => handleChangeFilter('news', option.value)}
@@ -87,7 +95,11 @@ export default function AllPosts() {
       <Box>
         <DataTable
           columns={columns}
-          records={postsData || []}
+          records={posts}
+          fetching={isLoading}
+          selection
+          selectedRecords={selectedRecords}
+          onSelectedRecordsChange={setSelectedRecords}
         />
       </Box>
     </>

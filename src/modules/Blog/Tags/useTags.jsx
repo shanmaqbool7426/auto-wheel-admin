@@ -1,12 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { useGetTagsQuery } from '@/services/blog/tags';
 
 export default function useTag() {
   const { data: tagsData, error: errorTags, isLoading: loadingTags } = useGetTagsQuery();
-
+  const [selectedRecords, setSelectedRecords] = useState([]);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({
@@ -35,6 +34,8 @@ export default function useTag() {
   }
 
   return {
+    selectedRecords,
+    setSelectedRecords,
     tagsData,
     errorTags,
     loadingTags,

@@ -25,12 +25,13 @@ export default function AllPosts() {
     posts,
     isLoading,
     error,
+    statusCountsData
   } = useAllPosts();
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
   const [bulkActionValue, setBulkActionValue] = React.useState('');  // Add this line
 
 
-  console.log('posts:::for: ', posts)
+  console.log('posts:::for: ', statusCountsData)
   return (
     <>
       <Box className={styles.filterbar}>

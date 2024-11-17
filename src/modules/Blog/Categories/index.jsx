@@ -23,8 +23,10 @@ export default function Categories() {
     handleClickDuplicate,
     isCategoryModalOpen,
     setCategoryModalOpen,
+    categories,
+    isLoading,
+    handleBulkAction,
   } = useCategories();
-
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
 
   return (
@@ -41,13 +43,16 @@ export default function Categories() {
               type="select"
               name="actions"
               data={[
-                { value: 'Bulk Action', label: 'Bulk Action' },
-                { value: 'Bulk Action1', label: 'Bulk Action1' },
+                { value: 'delete', label: 'Delete' },
+                { value: 'duplicate', label: 'Duplicate' },
               ]}
               placeholder="Bulk Action"
               checkIconPosition="right"
-              value={filterParams.status}
-              onChange={(_value, option) => handleChangeFilter('actions', option.value)}
+            
+              onChange={(_value, option) => {
+                handleBulkAction(option?.value)
+               
+              }}
             />
           </Box>
         </Box>
@@ -77,12 +82,13 @@ export default function Categories() {
         </Box>
       </Box>
       <Box>
-        <DataTable
+      <DataTable
           columns={columns}
-          records={categoriesData || []}
+          records={categories}
           selection
           selectedRecords={selectedRecords}
           onSelectedRecordsChange={setSelectedRecords}
+          loading={isLoading}
         />
       </Box>
 

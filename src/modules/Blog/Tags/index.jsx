@@ -11,24 +11,27 @@ import { IconPlus } from '@/assets/icons';
 import styles from './Tags.module.css';
 import AddTag from './AddTag';
 
+
 export default function Tags() {
   const {
     selectedRecords,
     setSelectedRecords,
-    tagsData,
-    errorTags,
-    loadingTags,
+    isTagModalOpen,
+    setIsTagModalOpen,
+    searchBy,
     setSearchBy,
     filterParams,
     handleChangeFilter,
     handleClickEditRow,
     handleClickDeleteRow,
-    handleClickDuplicate,
-    setIsTagModalOpen,
-    isTagModalOpen
+    handleBulkAction,
+    tags,
+    isLoading,
   } = useTags();
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate);
+
+  
+  const columns = getColumns(handleClickEditRow, handleClickDeleteRow);
 
   return (
     <>
@@ -36,7 +39,10 @@ export default function Tags() {
         <Box className={styles.filterbarLeft}>
           <Box className={styles.searchbar}>
             <Search
+              value={searchBy}
               setSearchBy={setSearchBy}
+              onChange={(e) => setSearchBy(e.target.value)}
+              placeholder="Search tags..."
             />
           </Box>
           <Box className={styles.dropdown}>
@@ -44,13 +50,10 @@ export default function Tags() {
               type="select"
               name="actions"
               data={[
-                { value: 'Bulk Action', label: 'Bulk Action' },
-                { value: 'Bulk Action1', label: 'Bulk Action1' },
+                { value: 'delete', label: 'Delete Selected' },
               ]}
               placeholder="Bulk Action"
-              checkIconPosition="right"
-              value={filterParams.status}
-              onChange={(_value, option) => handleChangeFilter('actions', option.value)}
+              onChange={(value) => handleBulkAction(value)}
             />
           </Box>
         </Box>
@@ -63,38 +66,33 @@ export default function Tags() {
                 { value: 'newToOld', label: 'Date, new to old' },
                 { value: 'oldToNew', label: 'Date, old to new' },
               ]}
-              placeholder="Date, new to old"
-              checkIconPosition="right"
+              placeholder="Sort by date"
               value={filterParams.date}
-              onChange={(_value, option) => handleChangeFilter('date', option.value)}
+              onChange={(value) => handleChangeFilter('date', value)}
             />
           </Box>
-          <Box>
-            <CustomButton
-              leftSection={<IconPlus />}
-              onClick={() => setIsTagModalOpen(true)}
-            >
-              Add New Tag
-            </CustomButton>
-          </Box>
+          <CustomButton
+            leftSection={<IconPlus />}
+            onClick={() => setIsTagModalOpen(true)}
+          >
+            Add New Tag
+          </CustomButton>
         </Box>
       </Box>
-      <Box>
-        <DataTable
-          columns={columns}
-          records={tagsData?.data || []}
-          fetching={loadingTags && !tagsData?.data.length}
-          selection
-          selectedRecords={selectedRecords}
-          onSelectedRecordsChange={setSelectedRecords}
-        />
-      </Box>
 
-      {/* Add New Tag Modal */}
+      <DataTable
+        columns={columns}
+        records={tags}
+        selection
+        selectedRecords={selectedRecords}
+        onSelectedRecordsChange={setSelectedRecords}
+        loading={isLoading}
+      />
+
       <AddTag
         open={isTagModalOpen}
         setOnClose={setIsTagModalOpen}
       />
     </>
-  )
+  );
 }

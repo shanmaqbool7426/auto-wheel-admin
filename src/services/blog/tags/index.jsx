@@ -1,61 +1,49 @@
 import { BASE_API } from '@/services/base-api';
 import { END_POINTS } from '@/constants/endpoints';
+// import { END_POINTS } from '@/config/endpoints';
 
 export const tagsAPIs = BASE_API.injectEndpoints({
   endpoints: (builder) => ({
-
     getTags: builder.query({
       query: (params) => ({
-        url: `${END_POINTS.BLOG_TAGS}`,
+        url: END_POINTS.TAGS,
         method: 'GET',
         params,
       }),
       providesTags: ['TAGS'],
     }),
 
-    addPost: builder.mutation({
-      query: (body) => ({
-        url: END_POINTS.BLOG_TAGS,
+    addTag: builder.mutation({
+      query: (data) => ({
+        url: END_POINTS.TAGS,
         method: 'POST',
-        body,
+        body: data,
       }),
       invalidatesTags: ['TAGS'],
     }),
 
-    getPost: builder.query({
-      query: (id) => `${END_POINTS.BLOG_TAGS}/${id}`,
-      providesTags: ['TAGS'],
-    }),
-
-    updatePost: builder.mutation({
-      query(data) {
-        const { id, ...body } = data;
-        return {
-          url: `${END_POINTS.BLOG_TAGS}/${id}`,
-          method: 'PUT',
-          body,
-        };
-      },
+    deleteTag: builder.mutation({
+      query: (id) => ({
+        url: `${END_POINTS.TAGS}/${id}`,
+        method: 'DELETE',
+      }),
       invalidatesTags: ['TAGS'],
     }),
 
-    deletePost: builder.mutation({
-      query(id) {
-        return {
-          url: `${END_POINTS.BLOG_TAGS}/${id}`,
-          method: 'DELETE',
-        };
-      },
+    deleteMultipleTags: builder.mutation({
+      query: (ids) => ({
+        url: `${END_POINTS.TAGS}/bulk-delete`,
+        method: 'POST',
+        body: { ids },
+      }),
       invalidatesTags: ['TAGS'],
     }),
-
   }),
 });
 
 export const {
   useGetTagsQuery,
-  useAddPostMutation,
-  useGetPostQuery,
-  useUpdatePostMutation,
-  useDeletePostMutation,
+  useAddTagMutation,
+  useDeleteTagMutation,
+  useDeleteMultipleTagsMutation,
 } = tagsAPIs;

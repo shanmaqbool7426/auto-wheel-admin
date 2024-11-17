@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-import { useGetPostsQuery ,useDeletePostMutation, useSearchPostsQuery, useDeleteMultiplePostMutation} from '@/services/blog/posts';
+import { useGetPostsQuery ,useDeletePostMutation, useSearchPostsQuery, useDeleteMultiplePostMutation, useDuplicatePostMutation, useDuplicateMultiplePostMutation, useGetStatusCountsQuery} from '@/services/blog/posts';
 
 export default function useAllPosts() {
 
@@ -18,10 +18,13 @@ export default function useAllPosts() {
   console.log('filterParams:::for: ', selectedRecords)
 
   const [deleteMultiplePost] = useDeleteMultiplePostMutation();
+  const [deletePost] = useDeletePostMutation();
+  const [duplicatePost] = useDuplicatePostMutation();
+  const [duplicateMultiplePost] = useDuplicateMultiplePostMutation();
 
   // Search query parameters
   const searchParams = {
-    visibility: 'Public',
+    visibility: '',
     categories: filterParams.news || undefined,
     sortBy: 'publishDate',
     sortOrder: filterParams.date === 'oldToNew' ? 'asc' : 'desc',
@@ -44,12 +47,12 @@ export default function useAllPosts() {
 
   const handleClickDeleteRow = (e, id) => {
     e.stopPropagation();
-    alert(`Delete Row ${id}`);
+    deletePost(id)
   }
 
   const handleClickDuplicate = (e, id) => {
     e.stopPropagation();
-    alert(`Toggle Row ${id}`);
+    duplicatePost(id)
   }
 
   const handleSelectAll = (checked, posts) => {
@@ -77,7 +80,17 @@ export default function useAllPosts() {
         console.error('Error deleting posts:', error);
       }
     }
+    else if (action === 'duplicate' && selectedRecords.length > 0) {
+
+      console.log('selectedRecords:::for: ', selectedRecords)
+      const ids = selectedRecords.map((item)=>item.id)
+      console.log('ids:::for: ', ids)
+      await duplicateMultiplePost(ids)
+    }
   };
+
+  const {data:statusCountsData} = useGetStatusCountsQuery()
+  console.log('statusCountsData:::for: ', statusCountsData)
 
   return {
     selectedRecords,
@@ -90,6 +103,7 @@ export default function useAllPosts() {
     handleClickDuplicate,
     handleSelectAll,
     handleBulkAction,
+    statusCountsData,
     posts: postsData?.data?.blogs.map(post => ({...post,id:post._id})) || [],
     totalPosts: postsData?.data?.total || 0,
     isLoading,

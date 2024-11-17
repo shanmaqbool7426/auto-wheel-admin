@@ -4,18 +4,34 @@ import useAddCategory from './useAddCategory'
 import { Grid, Group, Button } from '@mantine/core'
 import FormField from '@/components/FormField'
 import CustomButton from '@/components/CustomButton'
+import useCategories from '../useCategories'
 
 export default function AddCategory({ open, setOnClose }) {
+  const handleClose = () => {
+    console.log('handleClose')
+    setOnClose(false);
+  }
   const {
     form,
     handleSubmit,
-  } = useAddCategory()
+  } = useAddCategory(handleClose);
+  const { categories } = useCategories()
+
+  const categoriesList = categories?.map((category) => ({
+    value: category._id,
+    label: category.name,
+  }));
+
+
 
   return (
     <CustomModal
       title="New Category"
       open={open}
-      onClose={() => setOnClose(false)}
+      onClose={() => {
+          setOnClose(false);
+          form.reset();
+      }}
     >
       <form
         onSubmit={
@@ -44,12 +60,7 @@ export default function AddCategory({ open, setOnClose }) {
               label="Parent Category:"
               placeholder="How to Make the Most of Your Holiday Plan"
               type="select"
-              data={[
-                { value: 'Parent 1', label: 'Parent 1' },
-                { value: 'Parent 2', label: 'Parent 2' },
-                { value: 'Parent 3', label: 'Parent 3' },
-                { value: 'Parent 4', label: 'Parent 4' },
-              ]}
+              data={categoriesList}
               {...form.getInputProps('parentCategory')}
             />
           </Grid.Col>

@@ -5,6 +5,7 @@ export { default as IconTrash } from './common/IconTrash';
 export { default as IconPencil } from './common/IconPencil';
 export { default as IconDuplicate } from './common/IconDuplicate';
 export { default as IconEye } from './common/IconEye';
+export { default as IconExternalLink } from './common/IconExternalLink';
 export { default as IconModalClose } from './common/IconModalClose';
 export { default as IconInputDate } from './common/IconInputDate';
 export { default as IconRestrictionShield } from './common/IconRestrictionShield';

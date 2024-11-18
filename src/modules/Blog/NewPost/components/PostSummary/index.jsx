@@ -5,6 +5,8 @@ import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 
 export default function PostSummary({ form }) {
+  const isScheduled = form.values.visibility === 'Scheduled';
+
   return (
     <Card title={'Summary'}>
       <Grid gutter="20px">
@@ -14,27 +16,45 @@ export default function PostSummary({ form }) {
             type="select"
             placeholder="Visibility"
             data={[
-              { value: 'private', label: 'Private' },
-              { value: 'draft', label: 'Draft' },
+              { value: 'Private', label: 'Private' },
+              { value: 'Draft', label: 'Draft' },
+              { value: 'Scheduled', label: 'Scheduled' },
             ]}
             {...form.getInputProps('visibility')}
           />
         </Grid.Col>
         <Grid.Col span={12}>
-          <FormField
-            label="Publish"
-            type="datetime"
-            placeholder="Publish On"
-            {...form.getInputProps('publishOn')}
-          />
+        {isScheduled && (
+          <Grid.Col span={12}>
+            <FormField
+              label="Schedule Date"
+              type="datetime"
+              placeholder="Select date and time"
+              required={isScheduled}
+              {...form.getInputProps('scheduledAt')}
+              clearable={false}
+              minDate={new Date()} // Can't schedule in the past
+            />
+          </Grid.Col>
+        )}
         </Grid.Col>
-        <Grid.Col span={12}>
+             <Grid.Col span={12}>
           <FormField
             label="URL"
             type="text"
-            placeholder="https://example.com"
+            placeholder="http://example.com/your-post-title"
             {...form.getInputProps('url')}
+             // Make it read-only
+            styles={{
+              input: {
+                color: '#666',
+                backgroundColor: '#f9f9f9',
+              }
+            }}
           />
+          <div style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
+            URL is automatically generated from the title
+          </div>
         </Grid.Col>
         <Grid.Col span={12}>
           <FormField

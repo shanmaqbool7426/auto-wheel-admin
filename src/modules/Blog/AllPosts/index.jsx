@@ -20,9 +20,18 @@ export default function AllPosts() {
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,
+    handleSelectRow,
+    handleBulkAction,
+    posts,
+    isLoading,
+    error,
+    statusCountsData
   } = useAllPosts();
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
+  const [bulkActionValue, setBulkActionValue] = React.useState('');  // Add this line
 
+
+  console.log('posts:::for: ', statusCountsData)
   return (
     <>
       <Box className={styles.filterbar}>
@@ -35,26 +44,30 @@ export default function AllPosts() {
           <Box className={styles.dropdown}>
             <FormField
               type="select"
+              disabled={selectedRecords.length === 0}
               name="actions"
               data={[
-                { value: 'Bulk Action', label: 'Bulk Action' },
-                { value: 'Bulk Action1', label: 'Bulk Action1' },
+                { value: 'delete', label: 'Delete' },
+                { value: 'duplicate', label: 'Duplicate' },
               ]}
               placeholder="Bulk Action"
               checkIconPosition="right"
-              value={filterParams.status}
-              onChange={(_value, option) => handleChangeFilter('actions', option.value)}
+            
+              onChange={(_value, option) => {
+                handleBulkAction(option?.value)
+               
+              }}
             />
           </Box>
           <Box className={styles.dropdown}>
             <FormField
               type="select"
-              name="news"
+              name="categories"
               data={[
-                { value: 'Auto News', label: 'Auto News' },
-                { value: 'Latest News', label: 'Latest News' },
+                { value: 'News', label: 'News' },
+                { value: 'Tips', label: 'Tips' },
               ]}
-              placeholder="Auto News"
+              placeholder="Category"
               checkIconPosition="right"
               value={filterParams.news}
               onChange={(_value, option) => handleChangeFilter('news', option.value)}
@@ -88,7 +101,8 @@ export default function AllPosts() {
       <Box>
         <DataTable
           columns={columns}
-          records={postsData || []}
+          records={posts}
+          fetching={isLoading}
           selection
           selectedRecords={selectedRecords}
           onSelectedRecordsChange={setSelectedRecords}

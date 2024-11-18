@@ -4,11 +4,15 @@ import { useParams, useRouter } from 'next/navigation'
 import { Tabs, Box } from '@mantine/core';
 import { PATH_NAME } from "@/constants/pathname";
 import styles from './AllPostsLayout.module.css'
+import { useGetStatusCountsQuery } from "@/services/blog/posts";
 
 export default function AllPostsLayout({ children }) {
   const params = useParams();
   const router = useRouter();
+  const {data:statusCountsData} = useGetStatusCountsQuery()
 
+
+  console.log('statusCountsData:::for: ', statusCountsData?.data)
   return (
     <>
       <Tabs
@@ -21,11 +25,11 @@ export default function AllPostsLayout({ children }) {
         }}
       >
         <Tabs.List>
-          <Tabs.Tab value="all">All (628)</Tabs.Tab>
-          <Tabs.Tab value="mine">Mine (342)</Tabs.Tab>
-          <Tabs.Tab value="published">Published (342)</Tabs.Tab>
-          <Tabs.Tab value="draft">Draft (234)</Tabs.Tab>
-          <Tabs.Tab value="trash">Trash (0)</Tabs.Tab>
+          <Tabs.Tab value="all">All ({statusCountsData?.data?.all})</Tabs.Tab>
+          <Tabs.Tab value="mine">Mine ({statusCountsData?.data?.mine ?? 0})</Tabs.Tab>
+          <Tabs.Tab value="published">Published ({statusCountsData?.data?.published})</Tabs.Tab>
+          <Tabs.Tab value="draft">Draft ({statusCountsData?.data?.draft})</Tabs.Tab>
+          <Tabs.Tab value="trash">Trash ({statusCountsData?.data?.trash})</Tabs.Tab>
         </Tabs.List>
       </Tabs>
       <Box>

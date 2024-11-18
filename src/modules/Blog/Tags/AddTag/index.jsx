@@ -9,25 +9,25 @@ export default function AddTag({ open, setOnClose }) {
   const {
     form,
     handleSubmit,
-  } = useAddTag()
+    isLoading,
+  } = useAddTag({ onClose: () => setOnClose(false) });
 
   return (
     <CustomModal
       title="New Tag"
       open={open}
-      onClose={() => setOnClose(false)}
+      onClose={() => {
+        setOnClose(false);
+        form.reset();
+      }}
     >
-      <form
-        onSubmit={
-          form.onSubmit((values) => handleSubmit(values))
-        }
-      >
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="30px">
           <Grid.Col span={12}>
             <FormField
               label="Name:"
               type="text"
-              placeholder="How to Make the Most of Your Holiday Plan"
+              placeholder="Enter tag name"
               {...form.getInputProps('name')}
             />
           </Grid.Col>
@@ -35,23 +35,30 @@ export default function AddTag({ open, setOnClose }) {
             <FormField
               label="Slug:"
               type="text"
-              placeholder="How to Make the Most of Your Holiday Plan"
+              placeholder="Enter tag slug"
               {...form.getInputProps('slug')}
             />
           </Grid.Col>
           <Grid.Col span={12}>
             <FormField
+              label="Description:"
               type="textarea"
+              placeholder="Enter tag description"
               rows={6}
               {...form.getInputProps('description')}
             />
           </Grid.Col>
           <Grid.Col span={12}>
-            <CustomButton color='#1B84FF' fullWidth type='submit'>
-              Add New Tag
+            <CustomButton 
+              color='#1B84FF' 
+              fullWidth 
+              type='submit'
+              loading={isLoading}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Adding Tag...' : 'Add New Tag'}
             </CustomButton>
           </Grid.Col>
-
         </Grid>
       </form>
     </CustomModal>

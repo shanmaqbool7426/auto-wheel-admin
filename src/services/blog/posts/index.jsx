@@ -24,7 +24,7 @@ export const postAPIs = BASE_API.injectEndpoints({
 
     addPost: builder.mutation({
       query: (body) => ({
-        url: END_POINTS.BLOG_LISTING,
+        url: END_POINTS.BLOG_CREATE,
         method: 'POST',
         body,
       }),
@@ -51,13 +51,58 @@ export const postAPIs = BASE_API.injectEndpoints({
     deletePost: builder.mutation({
       query(id) {
         return {
-          url: `${END_POINTS.BLOG_LISTING}/${id}`,
+          url: `${END_POINTS.BLOG_DELETE_SINGLE}/${id}`,
           method: 'DELETE',
         };
       },
       invalidatesTags: ['BLOG_POSTS'],
     }),
 
+    deleteMultiplePost: builder.mutation({
+      query(ids) {
+        return {
+          url: `${END_POINTS.BLOG_DELETE}`,
+          method: 'DELETE',
+          body: { ids },
+        };
+      },
+      invalidatesTags: ['BLOG_POSTS'],
+    }),
+
+    duplicatePost: builder.mutation({
+      query(id) {
+        return {
+          url: `${END_POINTS.DUPLICATE_POST}/${id}`,
+          method: 'POST',
+        };
+      },
+      invalidatesTags: ['BLOG_POSTS'],
+    }),
+    duplicateMultiplePost: builder.mutation({
+      query(ids) {
+        return {
+          url: `${END_POINTS.DUPLICATE_POST}`,
+          method: 'POST',
+          body: { ids },
+        };
+      },
+      invalidatesTags: ['BLOG_POSTS'],
+    }),
+    //status-counts
+    getStatusCounts: builder.query({
+      query: () => `${END_POINTS.STATUS_COUNTS}`,
+      providesTags: ['BLOG_POSTS'],
+    }),
+    getCategories: builder.query({
+      query: () => `${END_POINTS.CATEGORIES}`,
+      // providesTags: ['BLOG_POSTS'],
+    }),
+
+    //get tags
+    getTags: builder.query({
+      query: () => `${END_POINTS.TAGS}`,
+      // providesTags: ['BLOG_POSTS'],
+    }),
   }),
 });
 
@@ -65,8 +110,14 @@ export const postAPIs = BASE_API.injectEndpoints({
 export const {
   useGetPostsQuery,
   useSearchPostsQuery,
+  useGetCategoriesQuery,
+  useGetTagsQuery,
   useAddPostMutation,
   useGetPostQuery,
   useUpdatePostMutation,
   useDeletePostMutation,
+  useDeleteMultiplePostMutation,
+  useDuplicatePostMutation,
+  useDuplicateMultiplePostMutation,
+  useGetStatusCountsQuery,
 } = postAPIs;

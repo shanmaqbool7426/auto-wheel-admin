@@ -3,7 +3,7 @@ export const END_POINTS = {
   BLOG_TAGS: '/tag',
   BLOG_SEARCH: '/blog/search',
   BLOG_DELETE: '/blog/bulk-delete',
-  BLOG_DELETE_SINGLE: '/blog/',
+  BLOG_DELETE_SINGLE: '/blog',
   DUPLICATE_POST: '/blog/duplicate',
   STATUS_COUNTS: '/blog/status-counts',
   BLOG_CREATE: '/blog',

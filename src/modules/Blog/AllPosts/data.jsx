@@ -2,7 +2,6 @@ import styles from './AllPosts.module.css';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import { ActionIcon, Group, Box } from '@mantine/core';
-import { ImgPostVehicle } from '@/assets/images';
 import { IconDuplicate, IconTrash, IconPencil } from '@/assets/icons';
 
 export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
@@ -34,7 +33,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
       if (!Array.isArray(categories) || categories.length === 0) {
         return '-';
       }
-      
+
       // Map through categories and get the names
       return categories
         .map(category => category.name)
@@ -94,62 +93,5 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
         </Group>
       )
     },
-  },
-]
-
-export const postsData = [
-  {
-    id: "111",
-    title: "Temporary Suspension of production by Millat Tractor in Pakistan",
-    attachment: ImgPostVehicle,
-    author: "Saad Malik",
-    categories: ["Auto News", "Latest News"],
-    createdDate: new Date(),
-    views: 123,
-  },
-  {
-    id: "11q1",
-    title: "Temporary Suspension of production by Millat Tractor in Pakistan",
-    attachment: ImgPostVehicle,
-    author: "Saad Malik",
-    categories: ["Auto News", "Latest News"],
-    createdDate: new Date(),
-    views: 123,
-  },
-  {
-    id: "1wa11",
-    title: "Temporary Suspension of production by Millat Tractor in Pakistan",
-    attachment: ImgPostVehicle,
-    author: "Saad Malik",
-    categories: ["Auto News", "Latest News"],
-    createdDate: new Date(),
-    views: 123,
-  },
-  {
-    id: "111trlcvf",
-    title: "Temporary Suspension of production by Millat Tractor in Pakistan",
-    attachment: ImgPostVehicle,
-    author: "Saad Malik",
-    categories: ["Auto News", "Latest News"],
-    createdDate: new Date(),
-    views: 123,
-  },
-  {
-    id: "11qrt1",
-    title: "Temporary Suspension of production by Millat Tractor in Pakistan",
-    attachment: ImgPostVehicle,
-    author: "Saad Malik",
-    categories: ["Auto News", "Latest News"],
-    createdDate: new Date(),
-    views: 123,
-  },
-  {
-    id: "1wfa11",
-    title: "Temporary Suspension of production by Millat Tractor in Pakistan",
-    attachment: ImgPostVehicle,
-    author: "Saad Malik",
-    categories: ["Auto News", "Latest News"],
-    createdDate: new Date(),
-    views: 123,
   },
 ]

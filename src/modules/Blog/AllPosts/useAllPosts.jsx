@@ -12,9 +12,12 @@ import {
   useGetStatusCountsQuery,
 } from '@/services/blog/posts';
 import { PAGE_SIZE } from '@/constants/pagination';
+import { useRouter } from 'next/navigation';
+import { PATH_NAME } from '@/constants/pathname';
 
 
 export default function useAllPosts() {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchBy, setSearchBy] = useState('');
@@ -101,6 +104,14 @@ export default function useAllPosts() {
   const { data: statusCountsData } = useGetStatusCountsQuery()
   console.log('statusCountsData:::for: ', statusCountsData)
 
+  const handleNavigateNewPost = () => {
+    try {
+      router.push(PATH_NAME.BLOG_NEW_POSTS);
+    } catch (error) {
+      console.error('Error navigating to new post:', error);
+    }
+  };
+
   return {
     page,
     setPage,
@@ -120,5 +131,6 @@ export default function useAllPosts() {
     loadingPosts,
     fetchingPosts,
     error,
+    handleNavigateNewPost,
   };
 }

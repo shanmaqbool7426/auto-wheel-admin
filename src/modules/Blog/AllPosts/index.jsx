@@ -29,7 +29,8 @@ export default function AllPosts() {
     loadingPosts,
     fetchingPosts,
     error,
-    statusCountsData
+    statusCountsData,
+    handleNavigateNewPost,
   } = useAllPosts();
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
   const [bulkActionValue, setBulkActionValue] = React.useState('');  // Add this line
@@ -96,6 +97,7 @@ export default function AllPosts() {
           <Box>
             <CustomButton
               leftSection={<IconPlus />}
+              onClick={handleNavigateNewPost}
             >
               Create Post
             </CustomButton>

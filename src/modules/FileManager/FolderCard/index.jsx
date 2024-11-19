@@ -17,7 +17,7 @@ export default function FolderCard({ data }) {
       <Box className={styles.cardTitle}>{data.title}</Box>
       <Box className={styles.cardFooter}>
         <Box className={styles.cardFooterText}>{data.files} Files</Box>
-        <Box className={styles.cardFooterText}>{data.size} GB</Box>
+        <Box className={styles.cardFooterText}>{data.size}</Box>
       </Box>
     </Box>
   )

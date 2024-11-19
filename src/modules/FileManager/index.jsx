@@ -6,13 +6,12 @@ import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
 import CustomButton from '@/components/CustomButton';
 import useFileManager from './useFileManager';
-import { getColumns, locationsData } from './data';
+import { getColumns, mockFolders, mockRecentFiles } from './data';
 import { IconPlus } from '@/assets/icons';
 import styles from './FileManager.module.css';
 import AddLocation from './AddLocation';
 import Card from '@/components/Card';
 import FolderCard from './FolderCard';
-import { mockFolders } from './data';
 
 export default function FileManager() {
   const {
@@ -37,28 +36,28 @@ export default function FileManager() {
               setSearchBy={setSearchBy}
             />
           </Box>
-          <Box className={styles.dropdown}>
-            <FormField
-              type="select"
-              name="actions"
-              data={[
-                { value: 'Bulk Action', label: 'Bulk Action' },
-                { value: 'Bulk Action1', label: 'Bulk Action1' },
-              ]}
-              placeholder="Bulk Action"
-              checkIconPosition="right"
-              value={filterParams.status}
-              onChange={(_value, option) => handleChangeFilter('actions', option.value)}
-            />
-          </Box>
         </Box>
         <Box className={styles.filterbarRight}>
+          <Box className={styles.rightDropdown}>
+            <FormField
+              type="select"
+              name="date"
+              data={[
+                { value: 'newToOld', label: 'Date, new to old' },
+                { value: 'oldToNew', label: 'Date, old to new' },
+              ]}
+              placeholder="Date, new to old"
+              checkIconPosition="right"
+              value={filterParams.date}
+              onChange={(_value, option) => handleChangeFilter('date', option.value)}
+            />
+          </Box>
           <Box>
             <CustomButton
               leftSection={<IconPlus />}
               onClick={() => setIsLocationModalOpen(true)}
             >
-              Add Location
+              Create New
             </CustomButton>
           </Box>
         </Box>
@@ -74,10 +73,14 @@ export default function FileManager() {
           </Grid>
         </Box>
 
-        <DataTable
-          columns={columns}
-          records={locationsData || []}
-        />
+        <Box className={styles.table}>
+          <Box className={styles.tableTitle}>Recent Files</Box>
+          <DataTable
+            columns={columns}
+            records={mockRecentFiles || []}
+            enablePagination={false}
+          />
+        </Box>
       </Card>
 
       {/* Add New Tag Modal */}

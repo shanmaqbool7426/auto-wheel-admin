@@ -2,7 +2,7 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import { ActionIcon, Group, Box } from '@mantine/core';
 import { ImgPostVehicle } from '@/assets/images';
-import { IconEye, IconTrash, IconPencil } from '@/assets/icons';
+import { IconFolderAction } from '@/assets/icons';
 import styles from './FileManager.module.css';
 
 export const mockFolders = [
@@ -40,68 +40,51 @@ export const mockFolders = [
 
 export const getColumns = () => [
   {
-    accessor: 'country',
-    title: 'Country',
-    render: ({ country }) => (<Box>{country}</Box>)
+    accessor: 'name',
+    title: 'Name',
   },
   {
-    accessor: 'description',
-    title: 'Description',
+    accessor: 'updatedOn',
+    title: 'Date Modified',
+    render: ({ updatedOn }) => {
+      return (
+        <>
+          <Box className={styles.createdDate}>
+            {dayjs(updatedOn).format('DD--MM-YYYY')}
+          </Box>
+          <Box className={styles.createdTime}>
+            {dayjs(updatedOn).format('hh:mm A')}
+          </Box>
+        </>
+      )
+    },
+  },
+  {
+    accessor: 'size',
+    title: 'Size',
     textAlign: 'center',
   },
   {
-    accessor: 'slug',
-    title: 'Slug',
-    textAlign: 'center',
-  },
-  {
-    accessor: 'count',
-    title: 'Count',
-    textAlign: 'center',
+    accessor: 'id',
+    title: '',
+    textAlign: 'right',
+    render: ({ id }) => {
+      return (
+        <Group justify='right' wrap='nowrap'>
+          <ActionIcon
+            size={20}
+            className={styles.actionButton}
+            onClick={(e) => onClickEdit(e, id)}
+          >
+            <IconFolderAction />
+          </ActionIcon>
+        </Group>
+      )
+    },
   },
 ]
 
-export const locationsData = [
-  {
-    id: "111",
-    country: "United States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "112011",
-    country: "Alaska",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "1176541",
-    country: "States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "11132",
-    country: "United States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "12211",
-    country: "United States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "1411",
-    country: "United States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  }, ,
-]
+export const mockRecentFiles = [
+  { id: '1', name: 'Project A', updatedOn: new Date(), size: '09 KB' },
+  { id: '2', name: 'Image A', updatedOn: new Date(), size: '09 KB' },
+];

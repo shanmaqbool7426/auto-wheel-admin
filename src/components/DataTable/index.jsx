@@ -29,6 +29,7 @@ export default function DataTable({ enablePagination = true, columns, records, t
       }}
       {...rest}
       enablePagination={false}
+      minHeight={220}
     />
   )
 }

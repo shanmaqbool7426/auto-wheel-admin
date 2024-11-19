@@ -20,3 +20,5 @@ export { default as IconMenuProfileSettings } from './layout/IconMenuProfileSett
 export { default as IconMenuChat } from './layout/IconMenuChat';
 export { default as IconMenuEmail } from './layout/IconMenuEmail';
 export { default as IconMenuFileManager } from './layout/IconMenuFileManager';
+export { default as IconFolder } from './file-manager/IconFolder';
+export { default as IconFolderAction } from './file-manager/IconAction';

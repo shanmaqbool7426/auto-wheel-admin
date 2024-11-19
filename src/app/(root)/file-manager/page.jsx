@@ -1,7 +1,8 @@
-import React from 'react'
+import React from 'react';
+import FileManager from '@/modules/FileManager';
 
 export default function FileManagePage() {
   return (
-    <div>FileManagePage</div>
+    <FileManager />
   )
 }

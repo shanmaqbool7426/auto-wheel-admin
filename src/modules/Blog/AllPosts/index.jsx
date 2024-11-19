@@ -12,6 +12,8 @@ import { IconPlus } from '@/assets/icons';
 
 export default function AllPosts() {
   const {
+    page,
+    setPage,
     selectedRecords,
     setSelectedRecords,
     setSearchBy,
@@ -23,7 +25,9 @@ export default function AllPosts() {
     handleSelectRow,
     handleBulkAction,
     posts,
-    isLoading,
+    totalPosts,
+    loadingPosts,
+    fetchingPosts,
     error,
     statusCountsData
   } = useAllPosts();
@@ -52,10 +56,10 @@ export default function AllPosts() {
               ]}
               placeholder="Bulk Action"
               checkIconPosition="right"
-            
+
               onChange={(_value, option) => {
                 handleBulkAction(option?.value)
-               
+
               }}
             />
           </Box>
@@ -102,10 +106,13 @@ export default function AllPosts() {
         <DataTable
           columns={columns}
           records={posts}
-          fetching={isLoading}
+          fetching={loadingPosts || fetchingPosts}
           selection
           selectedRecords={selectedRecords}
           onSelectedRecordsChange={setSelectedRecords}
+          totalRecords={totalPosts}
+          page={page}
+          onPageChange={setPage}
         />
       </Box>
     </>

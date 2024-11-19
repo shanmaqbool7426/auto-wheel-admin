@@ -2,11 +2,20 @@
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-import { useGetPostsQuery ,useDeletePostMutation, useSearchPostsQuery, useDeleteMultiplePostMutation, useDuplicatePostMutation, useDuplicateMultiplePostMutation, useGetStatusCountsQuery} from '@/services/blog/posts';
+import {
+  useGetPostsQuery,
+  useDeletePostMutation,
+  useSearchPostsQuery,
+  useDeleteMultiplePostMutation,
+  useDuplicatePostMutation,
+  useDuplicateMultiplePostMutation,
+  useGetStatusCountsQuery,
+} from '@/services/blog/posts';
+import { PAGE_SIZE } from '@/constants/pagination';
+
 
 export default function useAllPosts() {
-
-
+  const [page, setPage] = useState(1);
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({
@@ -28,12 +37,12 @@ export default function useAllPosts() {
     categories: filterParams.news || undefined,
     sortBy: 'publishDate',
     sortOrder: filterParams.date === 'oldToNew' ? 'asc' : 'desc',
-    page: 1,
-    limit: 10,
+    page,
+    limit: PAGE_SIZE,
     query: searchBy || undefined,
   };
 
-  const { data: postsData, isLoading, error } = useSearchPostsQuery(searchParams);
+  const { data: postsData, isLoading: loadingPosts, isFetching: fetchingPosts, error } = useSearchPostsQuery(searchParams);
 
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));
@@ -72,7 +81,7 @@ export default function useAllPosts() {
         //   await Promise.all(selectedRows.map(id => deletePost(id)));
         //   setSelectedRows([]); // Clear selection after deletion
         // }
-        const ids = selectedRecords.map((item)=>item.id)
+        const ids = selectedRecords.map((item) => item.id)
 
         console.log('ids:::for: ', ids)
         await deleteMultiplePost(ids)
@@ -83,16 +92,18 @@ export default function useAllPosts() {
     else if (action === 'duplicate' && selectedRecords.length > 0) {
 
       console.log('selectedRecords:::for: ', selectedRecords)
-      const ids = selectedRecords.map((item)=>item.id)
+      const ids = selectedRecords.map((item) => item.id)
       console.log('ids:::for: ', ids)
       await duplicateMultiplePost(ids)
     }
   };
 
-  const {data:statusCountsData} = useGetStatusCountsQuery()
+  const { data: statusCountsData } = useGetStatusCountsQuery()
   console.log('statusCountsData:::for: ', statusCountsData)
 
   return {
+    page,
+    setPage,
     selectedRecords,
     setSelectedRecords,
     setSearchBy,
@@ -104,9 +115,10 @@ export default function useAllPosts() {
     handleSelectAll,
     handleBulkAction,
     statusCountsData,
-    posts: postsData?.data?.blogs.map(post => ({...post,id:post._id})) || [],
+    posts: postsData?.data?.blogs.map(post => ({ ...post, id: post._id })) || [],
     totalPosts: postsData?.data?.total || 0,
-    isLoading,
+    loadingPosts,
+    fetchingPosts,
     error,
   };
 }

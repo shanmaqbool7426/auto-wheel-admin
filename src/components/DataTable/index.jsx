@@ -1,20 +1,19 @@
 import React from 'react';
 import { DataTable as MantineDataTable } from 'mantine-datatable';
 import classes from './DataTable.module.css'
+import { PAGE_SIZE } from '@/constants/pagination';
 
-export default function DataTable({ enablePagination = true, columns, records, ...rest }) {
-  const PAGE_SIZE = 14;
-  const [page, setPage] = React.useState(1);
-  // const [records, setRecords] = React.useState(records.slice(0, PAGE_SIZE));
+export default function DataTable({ enablePagination = true, columns, records, totalRecords, page, onPageChange, loading = false, ...rest }) {
+
   return (
     <MantineDataTable
       idAccessor="_id"
       columns={columns}
       records={records}
-      totalRecords={enablePagination ? records.length : undefined}
+      totalRecords={enablePagination ? totalRecords : undefined}
       recordsPerPage={enablePagination ? PAGE_SIZE : undefined}
       page={enablePagination ? page : undefined}
-      onPageChange={enablePagination ? (p) => setPage(p) : undefined}
+      onPageChange={enablePagination ? onPageChange : undefined}
       paginationText={enablePagination ? ({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} results` : undefined}
       classNames={{
         root: classes.root,

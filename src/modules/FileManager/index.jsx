@@ -12,6 +12,7 @@ import styles from './FileManager.module.css';
 import AddLocation from './AddLocation';
 import Card from '@/components/Card';
 import FolderCard from './FolderCard';
+import SidebarCard from './SidebarCard';
 
 export default function FileManager() {
   const {
@@ -62,26 +63,33 @@ export default function FileManager() {
           </Box>
         </Box>
       </Box>
-      <Card noContentPadding>
-        <Box className={styles.fileCardsWrapper}>
-          <Grid gutter={20}>
-            {mockFolders.map((folder) => (
-              <Grid.Col span={4} key={folder.id}>
-                <FolderCard data={folder} />
-              </Grid.Col>
-            ))}
-          </Grid>
-        </Box>
+      <Box className={styles.fileManagerRow}>
+        <Box className={styles.fileMngContent}>
+          <Card noContentPadding>
+            <Box className={styles.fileCardsWrapper}>
+              <Grid gutter={20}>
+                {mockFolders.map((folder) => (
+                  <Grid.Col span={4} key={folder.id}>
+                    <FolderCard data={folder} />
+                  </Grid.Col>
+                ))}
+              </Grid>
+            </Box>
 
-        <Box className={styles.table}>
-          <Box className={styles.tableTitle}>Recent Files</Box>
-          <DataTable
-            columns={columns}
-            records={mockRecentFiles || []}
-            enablePagination={false}
-          />
+            <Box className={styles.table}>
+              <Box className={styles.tableTitle}>Recent Files</Box>
+              <DataTable
+                columns={columns}
+                records={mockRecentFiles || []}
+                enablePagination={false}
+              />
+            </Box>
+          </Card>
         </Box>
-      </Card>
+        <Box className={styles.fileManagerSidebar}>
+          <SidebarCard />
+        </Box>
+      </Box>
 
       {/* Add New Tag Modal */}
       <AddLocation

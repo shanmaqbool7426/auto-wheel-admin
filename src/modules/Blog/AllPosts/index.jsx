@@ -33,10 +33,8 @@ export default function AllPosts() {
     handleNavigateNewPost,
   } = useAllPosts();
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
-  const [bulkActionValue, setBulkActionValue] = React.useState('');  // Add this line
+  const [bulkActionValue, setBulkActionValue] = React.useState('');
 
-
-  console.log('posts:::for: ', statusCountsData)
   return (
     <>
       <Box className={styles.filterbar}>

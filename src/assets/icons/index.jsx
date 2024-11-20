@@ -22,3 +22,6 @@ export { default as IconMenuEmail } from './layout/IconMenuEmail';
 export { default as IconMenuFileManager } from './layout/IconMenuFileManager';
 export { default as IconFolder } from './file-manager/IconFolder';
 export { default as IconFolderAction } from './file-manager/IconAction';
+export { default as IconImageFile } from './file-manager/IconImageFile';
+
+

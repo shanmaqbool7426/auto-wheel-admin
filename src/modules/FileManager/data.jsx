@@ -2,7 +2,7 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import { ActionIcon, Group, Box } from '@mantine/core';
 import { ImgPostVehicle } from '@/assets/images';
-import { IconFolderAction } from '@/assets/icons';
+import { IconFolderAction, IconImageFile, IconFolder } from '@/assets/icons';
 import styles from './FileManager.module.css';
 
 export const mockFolders = [
@@ -42,6 +42,18 @@ export const getColumns = () => [
   {
     accessor: 'name',
     title: 'Name',
+    render: ({ name, type }) => {
+      return (
+        <Group>
+          {type === 'folder' ? (
+            <IconFolder />
+          ) : (
+            <IconImageFile />
+          )}
+          <Box>{name}</Box>
+        </Group>
+      )
+    },
   },
   {
     accessor: 'updatedOn',
@@ -85,6 +97,9 @@ export const getColumns = () => [
 ]
 
 export const mockRecentFiles = [
-  { id: '1', name: 'Project A', updatedOn: new Date(), size: '09 KB' },
-  { id: '2', name: 'Image A', updatedOn: new Date(), size: '09 KB' },
+  { id: '1', name: 'Project A', updatedOn: new Date(), size: '09 KB', type: 'folder' },
+  { id: '21', name: 'Image A', updatedOn: new Date(), size: '09 KB', type: 'image' },
+  { id: '212', name: 'Image A', updatedOn: new Date(), size: '09 KB', type: 'image' },
+  { id: '256', name: 'Image A', updatedOn: new Date(), size: '09 KB', type: 'image' },
+  { id: '2056', name: 'Project A', updatedOn: new Date(), size: '09 KB', type: 'folder' },
 ];

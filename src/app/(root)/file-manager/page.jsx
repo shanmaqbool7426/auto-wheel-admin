@@ -1,7 +1,7 @@
 import React from 'react';
-import FileManager from '@/modules/FileManager';
+import FileManager from '@/modules/FileManager/Folders';
 
-export default function FileManagePage() {
+export default function FileManagerPage() {
   return (
     <FileManager />
   )

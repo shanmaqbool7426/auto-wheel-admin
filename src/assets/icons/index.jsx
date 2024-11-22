@@ -23,5 +23,9 @@ export { default as IconMenuFileManager } from './layout/IconMenuFileManager';
 export { default as IconFolder } from './file-manager/IconFolder';
 export { default as IconFolderAction } from './file-manager/IconAction';
 export { default as IconImageFile } from './file-manager/IconImageFile';
-
+export { default as IconTypeImage } from './file-manager/IconTypeImage';
+export { default as IconTypeVideo } from './file-manager/IconTypeVideo';
+export { default as IconTypeMusic } from './file-manager/IconTypeMusic';
+export { default as IconTypeDocument } from './file-manager/IconTypeDocument';
+export { default as IconTypeFolder } from './file-manager/IconTypeFolder';
 

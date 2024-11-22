@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 
-export default function useLocations() {
+export default function useFileManager() {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({
@@ -15,29 +15,17 @@ export default function useLocations() {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleClickEditRow = (e, id) => {
-    e.stopPropagation();
+  const handleClickAction = (id) => {
     console.log('Edit Row', id);
     alert(`Edit Row ${id}`);
   }
 
-  const handleClickDeleteRow = (e, id) => {
-    e.stopPropagation();
-    alert(`Delete Row ${id}`);
-  }
-
-  const handleClickDuplicate = (e, id) => {
-    e.stopPropagation();
-    alert(`Toggle Row ${id}`);
-  }
 
   return {
     setSearchBy,
     filterParams,
     handleChangeFilter,
-    handleClickEditRow,
-    handleClickDeleteRow,
-    handleClickDuplicate,
+    handleClickAction,
     setIsLocationModalOpen,
     isLocationModalOpen
   };

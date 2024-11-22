@@ -19,14 +19,12 @@ export default function FileManager() {
     setSearchBy,
     filterParams,
     handleChangeFilter,
-    handleClickEditRow,
-    handleClickDeleteRow,
-    handleClickDuplicate,
+    handleClickAction,
     setIsLocationModalOpen,
     isLocationModalOpen
   } = useFileManager();
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
+  const columns = getColumns(handleClickAction)
 
   return (
     <>
@@ -69,7 +67,7 @@ export default function FileManager() {
             <Box className={styles.fileCardsWrapper}>
               <Grid gutter={20}>
                 {mockFolders.map((folder) => (
-                  <Grid.Col span={4} key={folder.id}>
+                  <Grid.Col span={4} key={folder._id}>
                     <FolderCard data={folder} />
                   </Grid.Col>
                 ))}

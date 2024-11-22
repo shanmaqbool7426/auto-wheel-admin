@@ -7,38 +7,38 @@ import styles from './FileManager.module.css';
 
 export const mockFolders = [
   {
-    id: '1',
+    _id: '1',
     title: 'Design',
     files: 12,
     size: '8GB',
   },
   {
-    id: '2',
+    _id: '2',
     title: 'Development',
     files: 12,
     size: '2GB',
   },
   {
-    id: '3',
+    _id: '3',
     title: 'Marketing',
     files: 12,
     size: '12GB',
   },
   {
-    id: '4',
+    _id: '4',
     title: 'Sales',
     files: 12,
     size: '7GB',
   },
   {
-    id: '5',
+    _id: '5',
     title: 'HR',
     files: 12,
     size: '2GB',
   },
 ]
 
-export const getColumns = () => [
+export const getColumns = (onClickAction) => [
   {
     accessor: 'name',
     title: 'Name',
@@ -77,16 +77,16 @@ export const getColumns = () => [
     textAlign: 'center',
   },
   {
-    accessor: 'id',
+    accessor: '_id',
     title: '',
     textAlign: 'right',
-    render: ({ id }) => {
+    render: ({ _id }) => {
       return (
         <Group justify='right' wrap='nowrap'>
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickEdit(e, id)}
+            onClick={() => onClickAction(_id)}
           >
             <IconFolderAction />
           </ActionIcon>

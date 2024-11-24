@@ -1,9 +1,4 @@
-import Image from 'next/image';
-import dayjs from 'dayjs';
-import { ActionIcon, Group, Box } from '@mantine/core';
-import { ImgPostVehicle } from '@/assets/images';
-import { IconEye, IconTrash, IconPencil } from '@/assets/icons';
-import styles from './Locations.module.css';
+import { Box } from '@mantine/core';
 
 export const getColumns = () => [
   {

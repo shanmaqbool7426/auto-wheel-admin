@@ -22,11 +22,6 @@ export default function Locations() {
     loadingGetLocation,
     fetchingGetLocation,
     setSearchBy,
-    filterParams,
-    handleChangeFilter,
-    handleClickEditRow,
-    handleClickDeleteRow,
-    handleClickDuplicate,
     setIsLocationModalOpen,
     isLocationModalOpen,
 
@@ -39,7 +34,7 @@ export default function Locations() {
 
   console.log('locationsData', locationsData);
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
+  const columns = getColumns();
 
   return (
     <>

@@ -34,27 +34,8 @@ export default function useLocations() {
     setFilterParams(prev => ({ ...prev, page: page }));
   }, [page]);
 
-  const handleChangeFilter = (name, value) => {
-    setFilterParams(prev => ({ ...prev, [name]: value }));
-  };
 
-  const handleClickEditRow = (e, id) => {
-    e.stopPropagation();
-    console.log('Edit Row', id);
-    alert(`Edit Row ${id}`);
-  }
-
-  const handleClickDeleteRow = (e, id) => {
-    e.stopPropagation();
-    alert(`Delete Row ${id}`);
-  }
-
-  const handleClickDuplicate = (e, id) => {
-    e.stopPropagation();
-    alert(`Toggle Row ${id}`);
-  }
-
-  // handle bulk action
+  // handle delete bulk locations
   const [deleteBulkLocation, { isLoading: loadingBulkDelete }] = useDeleteBulkLocationMutation();
   const [openBulkDeleteModal, setOpenBulkDeleteModal] = useState(false);
   const handleOpenBulkDeleteModal = () => {
@@ -83,20 +64,21 @@ export default function useLocations() {
     }
   };
 
+
   return {
     page,
     setPage,
+
     selectedRecords,
     setSelectedRecords,
+
     locationsData,
     loadingGetLocation,
     fetchingGetLocation,
+
     setSearchBy,
     filterParams,
-    handleChangeFilter,
-    handleClickEditRow,
-    handleClickDeleteRow,
-    handleClickDuplicate,
+
     setIsLocationModalOpen,
     isLocationModalOpen,
 

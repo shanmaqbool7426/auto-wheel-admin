@@ -9,7 +9,8 @@ export default function AddLocation({ open, setOnClose }) {
   const {
     form,
     handleSubmit,
-  } = useAddLocation();
+    isLoading,
+  } = useAddLocation(setOnClose);
 
   return (
     <CustomModal
@@ -47,7 +48,7 @@ export default function AddLocation({ open, setOnClose }) {
             />
           </Grid.Col>
           <Grid.Col span={12}>
-            <CustomButton color='#1B84FF' fullWidth type='submit'>
+            <CustomButton color='#1B84FF' fullWidth type='submit' loading={isLoading}>
               Add Location
             </CustomButton>
           </Grid.Col>

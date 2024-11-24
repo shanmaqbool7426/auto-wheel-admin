@@ -6,7 +6,7 @@ export const locationAPIs = BASE_API.injectEndpoints({
 
     getLocations: builder.query({
       query: (params) => ({
-        url: `${END_POINTS.LOCATION}`,
+        url: `${END_POINTS?.LOCATION}`,
         method: 'GET',
         params,
       }),
@@ -15,7 +15,7 @@ export const locationAPIs = BASE_API.injectEndpoints({
 
     addLocation: builder.mutation({
       query: (body) => ({
-        url: `${END_POINTS.LOCATION}`,
+        url: `${END_POINTS?.LOCATION}`,
         method: 'POST',
         body,
       }),
@@ -25,12 +25,12 @@ export const locationAPIs = BASE_API.injectEndpoints({
     deleteBulkLocation: builder.mutation({
       query(ids) {
         return {
-          url: `${END_POINTS.LOCATION_DELETE}`,
+          url: `${END_POINTS?.LOCATION_DELETE}`,
           method: 'POST',
           body: { ids: ids },
         };
       },
-      invalidatesTags: ['COMMENTS'],
+      invalidatesTags: ['LOCATIONS'],
     }),
 
   }),

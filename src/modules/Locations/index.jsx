@@ -6,13 +6,21 @@ import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
 import CustomButton from '@/components/CustomButton';
 import useLocations from './useLocations';
-import { getColumns, locationsData } from './data';
+import { getColumns } from './data';
 import { IconPlus } from '@/assets/icons';
 import styles from './Locations.module.css';
 import AddLocation from './AddLocation';
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 export default function Locations() {
   const {
+    page,
+    setPage,
+    selectedRecords,
+    setSelectedRecords,
+    locationsData,
+    loadingGetLocation,
+    fetchingGetLocation,
     setSearchBy,
     filterParams,
     handleChangeFilter,
@@ -20,8 +28,16 @@ export default function Locations() {
     handleClickDeleteRow,
     handleClickDuplicate,
     setIsLocationModalOpen,
-    isLocationModalOpen
+    isLocationModalOpen,
+
+    openBulkDeleteModal,
+    handleCloseBulkDeleteModal,
+    handleBulkAction,
+    handleBulkDeleteLocations,
+    loadingBulkDelete,
   } = useLocations();
+
+  console.log('locationsData', locationsData);
 
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
 
@@ -38,14 +54,13 @@ export default function Locations() {
             <FormField
               type="select"
               name="actions"
+              disabled={selectedRecords.length === 0}
               data={[
-                { value: 'Bulk Action', label: 'Bulk Action' },
-                { value: 'Bulk Action1', label: 'Bulk Action1' },
+                { value: 'delete', label: 'Delete' },
               ]}
               placeholder="Bulk Action"
               checkIconPosition="right"
-              value={filterParams.status}
-              onChange={(_value, option) => handleChangeFilter('actions', option.value)}
+              onChange={(_value, option) => handleBulkAction(option.value)}
             />
           </Box>
         </Box>
@@ -63,7 +78,14 @@ export default function Locations() {
       <Box>
         <DataTable
           columns={columns}
-          records={locationsData || []}
+          records={locationsData?.data?.locations || []}
+          fetching={loadingGetLocation || fetchingGetLocation}
+          selection
+          selectedRecords={selectedRecords}
+          onSelectedRecordsChange={setSelectedRecords}
+          totalRecords={locationsData?.data?.pagination?.totalItems || 0}
+          page={page}
+          onPageChange={setPage}
         />
       </Box>
 
@@ -71,6 +93,15 @@ export default function Locations() {
       <AddLocation
         open={isLocationModalOpen}
         setOnClose={setIsLocationModalOpen}
+      />
+
+      <ConfirmationModal
+        title="Delete Location"
+        message="Are you sure you want to delete selected locations?"
+        open={openBulkDeleteModal}
+        onClose={handleCloseBulkDeleteModal}
+        onSubmit={handleBulkDeleteLocations}
+        isLoading={loadingBulkDelete}
       />
     </>
   )

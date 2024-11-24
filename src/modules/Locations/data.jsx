@@ -7,14 +7,14 @@ import styles from './Locations.module.css';
 
 export const getColumns = () => [
   {
-    accessor: 'country',
+    accessor: 'name',
     title: 'Country',
-    render: ({ country }) => (<Box>{country}</Box>)
+    render: ({ name }) => (<Box style={{ textTransform: 'capitalize' }}>{name}</Box>)
   },
   {
     accessor: 'description',
     title: 'Description',
-    textAlign: 'center',
+    render: ({ _id }) => (<Box>A country and continent in the Southern Hemisphere.</Box>)
   },
   {
     accessor: 'slug',
@@ -22,53 +22,8 @@ export const getColumns = () => [
     textAlign: 'center',
   },
   {
-    accessor: 'count',
+    accessor: 'vehicleCount',
     title: 'Count',
     textAlign: 'center',
   },
-]
-
-export const locationsData = [
-  {
-    id: "111",
-    country: "United States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "112011",
-    country: "Alaska",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "1176541",
-    country: "States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "11132",
-    country: "United States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "12211",
-    country: "United States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  },
-  {
-    id: "1411",
-    country: "United States",
-    description: "Sed ut perspiciatis unde omnis iste",
-    slug: "Sed ut perspiciatis unde omnis iste",
-    count: 123,
-  }, ,
 ]

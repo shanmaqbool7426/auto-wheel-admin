@@ -15,4 +15,6 @@ export const END_POINTS = {
   DELETE_MULTIPLE_CATEGORIES: '/category/bulk-delete',
   COMMENTS: '/comment/filtered',
   COMMENTS_DELETE: '/comment/bulk-delete',
+  LOCATION: '/location',
+  LOCATION_DELETE: '/location/bulk-delete',
 }

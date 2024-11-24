@@ -1,0 +1,36 @@
+.successRoot {
+  background-color: #12c99b;
+
+  &::before {
+    background-color: #00a179;
+  }
+}
+
+.errorRoot {
+  background-color: #e41749;
+
+  &::before {
+    background-color: #a30030;
+  }
+}
+
+.warningRoot {
+  background-color: #f2a600;
+
+  &::before {
+    background-color: #af7600;
+  }
+}
+
+.description,
+.title {
+  color: #ffffff;
+}
+
+.closeButton {
+  color: #fff;
+
+  &:hover {
+    background-color: transparent;
+  }
+}

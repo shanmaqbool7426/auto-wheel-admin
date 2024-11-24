@@ -13,5 +13,6 @@ export const END_POINTS = {
   UPDATE_CATEGORY: '/category',
   DELETE_CATEGORY: '/category',
   DELETE_MULTIPLE_CATEGORIES: '/category/bulk-delete',
-  
+  COMMENTS: '/comment/filtered',
+  COMMENTS_DELETE: '/comment/bulk-delete',
 }

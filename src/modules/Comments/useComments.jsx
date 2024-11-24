@@ -1,45 +1,115 @@
 'use client';
-import React, { useState } from 'react';
-import { useDisclosure } from '@mantine/hooks';
-import { useForm } from '@mantine/form';
-import { useGetPostsQuery } from '@/services/blog/posts';
+import React, { useState, useEffect } from 'react';
+import { PAGE_SIZE } from '@/constants/pagination';
+import {
+  useGetCommentsQuery,
+  useDeleteBulkCommentsMutation,
+} from '@/services/comments';
+import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
+import { useParams } from 'next/navigation';
 
 export default function useComments() {
-  const { data, error, isLoading } = useGetPostsQuery();
-  console.log('data', data);
+  const { activeTab } = useParams();
+  const [searchBy, setSearchBy] = useState();
+  const [page, setPage] = useState(1);
+  const [selectedRecords, setSelectedRecords] = useState([]);
+  const initParams = {
+    status: 'all',
+    sortOrder: 'desc',
+    page,
+    limit: PAGE_SIZE,
+  }
+  const [filterParams, setFilterParams] = useState(initParams);
+  const { data, isLoading, isFetching, isError } = useGetCommentsQuery(filterParams);
 
-  const [searchBy, setSearchBy] = useState('');
-  const [filterParams, setFilterParams] = useState({
-    actions: '',
-    news: '',
-    date: '',
-  });
+  // Search query parameters
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, search: searchBy }));
+  }, [searchBy]);
+
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, status: activeTab }));
+  }, [activeTab]);
+
+  // handle change sortOrder
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleClickEditRow = (e, id) => {
-    e.stopPropagation();
-    console.log('Edit Row', id);
-    alert(`Edit Row ${id}`);
-  }
+  // handle delete
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [commentId, setCommentId] = useState();
+  const [deleteBulkComments, { isLoading: loadingBulkDelete }] = useDeleteBulkCommentsMutation();
 
-  const handleClickDeleteRow = (e, id) => {
-    e.stopPropagation();
-    alert(`Delete Row ${id}`);
-  }
+  const handleOpenDeleteModal = (id) => {
+    setCommentId(id)
+    setOpenDeleteModal(true);
+  };
 
-  const handleClickDuplicate = (e, id) => {
-    e.stopPropagation();
-    alert(`Toggle Row ${id}`);
-  }
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteModal(false);
+  };
+
+  const handleDeleteComment = async () => {
+    try {
+      await deleteBulkComments([commentId]).unwrap();
+      handleCloseDeleteModal();
+      successSnackbar('Comment deleted successfully');
+    } catch (error) {
+      console.error('Error deleting comments:', error);
+      errorSnackbar(error.data.message);
+    }
+  };
+
+  // handle bulk action
+  const [openBulkDeleteModal, setOpenBulkDeleteModal] = useState(false);
+  const handleOpenBulkDeleteModal = () => {
+    setOpenBulkDeleteModal(true);
+  };
+
+  const handleCloseBulkDeleteModal = () => {
+    setOpenBulkDeleteModal(false);
+  };
+
+  const handleBulkAction = async (action) => {
+    if (action === 'delete') {
+      handleOpenBulkDeleteModal();
+    }
+  };
+
+  const handleBulkDeleteComments = async () => {
+    try {
+      await deleteBulkComments(selectedRecords.map(item => item?._id)).unwrap();
+      handleCloseBulkDeleteModal();
+      setSelectedRecords([]);
+      successSnackbar('Comments deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting comments:', error);
+      errorSnackbar(error.data.message);
+    }
+  };
 
   return {
+    page,
+    setPage,
+    selectedRecords,
+    setSelectedRecords,
+    isError,
+    isLoading,
+    isFetching,
+    data,
     setSearchBy,
     filterParams,
     handleChangeFilter,
-    handleClickEditRow,
-    handleClickDeleteRow,
-    handleClickDuplicate,
+    openDeleteModal,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
+    loadingBulkDelete,
+    handleDeleteComment,
+    openBulkDeleteModal,
+    handleOpenBulkDeleteModal,
+    handleCloseBulkDeleteModal,
+    handleBulkAction,
+    handleBulkDeleteComments,
   };
 }

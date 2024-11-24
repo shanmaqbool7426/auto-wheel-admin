@@ -3,6 +3,7 @@ import '@mantine/dates/styles.css';
 import '@mantine/core/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
 import '@mantine/tiptap/styles.css';
+import '@mantine/notifications/styles.css';
 import { theme } from '@/theme';
 import {
   MantineProvider,
@@ -12,6 +13,7 @@ import {
   emotionTransform,
   MantineEmotionProvider,
 } from '@mantine/emotion';
+import { Notifications } from '@mantine/notifications';
 import StoreProvider from '@/store/StoreProvider';
 
 export const metadata = {
@@ -30,6 +32,7 @@ export default function Layout({ children }) {
         <StoreProvider>
           <MantineProvider theme={theme} stylesTransform={emotionTransform}>
             <MantineEmotionProvider>
+              <Notifications />
               {children}
             </MantineEmotionProvider>
           </MantineProvider>

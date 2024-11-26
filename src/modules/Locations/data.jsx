@@ -14,7 +14,6 @@ export const getColumns = () => [
   {
     accessor: 'slug',
     title: 'Slug',
-    textAlign: 'center',
   },
   {
     accessor: 'vehicleCount',

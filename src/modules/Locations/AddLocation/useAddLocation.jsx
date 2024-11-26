@@ -12,6 +12,7 @@ export default function useAddLocation(setOnClose) {
     mode: 'uncontrolled',
     initialValues: {
       name: '',
+      type: '',
       slug: '',
       description: '',
     },

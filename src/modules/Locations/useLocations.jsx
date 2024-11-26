@@ -25,6 +25,12 @@ export default function useLocations() {
     isError
   } = useGetLocationsQuery(filterParams);
 
+  useEffect(() => {
+    if (fetchingGetLocation) {
+      setSelectedRecords([]);
+    }
+  }, [fetchingGetLocation]);
+
   // Search query parameters
   useEffect(() => {
     setFilterParams(prev => ({ ...prev, search: searchBy }));

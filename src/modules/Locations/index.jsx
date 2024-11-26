@@ -32,8 +32,7 @@ export default function Locations() {
     loadingBulkDelete,
   } = useLocations();
 
-  console.log('locationsData', locationsData);
-
+  console.log('selectedRecords::: ', selectedRecords);
   const columns = getColumns();
 
   return (
@@ -47,9 +46,9 @@ export default function Locations() {
           </Box>
           <Box className={styles.dropdown}>
             <FormField
+              disabled={selectedRecords?.length === 0}
               type="select"
               name="actions"
-              disabled={selectedRecords.length === 0}
               data={[
                 { value: 'delete', label: 'Delete' },
               ]}

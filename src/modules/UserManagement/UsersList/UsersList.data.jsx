@@ -1,47 +1,51 @@
 import Image from 'next/image';
-import dayjs from 'dayjs';
 import { ActionIcon, Group, Box } from '@mantine/core';
 import { Avatar } from '@/assets/images';
 import { IconEye, IconPencil, IconRestrictionShield } from '@/assets/icons';
 import styles from './UsersList.module.css';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
   {
-    accessor: 'user',
+    accessor: '_id',
     title: 'User',
-    render: ({ user }) => {
+    render: ({ firstName, lastName, email }) => {
       return (
         <Box className={styles.author}>
           <Box className={styles.authorAttachment}>
-            <Image src={user?.avatar} alt={user.name} width={44} height={36} />
+            <Image src={Avatar} alt={`${firstName} ${lastName}`} width={44} height={36} />
           </Box>
           <Box className={styles.authorInfo}>
-            <Box className={styles.authorName}>{user?.name}</Box>
-            <Box className={styles.authorEmail}>{user?.email}</Box>
+            <Box className={styles.authorName}>{firstName} {lastName}</Box>
+            <Box className={styles.authorEmail}>{email}</Box>
           </Box>
         </Box>
       )
     },
   },
   {
-    accessor: 'role',
+    accessor: 'roles',
     title: 'Role',
+    render: ({ roles }) => roles ? roles[0]?.name : '',
   },
   {
     accessor: 'lastLogin',
     title: 'Last login',
+    render: ({ createdAt }) => dayjs(createdAt).fromNow(),
   },
   {
-    accessor: 'joinedDate',
+    accessor: 'createdAt',
     title: 'Join Date',
-    render: ({ joinedDate }) => {
+    render: ({ createdAt }) => {
       return (
         <>
           <Box className={styles.createdDate}>
-            {dayjs(joinedDate).format('DD--MM-YYYY')}
+            {dayjs(createdAt).format('DD--MM-YYYY')}
           </Box>
           <Box className={styles.createdTime}>
-            {dayjs(joinedDate).format('hh:mm A')}
+            {dayjs(createdAt).format('hh:mm A')}
           </Box>
         </>
       )

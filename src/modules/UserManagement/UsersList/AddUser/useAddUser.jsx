@@ -1,8 +1,10 @@
 'use client';
 import React from 'react';
 import { useForm } from '@mantine/form';
+import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
+import { useCreateUserMutation } from '@/services/user-management';
 
-export default function useAddUser() {
+export default function useAddUser(setOnClose) {
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -17,12 +19,23 @@ export default function useAddUser() {
     },
   });
 
-  const handleSubmit = (values) => {
-    console.log('Form Data:: ', values);
+  const [createUser, { isLoading }] = useCreateUserMutation();
+
+  const handleSubmit = async (values) => {
+
+    try {
+      await createUser(values)?.unwrap();
+      setOnClose(false);
+      form.reset();
+      successSnackbar('User added successfully');
+    } catch (error) {
+      errorSnackbar('An error occured');
+    }
   };
 
   return {
     form,
     handleSubmit,
+    isLoading,
   };
 }

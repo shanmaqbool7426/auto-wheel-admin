@@ -17,4 +17,6 @@ export const END_POINTS = {
   COMMENTS_DELETE: '/comment/bulk-delete',
   LOCATION: '/location',
   LOCATION_DELETE: '/location/bulk-delete',
+  GET_USERS: '/user/get-users',
+  CREATE_USER: '/user/create',
 }

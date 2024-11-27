@@ -13,8 +13,19 @@ import AddUser from './AddUser';
 
 export default function UsersList() {
   const {
+    page,
+    setPage,
+
+    selectedRecords,
+    setSelectedRecords,
+
+    usersData,
+    loadingGetUsers,
+    fetchingGetUsers,
+
     setSearchBy,
     filterParams,
+
     handleChangeFilter,
     handleClickEditRow,
     handleClickDeleteRow,
@@ -39,15 +50,15 @@ export default function UsersList() {
           <Box className={styles.rightDropdown}>
             <FormField
               type="select"
-              name="date"
+              name="sortOrder"
               data={[
-                { value: 'newToOld', label: 'Date, new to old' },
-                { value: 'oldToNew', label: 'Date, old to new' },
+                { value: 'desc', label: 'Date, new to old' },
+                { value: 'asc', label: 'Date, old to new' },
               ]}
               placeholder="Date, new to old"
               checkIconPosition="right"
-              value={filterParams.date}
-              onChange={(_value, option) => handleChangeFilter('date', option.value)}
+              value={filterParams?.sortOrder}
+              onChange={(_value, option) => handleChangeFilter('sortOrder', option.value)}
             />
           </Box>
           <CustomButton
@@ -61,7 +72,14 @@ export default function UsersList() {
       <Box>
         <DataTable
           columns={columns}
-          records={usersListData || []}
+          records={usersData?.data?.users || []}
+          fetching={loadingGetUsers || fetchingGetUsers}
+          // selection
+          // selectedRecords={selectedRecords}
+          // onSelectedRecordsChange={setSelectedRecords}
+          totalRecords={usersData?.data?.totalUsers || 0}
+          page={page}
+          onPageChange={setPage}
         />
       </Box>
 

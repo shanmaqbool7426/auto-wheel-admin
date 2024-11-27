@@ -1,23 +1,45 @@
 'use client';
-import React, { useState } from 'react';
-import { useDisclosure } from '@mantine/hooks';
-import { useForm } from '@mantine/form';
-import { useGetPostsQuery } from '@/services/blog/posts';
+import { useState, useEffect } from 'react';
+import { useGetUsersQuery } from '@/services/user-management';
+import { PAGE_SIZE } from '@/constants/pagination';
 
 export default function useComments() {
   const [isOpenAddUserModal, setIsOpenAddUserModal] = useState(false);
-  const { data, error, isLoading } = useGetPostsQuery();
-  console.log('data', data);
+  const [searchBy, setSearchBy] = useState();
+  const [page, setPage] = useState(1);
+  const [selectedRecords, setSelectedRecords] = useState([]);
+  const initParams = {
+    sortOrder: 'desc',
+    page,
+    limit: PAGE_SIZE,
+  }
+  const [filterParams, setFilterParams] = useState(initParams);
+  const {
+    data: usersData,
+    isLoading: loadingGetUsers,
+    isFetching: fetchingGetUsers
+  } = useGetUsersQuery(filterParams);
 
-  const [searchBy, setSearchBy] = useState('');
-  const [filterParams, setFilterParams] = useState({
-    actions: '',
-    news: '',
-    date: '',
-  });
+  useEffect(() => {
+    if (fetchingGetUsers) {
+      setSelectedRecords([]);
+    }
+  }, [fetchingGetUsers]);
+
+  // Search query parameters
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, search: searchBy }));
+  }, [searchBy]);
+
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, page: page }));
+  }, [page]);
+
+  // handle change sortOrder
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
+
 
   const handleClickEditRow = (e, id) => {
     e.stopPropagation();
@@ -36,8 +58,19 @@ export default function useComments() {
   }
 
   return {
+    page,
+    setPage,
+
+    selectedRecords,
+    setSelectedRecords,
+
+    usersData,
+    loadingGetUsers,
+    fetchingGetUsers,
+
     setSearchBy,
     filterParams,
+
     handleChangeFilter,
     handleClickEditRow,
     handleClickDeleteRow,

@@ -9,7 +9,8 @@ export default function AddUser({ open, setOnClose }) {
   const {
     form,
     handleSubmit,
-  } = useAddUser()
+    isLoading,
+  } = useAddUser(setOnClose)
 
   return (
     <CustomModal
@@ -26,10 +27,11 @@ export default function AddUser({ open, setOnClose }) {
         <Grid gutter="30px">
           <Grid.Col span={{ base: 12, sm: 6 }}>
             <FormField
-              label="First Name:"
+              label="First Name"
               type="text"
               placeholder="First Name"
               {...form.getInputProps('firstName')}
+              required
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -38,6 +40,7 @@ export default function AddUser({ open, setOnClose }) {
               type="text"
               placeholder="Last Name"
               {...form.getInputProps('lastName')}
+              required
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -46,6 +49,7 @@ export default function AddUser({ open, setOnClose }) {
               type="text"
               placeholder="abc@example.com"
               {...form.getInputProps('email')}
+              required
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -56,17 +60,17 @@ export default function AddUser({ open, setOnClose }) {
               data={[
                 { value: 'superAdmin', label: 'Super Admin' },
                 { value: 'admin', label: 'Admin' },
-                { value: 'editor', label: 'Editor' },
-                { value: 'author', label: 'Author' },
-                { value: 'contributor', label: 'Contributor' },
-                { value: 'subscriber', label: 'Subscriber' },
+                { value: 'moderator', label: 'Moderator' },
+                { value: 'dealer', label: 'Dealer' },
+                { value: 'user', label: 'User' },
               ]}
-              {...form.getInputProps('parentCategory')}
+              {...form.getInputProps('role')}
+              required
             />
           </Grid.Col>
           <Grid.Col span={12}>
             <Box style={{ maxWidth: '530px', margin: '0 auto' }}>
-              <CustomButton color='#1B84FF' fullWidth type='submit'>
+              <CustomButton color='#1B84FF' fullWidth type='submit' loading={isLoading}>
                 Add User
               </CustomButton>
             </Box>

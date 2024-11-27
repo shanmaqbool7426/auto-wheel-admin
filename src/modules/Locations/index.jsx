@@ -32,7 +32,6 @@ export default function Locations() {
     loadingBulkDelete,
   } = useLocations();
 
-  console.log('selectedRecords::: ', selectedRecords);
   const columns = getColumns();
 
   return (

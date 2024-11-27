@@ -12,7 +12,6 @@ export const errorSnackbar = (message) => {
   notifications.show({
     message: <Box className={styles.customMessage}>Icon: {errorMessage}</Box>,
     position: position,
-    containerWidth: 360,
     classNames: {
       root: styles.errorRoot,
       description: styles.description,
@@ -26,7 +25,6 @@ export const successSnackbar = (message = 'Success') => {
   notifications.show({
     message: message,
     position: position,
-    containerWidth: 360,
     classNames: {
       root: styles.successRoot,
       description: styles.description,
@@ -40,7 +38,6 @@ export const warningSnackbar = (message = "Warning") => {
   notifications.show({
     message: message,
     position: position,
-    containerWidth: 360,
     classNames: {
       root: styles.warningRoot,
       description: styles.description,

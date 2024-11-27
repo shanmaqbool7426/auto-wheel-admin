@@ -1,5 +1,6 @@
 import { notifications } from '@mantine/notifications';
 import styles from './Snackbar.module.css';
+import { Box } from '@mantine/core';
 
 const position = 'top-center';
 
@@ -9,9 +10,9 @@ export const errorSnackbar = (message) => {
     : message ?? 'Something went wrong';
 
   notifications.show({
-    message: errorMessage,
+    message: <Box className={styles.customMessage}>Icon: {errorMessage}</Box>,
     position: position,
-    withBorder: true,
+    containerWidth: 360,
     classNames: {
       root: styles.errorRoot,
       description: styles.description,
@@ -25,7 +26,7 @@ export const successSnackbar = (message = 'Success') => {
   notifications.show({
     message: message,
     position: position,
-    withBorder: true,
+    containerWidth: 360,
     classNames: {
       root: styles.successRoot,
       description: styles.description,
@@ -39,7 +40,7 @@ export const warningSnackbar = (message = "Warning") => {
   notifications.show({
     message: message,
     position: position,
-    withBorder: true,
+    containerWidth: 360,
     classNames: {
       root: styles.warningRoot,
       description: styles.description,

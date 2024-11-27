@@ -1,10 +1,11 @@
 import React from 'react';
 import CounterPreview from './CounterPreview';
+import { Box } from '@mantine/core';
 
 export default function Dashboard() {
   return (
-    <div>
+    <Box style={{ height: '100%' }}>
       <CounterPreview />
-    </div>
+    </Box>
   )
 }

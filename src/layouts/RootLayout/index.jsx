@@ -5,17 +5,14 @@ import Image from 'next/image';
 import {
   AppShell,
   Burger,
-  Group,
-  Skeleton,
-  Text,
   ScrollArea,
   Box,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { styles } from './RootLayout.style';
 import Navbar from './Navbar';
 import logo from '@/assets/images/brand/logo.svg';
 import Header from './Header';
+import styles from './Rootlayout.module.css'
 
 export default function RootLayout({ children }) {
   const [opened, { toggle }] = useDisclosure();
@@ -32,15 +29,20 @@ export default function RootLayout({ children }) {
       }}
       padding={32}
       bg='#FDF8F8'
+      classNames={{
+        header: styles.header,
+        navbar: styles.navbar,
+        main: styles.main,
+      }}
     >
-      <AppShell.Header sx={styles.header}>
+      <AppShell.Header>
         <Header />
       </AppShell.Header>
 
-      <AppShell.Navbar p={0} sx={styles.sidebar}>
+      <AppShell.Navbar p={0}>
         <AppShell.Section>
-          <Box sx={styles.navbarHeader}>
-            <Box sx={styles.logo}>
+          <Box className={styles.navbarHeader}>
+            <Box className={styles.logo}>
               <Link href="/">
                 <Image
                   src={logo}
@@ -66,7 +68,9 @@ export default function RootLayout({ children }) {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        {children}
+        <Box className={styles.mainContent}>
+          {children}
+        </Box>
       </AppShell.Main>
     </AppShell>
   )

@@ -16,10 +16,17 @@ export default function Chat() {
     filterParams,
     handleChangeFilter,
     handleClickExternalLink,
+    users,
+    isLoading,
+    currentPage,
+    totalPages,
+    handlePageChange,
+    totalUsers,
   } = useChat();
 
   const columns = getColumns(handleClickExternalLink)
 
+console.log('users>>>', users)
   return (
     <>
       <Box className={styles.filterbar}>
@@ -48,9 +55,14 @@ export default function Chat() {
         </Box>
       </Box>
       <Box>
-        <DataTable
+      <DataTable
           columns={columns}
-          records={chatData || []}
+          records={users || []}
+          totalRecords={totalUsers}
+          recordsPerPage={10}
+          page={currentPage}
+          onPageChange={handlePageChange}
+          loading={isLoading}
         />
       </Box>
     </>

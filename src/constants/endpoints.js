@@ -19,4 +19,6 @@ export const END_POINTS = {
   LOCATION_DELETE: '/location/bulk-delete',
   GET_USERS: '/user/get-users',
   CREATE_USER: '/user/create',
+  CONVERSATION: '/chat',
+  CONVERSATION_LIST: '/chat/list/67302cefa1251b0135c86ea7',
 }

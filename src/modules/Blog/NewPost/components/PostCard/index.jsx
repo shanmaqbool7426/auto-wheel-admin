@@ -1,21 +1,25 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@mantine/core';
+import { Grid, Group } from '@mantine/core';
 import Card from '@/components/Card';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 import TextEditor from '@/components/TextEditor';
 import { generateSlug } from '@/utils/helpers';
 
-export default function PostCard({ form, isLoading }) {
+export default function PostCard({ form, isLoading, isEdit }) {
   useEffect(() => {
-
+    if (!isEdit && form.values.title) {
       const slug = generateSlug(form.values.title);
-      console.log('slug: ', slug)
       form.setFieldValue('url', `http://example.com/${slug}`);
-  
-  }, [form.values.title]);
+    }
+  }, [form.values.title, isEdit]);
 
-  console.log('form.values: ', form.values.title)
+  const handleCancel = () => {
+    if (form.isDirty() && !window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+      return;
+    }
+    window.history.back(); // or use router.push('/posts')
+  };
 
   return (
     <Card>
@@ -24,7 +28,7 @@ export default function PostCard({ form, isLoading }) {
           <FormField
             label="Title:"
             type="text"
-            placeholder="How to Make the Most of Your Holiday Plan"
+            placeholder={isEdit ? "Edit post title" : "How to Make the Most of Your Holiday Plan"}
             required
             {...form.getInputProps('title')}
           />
@@ -34,6 +38,7 @@ export default function PostCard({ form, isLoading }) {
           <TextEditor
             content={form.values.content}
             setContent={(value) => form.setFieldValue('content', value)}
+            placeholder={isEdit ? "Edit your post content..." : "Write your post content..."}
           />
           {form.errors.content && (
             <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
@@ -43,14 +48,27 @@ export default function PostCard({ form, isLoading }) {
         </Grid.Col>
 
         <Grid.Col span={12}>
-          <CustomButton 
-            color='#1B84FF' 
-            fullWidth 
-            type='submit'
-            loading={isLoading}
-          >
-            {isLoading ? 'Creating Post...' : 'Create Post'}
-          </CustomButton>
+          <Group position="apart">
+            <CustomButton 
+              variant="outline"
+              color="gray"
+              onClick={handleCancel}
+              disabled={isLoading}
+            >
+              Cancel
+            </CustomButton>
+
+            <CustomButton 
+              color='#1B84FF' 
+              type='submit'
+              loading={isLoading}
+            >
+              {isLoading 
+                ? `${isEdit ? 'Updating' : 'Creating'} Post...` 
+                : `${isEdit ? 'Update' : 'Create'} Post`
+              }
+            </CustomButton>
+          </Group>
         </Grid.Col>
       </Grid>
     </Card>

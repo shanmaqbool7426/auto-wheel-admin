@@ -1,10 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useForm } from '@mantine/form';
+import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
+import { useCreateUserMutation } from '@/services/user-management';
 import { useGetUsersQuery } from '@/services/user-management';
 import { PAGE_SIZE } from '@/constants/pagination';
+import { MODAL_TYPE } from './UsersList.data';
 
 export default function useComments() {
-  const [isOpenAddUserModal, setIsOpenAddUserModal] = useState(false);
   const [searchBy, setSearchBy] = useState();
   const [page, setPage] = useState(1);
   const [selectedRecords, setSelectedRecords] = useState([]);
@@ -40,6 +43,61 @@ export default function useComments() {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
+  // Create/Edit New User
+  const [isOpenAddUserModal, setIsOpenAddUserModal] = useState(false);
+  const [modalType, setModalType] = useState(MODAL_TYPE.ADD);
+  const [modalData, setModalData] = useState(null);
+  const formAddUser = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      role: '',
+    },
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
+
+  useEffect(() => {
+    if (modalData) {
+      formAddUser.setValues({
+        firstName: modalData.firstName || '',
+        lastName: modalData.lastName || '',
+        email: modalData.email || '',
+        role: modalData.roles[0]?.name || '',
+      });
+    }
+  }, [modalData]);
+
+  const handdleOpenAddUserModal = (type, data) => {
+    console.log('Open Modal', data);
+    setModalType(type);
+    setModalData(data);
+    setIsOpenAddUserModal(true);
+  }
+  const handdleCloseAddUserModal = () => {
+    setIsOpenAddUserModal(false);
+    setModalData(null);
+    formAddUser.reset();
+  }
+
+  const [createUser, { isLoading }] = useCreateUserMutation();
+
+  const handleSubmit = async (values) => {
+
+    try {
+      await createUser(values)?.unwrap();
+      setOnClose(false);
+      form.reset();
+      successSnackbar('User added successfully');
+    } catch (error) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+
 
   const handleClickEditRow = (e, id) => {
     e.stopPropagation();
@@ -70,12 +128,18 @@ export default function useComments() {
 
     setSearchBy,
     filterParams,
-
     handleChangeFilter,
+
+    modalType,
+    isOpenAddUserModal,
+    formAddUser,
+    handdleOpenAddUserModal,
+    handdleCloseAddUserModal,
+    handleSubmit,
+    isLoading,
+
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,
-    isOpenAddUserModal,
-    setIsOpenAddUserModal,
   };
 }

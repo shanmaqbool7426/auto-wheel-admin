@@ -7,7 +7,13 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
+export const MODAL_TYPE = {
+  ADD: 'ADD',
+  EDIT: 'EDIT',
+  VIEW: 'VIEW',
+}
+
+export const getColumns = (onClickEdit, onClickView, onClickShield) => [
   {
     accessor: '_id',
     title: 'User',
@@ -33,7 +39,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
   {
     accessor: 'lastLogin',
     title: 'Last login',
-    render: ({ createdAt }) => dayjs(createdAt).fromNow(),
+    render: ({ lastLogin }) => dayjs(lastLogin).fromNow(),
   },
   {
     accessor: 'createdAt',
@@ -52,16 +58,16 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
     },
   },
   {
-    accessor: 'id',
+    accessor: '_id',
     title: 'Actions',
     textAlign: 'center',
-    render: ({ id }) => {
+    render: (data) => {
       return (
         <Group justify='center' wrap='nowrap'>
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickEdit(e, id)}
+            onClick={() => onClickEdit(MODAL_TYPE.EDIT, data)}
           >
             <IconPencil />
           </ActionIcon>
@@ -69,7 +75,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDelete(e, id)}
+            onClick={() => onClickView(MODAL_TYPE.VIEW, data)}
           >
             <IconEye />
           </ActionIcon>
@@ -77,7 +83,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDuplicate(e, id)}
+            onClick={(e) => onClickShield(e, data.id)}
           >
             <IconRestrictionShield />
           </ActionIcon>
@@ -87,33 +93,3 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
   },
 ]
 
-export const usersListData = [
-  {
-    id: "111",
-    user: { name: "Leslie Alexander", avatar: Avatar, email: "abc@gmail.com" },
-    role: "Super Admin",
-    lastLogin: "Yesterday",
-    joinedDate: new Date(),
-  },
-  {
-    id: "111qw4",
-    user: { name: "Cody Fisher", avatar: Avatar, email: "abc@gmail.com" },
-    role: "Editor",
-    lastLogin: "2 minutes ago",
-    joinedDate: new Date(),
-  },
-  {
-    id: "111amjkl12",
-    user: { name: "Leslie Alexander", avatar: Avatar, email: "abc@gmail.com" },
-    role: "Super Admin",
-    lastLogin: "Yesterday",
-    joinedDate: new Date(),
-  },
-  {
-    id: "111qw4qw3e",
-    user: { name: "Cody Fisher", avatar: Avatar, email: "abc@gmail.com" },
-    role: "Editor",
-    lastLogin: "2 minutes ago",
-    joinedDate: new Date(),
-  },
-]

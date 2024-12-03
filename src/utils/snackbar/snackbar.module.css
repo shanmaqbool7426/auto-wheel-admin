@@ -46,4 +46,6 @@
 .customMessage {
   color: #ffffff;
   font-size: 14px;
+  display: flex;
+  gap: 16px;
 }

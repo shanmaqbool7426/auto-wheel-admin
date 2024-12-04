@@ -29,7 +29,7 @@ export default function useAddUser(setOnClose) {
       form.reset();
       successSnackbar('User added successfully');
     } catch (error) {
-      errorSnackbar('An error occured');
+      errorSnackbar(error?.data?.message);
     }
   };
 

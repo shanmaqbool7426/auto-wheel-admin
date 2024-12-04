@@ -3,7 +3,7 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { 
   useGetUserProfileQuery, 
-  useUpdatePersonalInfoMutation 
+  useUpdateUserProfileMutation 
 } from '@/services/user-management';
 
 export default function useProfileSettings() {
@@ -12,7 +12,7 @@ export default function useProfileSettings() {
 
   // Get user profile data
   const { data: profileData, isLoading: isProfileLoading } = useGetUserProfileQuery();
-  const [updateProfile, { isLoading: isUpdating }] = useUpdatePersonalInfoMutation();
+  const [updateProfile, { isLoading: isUpdating }] = useUpdateUserProfileMutation();
 
   const personalInfoForm = useForm({
     initialValues: {

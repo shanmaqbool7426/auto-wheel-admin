@@ -7,7 +7,7 @@ import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
 import CustomButton from '@/components/CustomButton';
 import useUsersList from './useUsersList';
-import { getColumns, usersListData } from './UsersList.data';
+import { getColumns, MODAL_TYPE } from './UsersList.data';
 import { IconPlus } from '@/assets/icons';
 import AddUser from './AddUser';
 
@@ -16,25 +16,26 @@ export default function UsersList() {
     page,
     setPage,
 
-    selectedRecords,
-    setSelectedRecords,
-
     usersData,
     loadingGetUsers,
     fetchingGetUsers,
 
     setSearchBy,
     filterParams,
-
     handleChangeFilter,
-    handleClickEditRow,
-    handleClickDeleteRow,
-    handleClickDuplicate,
+
+    modalType,
     isOpenAddUserModal,
-    setIsOpenAddUserModal,
+    formAddUser,
+    handdleOpenAddUserModal,
+    handdleCloseAddUserModal,
+    handleSubmit,
+    isLoading,
+
+    handleClickDuplicate,
   } = useUsersList();
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
+  const columns = getColumns(handdleOpenAddUserModal, handdleOpenAddUserModal, handleClickDuplicate)
 
   return (
     <>
@@ -63,7 +64,7 @@ export default function UsersList() {
           </Box>
           <CustomButton
             leftSection={<IconPlus />}
-            onClick={() => setIsOpenAddUserModal(true)}
+            onClick={() => handdleOpenAddUserModal(MODAL_TYPE.ADD, null)}
           >
             New User
           </CustomButton>
@@ -74,9 +75,6 @@ export default function UsersList() {
           columns={columns}
           records={usersData?.data?.users || []}
           fetching={loadingGetUsers || fetchingGetUsers}
-          // selection
-          // selectedRecords={selectedRecords}
-          // onSelectedRecordsChange={setSelectedRecords}
           totalRecords={usersData?.data?.totalUsers || 0}
           page={page}
           onPageChange={setPage}
@@ -84,8 +82,12 @@ export default function UsersList() {
       </Box>
 
       <AddUser
+        type={modalType}
         open={isOpenAddUserModal}
-        setOnClose={setIsOpenAddUserModal}
+        onClose={handdleCloseAddUserModal}
+        form={formAddUser}
+        handleSubmit={handleSubmit}
+        isLoading={isLoading}
       />
     </>
   )

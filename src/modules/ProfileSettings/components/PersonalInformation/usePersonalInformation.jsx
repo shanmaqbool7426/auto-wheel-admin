@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import { useUpdatePersonalInfoMutation, useGetUserProfileQuery } from '@/services/user-management';
+import {  useGetUserProfileQuery, useUpdateUserProfileMutation } from '@/services/user-management';
 
 export default function usePersonalInformation() {
   const phoneRegex = /^(\+92|0)[0-9]{10}$/;
   const emailRegex = /^\S+@\S+\.\S+$/;
   
   const { data: profileData, isLoading } = useGetUserProfileQuery();
-  const [updateProfile, { isLoading: isUpdating }] = useUpdatePersonalInfoMutation();
+  const [updateProfile, { isLoading: isUpdating }] = useUpdateUserProfileMutation();
 
   const form = useForm({
     initialValues: {
@@ -20,20 +20,21 @@ export default function usePersonalInformation() {
       showEmail: true,
     },
     validate: {
-      phoneNumber: (value) => phoneRegex.test(value) ? null : 'Invalid phone number.',
+      // phoneNumber: (value) => phoneRegex.test(value) ? null : 'Invalid phone number.',
       email: (value) => emailRegex.test(value) ? null : 'Invalid email address',
     },
   });
 
   useEffect(() => {
     if (profileData) {
+      console.log('profileData>>>>>>>',profileData)
       form.setValues({
-        firstName: profileData.firstName || '',
-        lastName: profileData.lastName || '',
-        phoneNumber: profileData.phone || '',
-        email: profileData.email || '',
-        whatsAppOnThisNumber: profileData.hasWhatsApp,
-        showEmail: profileData.showEmail,
+        firstName: profileData.data.firstName || '',
+        lastName: profileData.data.lastName || '',
+        phoneNumber: profileData.data.phone || '',
+        email: profileData.data.email || '',
+        whatsAppOnThisNumber: profileData.data.hasWhatsApp,
+        showEmail: profileData.data.showEmail,
       });
     }
   }, [profileData]);

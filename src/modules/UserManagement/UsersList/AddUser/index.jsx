@@ -1,22 +1,17 @@
 import React from 'react'
 import CustomModal from '@/components/CustomModal'
-import useAddUser from './useAddUser'
 import { Grid, Box } from '@mantine/core'
 import FormField from '@/components/FormField'
 import CustomButton from '@/components/CustomButton'
+import { MODAL_TYPE } from '../UsersList.data'
 
-export default function AddUser({ open, setOnClose }) {
-  const {
-    form,
-    handleSubmit,
-    isLoading,
-  } = useAddUser(setOnClose)
+export default function AddUser({ type, open, onClose, form, handleSubmit, isLoading }) {
 
   return (
     <CustomModal
-      title="Add User"
+      title={type === MODAL_TYPE.ADD ? "Add User" : type === MODAL_TYPE.EDIT ? "Edit User" : "View User"}
       open={open}
-      onClose={() => setOnClose(false)}
+      onClose={onClose}
       size='1144'
     >
       <form
@@ -32,6 +27,7 @@ export default function AddUser({ open, setOnClose }) {
               placeholder="First Name"
               {...form.getInputProps('firstName')}
               required
+              disabled={type === MODAL_TYPE.VIEW}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -41,6 +37,7 @@ export default function AddUser({ open, setOnClose }) {
               placeholder="Last Name"
               {...form.getInputProps('lastName')}
               required
+              disabled={type === MODAL_TYPE.VIEW}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -50,6 +47,7 @@ export default function AddUser({ open, setOnClose }) {
               placeholder="abc@example.com"
               {...form.getInputProps('email')}
               required
+              disabled={type === MODAL_TYPE.VIEW}
             />
           </Grid.Col>
           <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -66,16 +64,18 @@ export default function AddUser({ open, setOnClose }) {
               ]}
               {...form.getInputProps('role')}
               required
+              disabled={type === MODAL_TYPE.VIEW}
             />
           </Grid.Col>
-          <Grid.Col span={12}>
-            <Box style={{ maxWidth: '530px', margin: '0 auto' }}>
-              <CustomButton color='#1B84FF' fullWidth type='submit' loading={isLoading}>
-                Add User
-              </CustomButton>
-            </Box>
-          </Grid.Col>
-
+          {type !== MODAL_TYPE.VIEW && (
+            <Grid.Col span={12}>
+              <Box style={{ maxWidth: '530px', margin: '0 auto' }}>
+                <CustomButton color='#1B84FF' fullWidth type='submit' loading={isLoading}>
+                  {MODAL_TYPE.ADD ? 'Add User' : 'Update User'}
+                </CustomButton>
+              </Box>
+            </Grid.Col>
+          )}
         </Grid>
       </form>
     </CustomModal>

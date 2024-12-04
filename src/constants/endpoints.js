@@ -4,10 +4,11 @@ export const END_POINTS = {
   // User Profile Management
   GET_PROFILE: '/user/profile',
   UPDATE_PROFILE: '/user/profile-update',
-  CHANGE_PASSWORD: '/user/change-password',
+  CHANGE_PASSWORD: '/user/change-password-by-userId',
   UPDATE_PROFILE_IMAGES: '/user/update-profile-images',
   GET_USERS: '/user/get-users',
   CREATE_USER: '/user/create',
+  UPDATE_PROFIL_BY_EMAIL:"/user/profile-update-by-email",
   
   // Chat endpoints
   CONVERSATION: '/chat',

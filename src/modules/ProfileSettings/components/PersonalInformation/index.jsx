@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Grid, Button, Box, Checkbox } from '@mantine/core';
+import { Grid, Box, Checkbox } from '@mantine/core';
 import Card from '@/components/Card';
 import FormField from '@/components/FormField';
 import usePersonalInformation from './usePersonalInformation';
@@ -8,19 +8,17 @@ import styles from './PersonalInformation.module.css';
 import CustomButton from '@/components/CustomButton';
 
 export default function PersonalInformation() {
-
   const {
     form,
-    handleSubmit
+    handleSubmit,
+    isLoading
   } = usePersonalInformation();
 
+
+  console.log('form>>>>>>.',form)
   return (
     <Card title="Personal Information">
-      <form
-        onSubmit={
-          form.onSubmit((values) => handleSubmit(values))
-        }
-      >
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="20px">
           <Grid.Col span={6}>
             <FormField
@@ -58,7 +56,7 @@ export default function PersonalInformation() {
           </Grid.Col>
           <Grid.Col span={6}>
             <FormField
-              label="email"
+              label="Email"
               type="text"
               {...form.getInputProps('email')}
             />
@@ -83,11 +81,12 @@ export default function PersonalInformation() {
             color='#1B84FF'
             fullWidth
             type="submit"
+            loading={isLoading}
           >
             Save
           </CustomButton>
         </Box>
       </form>
     </Card>
-  )
+  );
 }

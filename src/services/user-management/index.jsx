@@ -32,7 +32,39 @@ export const usersAPIs = BASE_API.injectEndpoints({
       },
       invalidatesTags: ['USERS'],
     }),
+    updateUserProfile: builder.mutation({
+      query: ({ userId, ...body }) => ({
+        url: `${END_POINTS.UPDATE_PROFILE}/${userId}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['USER_PROFILE'],
+    }),
 
+    updatePassword: builder.mutation({
+      query: (body) => ({
+        url: `${END_POINTS?.CHANGE_PASSWORD}`,
+        method: 'PUT',
+        body,
+      }),
+    }),
+
+    getUserProfile: builder.query({
+      query: (userId) => ({
+        url: `${END_POINTS?.GET_PROFILE}/674b65b49ac1204f8df67d99`,
+        method: 'GET',
+      }),
+      providesTags: ['USER_PROFILE'],
+    }),
+
+    updateProfileImages: builder.mutation({
+      query: (body) => ({
+        url: `${END_POINTS?.UPDATE_PROFILE_IMAGES}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['USER_PROFILE'],
+    }),
   }),
 });
 
@@ -41,4 +73,8 @@ export const {
   useGetUsersQuery,
   useCreateUserMutation,
   useDeleteBulkLocationMutation,
+  useUpdatePersonalInfoMutation,
+  useUpdatePasswordMutation,
+  useGetUserProfileQuery,
+  useUpdateProfileImagesMutation,
 } = usersAPIs;

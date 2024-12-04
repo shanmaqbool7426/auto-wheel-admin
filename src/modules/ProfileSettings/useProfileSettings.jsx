@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
+import { 
+  useGetUserProfileQuery, 
+  useUpdatePersonalInfoMutation 
+} from '@/services/user-management';
 
 export default function useProfileSettings() {
   const phoneRegex = /^(\+92|0)[0-9]{10}$/;
   const emailRegex = /^\S+@\S+\.\S+$/;
 
+  // Get user profile data
+  const { data: profileData, isLoading: isProfileLoading } = useGetUserProfileQuery();
+  const [updateProfile, { isLoading: isUpdating }] = useUpdatePersonalInfoMutation();
+
   const personalInfoForm = useForm({
-    mode: 'uncontrolled',
     initialValues: {
-      firstName: 'JohnDoe',
+      firstName: '',
       lastName: '',
       phoneNumber: '',
       email: '',
@@ -21,12 +29,52 @@ export default function useProfileSettings() {
     },
   });
 
-  const handleSubmitPersonalInformation = (values) => {
-    console.log('formDataPersonalInfo:: ', values);
+
+  console.log(profileData, 'profileData');
+  // Update form when profile data is loaded
+  useEffect(() => {
+    if (profileData) {
+      personalInfoForm.setValues({
+        firstName: profileData.firstName || '',
+        lastName: profileData.lastName || '',
+        phoneNumber: profileData.phone || '',
+        email: profileData.email || '',
+        whatsAppOnThisNumber: profileData.hasWhatsApp || false,
+        showEmail: profileData.showEmail || false,
+      });
+    }
+  }, [profileData]);
+
+  const handleSubmitPersonalInformation = async (values) => {
+    try {
+      await updateProfile({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNumber: values.phoneNumber,
+        email: values.email,
+        hasWhatsApp: values.whatsAppOnThisNumber,
+        showEmail: values.showEmail,
+      }).unwrap();
+
+      notifications.show({
+        title: 'Success',
+        message: 'Profile updated successfully',
+        color: 'green',
+      });
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error.data?.message || 'Failed to update profile',
+        color: 'red',
+      });
+    }
   };
 
   return {
     personalInfoForm,
-    handleSubmitPersonalInformation
+    handleSubmitPersonalInformation,
+    isProfileLoading,
+    isUpdating,
+    profileData
   };
 }

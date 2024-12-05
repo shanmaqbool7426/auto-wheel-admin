@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { 
   useGetTagsQuery,
   useDeleteTagMutation,
-  useDeleteMultipleTagsMutation 
+  useDeleteMultipleTagsMutation,
+  useUpdateTagMutation
 } from '@/services/blog/tags';
 import { notifications } from '@mantine/notifications';
 
@@ -11,15 +12,13 @@ export default function useTags() {
   // State
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
+  const [selectedTag, setSelectedTag] = useState(null);
   const [searchBy, setSearchBy] = useState('');
   const [filterParams, setFilterParams] = useState({
     actions: '',
     sortBy: 'createdAt',
     sortOrder: 'desc',
   });
-
-  // Debounce search
-  // const debouncedSearch = useDebounce(searchBy, 500);
 
   // Query parameters
   const searchParams = {
@@ -34,6 +33,7 @@ export default function useTags() {
   const { data: tagsData, isLoading } = useGetTagsQuery(searchParams);
   const [deleteTag] = useDeleteTagMutation();
   const [deleteMultipleTags] = useDeleteMultipleTagsMutation();
+  const [updateTag, { isLoading: isUpdating }] = useUpdateTagMutation();
 
   // Handlers
   const handleChangeFilter = (name, value) => {
@@ -42,8 +42,38 @@ export default function useTags() {
 
   const handleClickEditRow = (e, id) => {
     e.stopPropagation();
-    setIsTagModalOpen(true);
-    // TODO: Implement edit functionality
+    const tagToEdit = tagsData?.data?.data.find(tag => tag._id === id);
+    if (tagToEdit) {
+      setSelectedTag({
+        ...tagToEdit,
+        id: tagToEdit._id
+      });
+      setIsTagModalOpen(true);
+    }
+  };
+
+  const handleUpdateTag = async (values) => {
+    try {
+      await updateTag({
+        id: selectedTag.id,
+        ...values
+      }).unwrap();
+      
+      notifications.show({
+        title: 'Success',
+        message: 'Tag updated successfully',
+        color: 'green',
+      });
+      
+      setIsTagModalOpen(false);
+      setSelectedTag(null);
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error?.data?.message || 'Failed to update tag',
+        color: 'red',
+      });
+    }
   };
 
   const handleClickDeleteRow = async (e, id) => {
@@ -99,6 +129,8 @@ export default function useTags() {
     setSelectedRecords,
     isTagModalOpen,
     setIsTagModalOpen,
+    selectedTag,
+    setSelectedTag,
     searchBy,
     setSearchBy,
     filterParams,
@@ -106,8 +138,10 @@ export default function useTags() {
     handleClickEditRow,
     handleClickDeleteRow,
     handleBulkAction,
+    handleUpdateTag,
     tags: tagsData?.data?.data.map(tag => ({...tag, id: tag._id})) || [],
     totalTags: tagsData?.data?.total || 0,
     isLoading,
+    isUpdating,
   };
 }

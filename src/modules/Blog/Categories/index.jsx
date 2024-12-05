@@ -6,7 +6,7 @@ import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
 import CustomButton from '@/components/CustomButton';
 import useCategories from './useCategories';
-import { getColumns, categoriesData } from './data';
+import { getColumns } from './data';
 import { IconPlus } from '@/assets/icons';
 import styles from './Categories.module.css';
 import AddCategory from './AddCategory';
@@ -20,23 +20,24 @@ export default function Categories() {
     handleChangeFilter,
     handleClickEditRow,
     handleClickDeleteRow,
-    handleClickDuplicate,
     isCategoryModalOpen,
     setCategoryModalOpen,
+    selectedCategory,
+    setSelectedCategory,
     categories,
     isLoading,
     handleBulkAction,
+    handleUpdateCategory,
   } = useCategories();
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate)
+
+  const columns = getColumns(handleClickEditRow, handleClickDeleteRow);
 
   return (
     <>
       <Box className={styles.filterbar}>
         <Box className={styles.filterbarLeft}>
           <Box className={styles.searchbar}>
-            <Search
-              setSearchBy={setSearchBy}
-            />
+            <Search setSearchBy={setSearchBy} />
           </Box>
           <Box className={styles.dropdown}>
             <FormField
@@ -44,15 +45,10 @@ export default function Categories() {
               name="actions"
               data={[
                 { value: 'delete', label: 'Delete' },
-                { value: 'duplicate', label: 'Duplicate' },
               ]}
               placeholder="Bulk Action"
               checkIconPosition="right"
-            
-              onChange={(_value, option) => {
-                handleBulkAction(option?.value)
-               
-              }}
+              onChange={(_value, option) => handleBulkAction(option?.value)}
             />
           </Box>
         </Box>
@@ -81,8 +77,9 @@ export default function Categories() {
           </Box>
         </Box>
       </Box>
+
       <Box>
-      <DataTable
+        <DataTable
           columns={columns}
           records={categories}
           selection
@@ -92,11 +89,15 @@ export default function Categories() {
         />
       </Box>
 
-      {/* Add New Category Modal */}
       <AddCategory
         open={isCategoryModalOpen}
-        setOnClose={setCategoryModalOpen}
+        setOnClose={(value) => {
+          setCategoryModalOpen(value);
+          setSelectedCategory(null);
+        }}
+        selectedCategory={selectedCategory}
+        onUpdate={handleUpdateCategory}
       />
     </>
-  )
+  );
 }

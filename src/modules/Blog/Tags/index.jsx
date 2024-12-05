@@ -18,6 +18,8 @@ export default function Tags() {
     setSelectedRecords,
     isTagModalOpen,
     setIsTagModalOpen,
+    selectedTag,
+    setSelectedTag,
     searchBy,
     setSearchBy,
     filterParams,
@@ -25,6 +27,7 @@ export default function Tags() {
     handleClickEditRow,
     handleClickDeleteRow,
     handleBulkAction,
+    handleUpdateTag,
     tags,
     isLoading,
   } = useTags();
@@ -91,7 +94,12 @@ export default function Tags() {
 
       <AddTag
         open={isTagModalOpen}
-        setOnClose={setIsTagModalOpen}
+        setOnClose={(value) => {
+          setIsTagModalOpen(value);
+          setSelectedTag(null);
+        }}
+        selectedTag={selectedTag}
+        onUpdate={handleUpdateTag}
       />
     </>
   );

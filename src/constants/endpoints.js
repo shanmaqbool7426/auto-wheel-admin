@@ -1,4 +1,5 @@
 export const END_POINTS = {
+  GET_BLOG_BY_ID: '/blog',
   BLOG_LISTING: '/blog/blog-listing/page/1',
   BLOG_TAGS: '/tag',
   BLOG_SEARCH: '/blog/search',

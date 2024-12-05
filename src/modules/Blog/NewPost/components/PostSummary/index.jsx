@@ -15,8 +15,9 @@ export default function PostSummary({ form, isEdit, authors = [] }) {
   ];
 
   const visibilityOptions = [
-    { value: 'Private', label: 'Private' },
     { value: 'Draft', label: 'Draft' },
+    { value: 'Public', label: 'Public' },
+    { value: 'Private', label: 'Private' },
     { value: 'Scheduled', label: 'Scheduled' },
     ...(isEdit ? [{ value: 'Published', label: 'Published' }] : []),
   ];

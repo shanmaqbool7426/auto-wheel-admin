@@ -5,59 +5,50 @@ import FormField from '@/components/FormField';
 import styles from './PostCategories.module.css';
 
 export default function PostCategories({ form, categoriesData, tagsData, isEdit }) {
-  const categories = categoriesData?.map((category) => ({
-    value: category._id,
-    label: category.name,
-  })) || [];
-
-  const tags = tagsData?.map((tag) => ({
-    value: tag._id,
-    label: tag.name,
-  })) || [];
 
   // Initialize categories and tags when editing
-  useEffect(() => {
-    if (isEdit && form.values) {
-      // Ensure categories are properly set
-      const initialCategories = form.values.categories?.map(catId => {
-        const category = categoriesData?.find(c => c._id === catId);
-        return category ? category._id : null;
-      }).filter(Boolean);
+  // useEffect(() => {
+  //   if (isEdit && form.values) {
+  //     // Ensure categories are properly set
+  //     const initialCategories = form.values.categories?.map(catId => {
+  //       const category = categoriesData?.find(c => c._id === catId);
+  //       return category ? category._id : null;
+  //     }).filter(Boolean);
 
-      // Ensure tags are properly set
-      const initialTags = form.values.tags?.map(tagId => {
-        const tag = tagsData?.find(t => t._id === tagId);
-        return tag ? tag.name : null;
-      }).filter(Boolean);
+  //     // Ensure tags are properly set
+  //     const initialTags = form.values.tags?.map(tagId => {
+  //       const tag = tagsData?.find(t => t._id === tagId);
+  //       return tag ? tag.name : null;
+  //     }).filter(Boolean);
 
-      form.setFieldValue('categories', initialCategories);
-      handleTagChange(initialTags);
-    }
-  }, [isEdit, categoriesData, tagsData]);
+  //     form.setFieldValue('categories', initialCategories);
+  //     handleTagChange(initialTags);
+  //   }
+  // }, [isEdit, categoriesData, tagsData]);
 
-  // Convert IDs to labels for display
-  const getTagLabels = () => {
-    return form.values.tags.map(tagId => {
-      const tag = tagsData?.find(t => t._id === tagId);
-      return tag ? tag.name : tagId;
-    }).filter(Boolean); // Remove any null/undefined values
-  };
+  // // Convert IDs to labels for display
+  // const getTagLabels = () => {
+  //   return form.values.tags.map(tagId => {
+  //     const tag = tagsData?.find(t => t._id === tagId);
+  //     return tag ? tag.name : tagId;
+  //   }).filter(Boolean);
+  // };
 
   // Handle tag changes to store IDs
-  const handleTagChange = (newTagLabels) => {
-    const formattedTags = newTagLabels.map(tagLabel => {
-      const existingTag = tagsData?.find(t => t.name === tagLabel);
-      return existingTag ? existingTag._id : tagLabel;
-    });
-    form.setFieldValue('tags', formattedTags);
-  };
+  // const handleTagChange = (newTagLabels) => {
+  //   const formattedTags = newTagLabels.map(tagLabel => {
+  //     const existingTag = tagsData?.find(t => t.name === tagLabel);
+  //     return existingTag ? existingTag._id : tagLabel;
+  //   });
+  //   form.setFieldValue('tags', formattedTags);
+  // };
 
   // Handle new tag creation
-  const handleCreateTag = (query) => {
-    // You might want to add API call here to create new tag
-    console.log('Creating new tag:', query);
-    return query;
-  };
+  // const handleCreateTag = (query) => {
+  //   // You might want to add API call here to create new tag
+  //   console.log('Creating new tag:', query);
+  //   return query;
+  // };
 
   return (
     <Card title={'Categories'}>
@@ -65,9 +56,36 @@ export default function PostCategories({ form, categoriesData, tagsData, isEdit 
         <Grid.Col span={12}>
           <FormField
             label="Categories"
+            placeholder={"Select Categories"}
+            data={categoriesData}
+            type="multiselect"
+            nothingFoundMessage="Nothing found..."
+            searchable
+            clearable
+            {...form.getInputProps('categories')}
+          />
+        </Grid.Col>
+        <Grid.Col span={12}>
+          <FormField
+            label="Tags"
+            type="tags"
+            placeholder={"Enter tag and press enter"}
+            data={tagsData}
+            nothingFoundMessage="Nothing found..."
+            searchable
+            clearable
+            {...form.getInputProps('tags')}
+            splitChars={[',', ' ', 'Enter']}
+            acceptValueOnBlur
+            maxTags={10}
+          />
+        </Grid.Col>
+        {/* <Grid.Col span={12}>
+          <FormField
+            label="Categories"
             type="select"
             placeholder={isEdit ? "Edit categories" : "Select Categories"}
-            data={categories}
+            data={categoriesData}
             required
             multiple
             searchable
@@ -92,22 +110,24 @@ export default function PostCategories({ form, categoriesData, tagsData, isEdit 
               {form.errors.categories}
             </div>
           )}
-        </Grid.Col>
+        </Grid.Col> */}
 
-        <Grid.Col span={12}>
+        {/* <Grid.Col span={12}>
           <TagsInput
             label="Tags"
             placeholder={isEdit ? "Edit or add new tags" : "Enter tag and press enter"}
-            data={tags?.map(tag => tag.label) || []}
-            value={getTagLabels()}
-            onChange={handleTagChange}
+            data={tagsData}
+            {...form.getInputProps('tags')}
+            // value={getTagLabels()}
+            // onChange={handleTagChange}
             splitChars={[',', ' ', 'Enter']}
+            acceptValueOnBlur
             maxTags={10}
             clearable
             searchable
             creatable
             getCreateLabel={(query) => `+ Create "${query}"`}
-            onCreate={handleCreateTag}
+            // onCreate={handleCreateTag}
             styles={{
               input: {
                 minHeight: '38px',
@@ -130,7 +150,7 @@ export default function PostCategories({ form, categoriesData, tagsData, isEdit 
           <Box mt={5} sx={{ fontSize: '12px', color: 'gray' }}>
             Press Enter or comma to add tags. Maximum 10 tags allowed.
           </Box>
-        </Grid.Col>
+        </Grid.Col> */}
       </Grid>
     </Card>
   );

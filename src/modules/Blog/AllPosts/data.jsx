@@ -62,15 +62,15 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
     title: 'Views',
   },
   {
-    accessor: 'id',
+    accessor: '_id',
     title: 'Actions',
-    render: ({ id }) => {
+    render: ({ _id }) => {
       return (
         <Group justify='left' wrap='nowrap'>
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickEdit(e, id)}
+            onClick={() => onClickEdit(_id)}
           >
             <IconPencil />
           </ActionIcon>
@@ -78,7 +78,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDelete(e, id)}
+            onClick={(e) => onClickDelete(e, _id)}
           >
             <IconTrash />
           </ActionIcon>
@@ -86,7 +86,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDuplicate(e, id)}
+            onClick={(e) => onClickDuplicate(e, _id)}
           >
             <IconDuplicate />
           </ActionIcon>

@@ -51,10 +51,8 @@ export default function useAllPosts() {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleClickEditRow = (e, id) => {
-    e.stopPropagation();
-    console.log('Edit Row', id);
-    alert(`Edit Row ${id}`);
+  const handleClickEditRow = (id) => {
+    router.push(`${PATH_NAME.BLOG_NEW_POSTS}?id=${id}`);
   }
 
   const handleClickDeleteRow = (e, id) => {
@@ -120,6 +118,7 @@ export default function useAllPosts() {
     setSearchBy,
     filterParams,
     handleChangeFilter,
+
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,

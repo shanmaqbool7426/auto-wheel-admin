@@ -35,7 +35,7 @@ export default function TextEditor({ content = '', setContent }) {
         content: styles.content,
       }}
     >
-      <RichTextEditor.Toolbar sticky stickyOffset={60}>
+      <RichTextEditor.Toolbar>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
           <RichTextEditor.Italic />

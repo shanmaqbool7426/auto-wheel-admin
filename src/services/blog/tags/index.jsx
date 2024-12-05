@@ -29,6 +29,14 @@ export const tagsAPIs = BASE_API.injectEndpoints({
       }),
       invalidatesTags: ['TAGS'],
     }),
+    // update tag
+    updateTag: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `${END_POINTS.TAGS}/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+    }),
 
     deleteMultipleTags: builder.mutation({
       query: (ids) => ({
@@ -45,5 +53,6 @@ export const {
   useGetTagsQuery,
   useAddTagMutation,
   useDeleteTagMutation,
-  useDeleteMultipleTagsMutation,
+  useDeleteMultipleTagsMutation,  
+  useUpdateTagMutation,
 } = tagsAPIs;

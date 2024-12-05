@@ -1,26 +1,36 @@
-import React from 'react';
-import { useForm } from '@mantine/form';
+import { useGetUserProfileQuery, useUpdateProfileImagesMutation } from '@/services/user-management';
+import { notifications } from '@mantine/notifications';
 
 export default function useProfileInformation() {
-  const phoneRegex = /^(\+92|0)[0-9]{10}$/;
-  const emailRegex = /^\S+@\S+\.\S+$/;
+  const { data: profile, isLoading } = useGetUserProfileQuery();
+  const [updateImages, { isLoading: isUpdating }] = useUpdateProfileImagesMutation();
 
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      companyName: '',
-      licenseNumber: '',
-      location: '',
-      salesHours: '',
-    },
-  });
+  const handleImageUpdate = async (type, imageFile) => {
+    try {
+      const formData = new FormData();
+      formData.append(type === 'profile' ? 'profileImage' : 'bannerImage', imageFile);
 
-  const handleSubmit = (values) => {
-    console.log('Form Data:: ', values);
+      await updateImages(formData).unwrap();
+      notifications.show({
+        title: 'Success',
+        message: 'Image updated successfully',
+        color: 'green',
+      });
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error.data?.message || 'Failed to update image',
+        color: 'red',
+      });
+    }
   };
 
+
+  console.log('profile>>>',profile)
   return {
-    form,
-    handleSubmit
+    profile,
+    isLoading,
+    isUpdating,
+    handleImageUpdate
   };
 }

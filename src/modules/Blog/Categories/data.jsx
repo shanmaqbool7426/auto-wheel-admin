@@ -29,7 +29,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
     accessor: '_id',
     title: 'Actions',
     textAlign: 'center',
-    render: ({ id }) => {
+    render: ({ id, slug }) => {
       return (
         <Group justify='center' wrap='nowrap'>
           <ActionIcon
@@ -51,7 +51,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDuplicate(e, id)}
+            onClick={() => window.location.href = `https://new-auto-wheel.netlify.app/blog/${slug}`}
           >
             <IconEye />
           </ActionIcon>

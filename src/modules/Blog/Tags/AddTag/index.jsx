@@ -5,16 +5,22 @@ import { Grid } from '@mantine/core'
 import FormField from '@/components/FormField'
 import CustomButton from '@/components/CustomButton'
 
-export default function AddTag({ open, setOnClose }) {
+export default function AddTag({ open, setOnClose, selectedTag, onUpdate }) {
   const {
     form,
     handleSubmit,
+    handleNameChange,
+    handleSlugChange,
     isLoading,
-  } = useAddTag({ onClose: () => setOnClose(false) });
+  } = useAddTag({ 
+    handleClose: () => setOnClose(false),
+    selectedTag,
+    onUpdate 
+  });
 
   return (
     <CustomModal
-      title="New Tag"
+      title={selectedTag ? "Edit Tag" : "New Tag"}
       open={open}
       onClose={() => {
         setOnClose(false);
@@ -29,14 +35,16 @@ export default function AddTag({ open, setOnClose }) {
               type="text"
               placeholder="Enter tag name"
               {...form.getInputProps('name')}
+              onChange={handleNameChange}
             />
           </Grid.Col>
           <Grid.Col span={12}>
             <FormField
               label="Slug:"
               type="text"
-              placeholder="Enter tag slug"
+              placeholder="Enter slug or it will be generated automatically"
               {...form.getInputProps('slug')}
+              onChange={handleSlugChange}
             />
           </Grid.Col>
           <Grid.Col span={12}>
@@ -56,7 +64,10 @@ export default function AddTag({ open, setOnClose }) {
               loading={isLoading}
               disabled={isLoading}
             >
-              {isLoading ? 'Adding Tag...' : 'Add New Tag'}
+              {isLoading 
+                ? (selectedTag ? 'Updating...' : 'Adding...') 
+                : (selectedTag ? 'Update Tag' : 'Add New Tag')
+              }
             </CustomButton>
           </Grid.Col>
         </Grid>

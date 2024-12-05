@@ -8,7 +8,7 @@ import CustomButton from '@/components/CustomButton';
 // import buttonStyles from '@/styles/user-dashboard/button.module.css';
 import styles from './ChangePassword.module.css';
 
-export default function ChangePassword() {
+export default function ChangePassword({userId}) {
 
   const {
     form,
@@ -19,7 +19,7 @@ export default function ChangePassword() {
     <Card title="Change Password">
       <form
         onSubmit={
-          form.onSubmit((values) => handleSubmit(values))
+          form.onSubmit((values) => handleSubmit(values,userId))
         }
       >
         <Grid gutter="20px">

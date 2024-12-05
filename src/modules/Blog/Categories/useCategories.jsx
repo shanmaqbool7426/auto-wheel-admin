@@ -3,24 +3,22 @@ import { useState } from 'react';
 import { 
   useGetCategoriesQuery,
   useDeleteCategoryMutation,
-  useDeleteMultipleCategoriesMutation
+  useDeleteMultipleCategoriesMutation,
+  useUpdateCategoryMutation
 } from '@/services/blog/categories';
 import { notifications } from '@mantine/notifications';
 
 export default function useCategories() {
-  // State
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchBy, setSearchBy] = useState('');
   const [isCategoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [filterParams, setFilterParams] = useState({
     actions: '',
     news: '',
     date: '',
   });
 
-console.log('isCategoryModalOpen',isCategoryModalOpen)
-
-  // Query parameters
   const searchParams = {
     sortBy: 'createdAt',
     sortOrder: filterParams.date === 'oldToNew' ? 'asc' : 'desc',
@@ -29,22 +27,29 @@ console.log('isCategoryModalOpen',isCategoryModalOpen)
     search: searchBy || undefined,
   };
 
-  // API Hooks
   const { data: categoriesData, isLoading } = useGetCategoriesQuery(searchParams);
   const [deleteCategory] = useDeleteCategoryMutation();
   const [deleteMultipleCategories] = useDeleteMultipleCategoriesMutation();
+  const [updateCategory, { isLoading: isUpdating }] = useUpdateCategoryMutation();
 
-  // Handlers
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
   const handleClickEditRow = (e, id) => {
     e.stopPropagation();
-    // TODO: Implement edit functionality
-    setCategoryModalOpen(true);
+    const categoryToEdit = categoriesData?.data?.data.find(cat => cat._id === id);
+    if (categoryToEdit) {
+      setSelectedCategory({
+        ...categoryToEdit,
+        id: categoryToEdit._id
+      });
+      setCategoryModalOpen(true);
+    }
   };
 
+
+  console.log('selectedCategory',selectedCategory)
   const handleClickDeleteRow = async (e, id) => {
     e.stopPropagation();
     try {
@@ -63,10 +68,31 @@ console.log('isCategoryModalOpen',isCategoryModalOpen)
     }
   };
 
-  const handleBulkAction = async (action) => {
-    console.log('actionaction', action);
+  const handleUpdateCategory = async (values) => {
+    try {
+      await updateCategory({
+        id: selectedCategory.id,
+        ...values
+      }).unwrap();
+      
+      notifications.show({
+        title: 'Success',
+        message: 'Category updated successfully',
+        color: 'green',
+      });
+      
+      setCategoryModalOpen(false);
+      setSelectedCategory(null);
+    } catch (error) {
+      notifications.show({
+        title: 'Error',
+        message: error?.data?.message || 'Failed to update category',
+        color: 'red',
+      });
+    }
+  };
 
-    
+  const handleBulkAction = async (action) => {
     if (!selectedRecords.length) {
       notifications.show({
         title: 'Warning',
@@ -105,29 +131,27 @@ console.log('isCategoryModalOpen',isCategoryModalOpen)
   };
 
   return {
-    // Data
     categories: categoriesData?.data?.data.map(category => ({
       ...category,
       id: category._id
     })) || [],
     totalCategories: categoriesData?.data?.total || 0,
     isLoading,
-    
-    // State
+    isUpdating,
     isCategoryModalOpen,
     setCategoryModalOpen,
+    selectedCategory,
+    setSelectedCategory,
     selectedRecords,
     setSelectedRecords,
     searchBy,
     setSearchBy,
     filterParams,
-    
-    // Handlers
     handleChangeFilter,
     handleClickEditRow,
     handleClickDeleteRow,
     handleSelectAll,
     handleBulkAction,
-    
+    handleUpdateCategory,
   };
 }

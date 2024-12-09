@@ -9,10 +9,8 @@ import { useGetStatusCountsQuery } from "@/services/blog/posts";
 export default function AllPostsLayout({ children }) {
   const params = useParams();
   const router = useRouter();
-  const {data:statusCountsData} = useGetStatusCountsQuery()
+  const { data: statusCountsData } = useGetStatusCountsQuery()
 
-
-  console.log('statusCountsData:::for: ', statusCountsData?.data)
   return (
     <>
       <Tabs

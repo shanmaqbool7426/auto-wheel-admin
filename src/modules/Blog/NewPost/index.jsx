@@ -78,7 +78,7 @@ export default function NewPost() {
           </Grid.Col>
         </Grid>
       </form>
-      {loadingPostDetails && <PageLoader />}
+      {loadingPostDetails && <PageLoader height={'calc(100vh - 80px)'} />}
     </Box>
     // </ErrorBoundary>
   );

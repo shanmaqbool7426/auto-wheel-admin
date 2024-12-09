@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { RichTextEditor, Link } from '@mantine/tiptap';
@@ -25,6 +26,12 @@ export default function TextEditor({ content = '', setContent }) {
       setContent(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   return (
     <RichTextEditor

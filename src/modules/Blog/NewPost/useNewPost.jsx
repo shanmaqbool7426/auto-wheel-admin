@@ -103,8 +103,8 @@ export default function useNewPost() {
         }
       });
 
-      if (initialPost) {
-        formData.append('id', initialPost.id);
+      if (postId) {
+        formData.append('id', postId);
         await updatePost(formData).unwrap();
         showNotification({
           title: 'Success',

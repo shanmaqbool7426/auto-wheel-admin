@@ -1,0 +1,25 @@
+.title {
+  font-size: 16px;
+  line-height: 1;
+  color: #333;
+}
+
+.value {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000000;
+  margin-top: 8px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.footerDay {
+  font-size: 14px;
+  line-height: 1;
+  color: #919191;
+}

@@ -1,157 +1,203 @@
 'use client';
-import { useState } from 'react';
-import { 
+import { useState, useEffect } from 'react';
+import {
   useGetCategoriesQuery,
   useDeleteCategoryMutation,
   useDeleteMultipleCategoriesMutation,
-  useUpdateCategoryMutation
+  useUpdateCategoryMutation,
+  useAddCategoryMutation
 } from '@/services/blog/categories';
-import { notifications } from '@mantine/notifications';
+import { PAGE_SIZE } from '@/constants/pagination';
+import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
+import { generateSlug } from '@/utils';
+import { useForm } from '@mantine/form';
 
 export default function useCategories() {
+  const [page, setPage] = useState(1);
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [searchBy, setSearchBy] = useState('');
-  const [isCategoryModalOpen, setCategoryModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [filterParams, setFilterParams] = useState({
-    actions: '',
-    news: '',
-    date: '',
-  });
-
-  const searchParams = {
+  const initParams = {
     sortBy: 'createdAt',
-    sortOrder: filterParams.date === 'oldToNew' ? 'asc' : 'desc',
-    page: 1,
-    limit: 10,
-    search: searchBy || undefined,
-  };
+    sortOrder: 'desc',
+    page,
+    limit: PAGE_SIZE,
+  }
+  const [filterParams, setFilterParams] = useState(initParams);
+  const { data: categoriesData, isLoading, isFetching } = useGetCategoriesQuery(filterParams);
+  // Search query parameters
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, search: searchBy }));
+  }, [searchBy]);
 
-  const { data: categoriesData, isLoading } = useGetCategoriesQuery(searchParams);
-  const [deleteCategory] = useDeleteCategoryMutation();
-  const [deleteMultipleCategories] = useDeleteMultipleCategoriesMutation();
-  const [updateCategory, { isLoading: isUpdating }] = useUpdateCategoryMutation();
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, page: page }));
+  }, [page]);
 
+  // handle change sortOrder
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleClickEditRow = (e, id) => {
-    e.stopPropagation();
-    const categoryToEdit = categoriesData?.data?.data.find(cat => cat._id === id);
-    if (categoryToEdit) {
-      setSelectedCategory({
-        ...categoryToEdit,
-        id: categoryToEdit._id
+  // Add/Edit Category
+  const categoriesList = categoriesData?.data?.data?.map((category) => ({
+    value: category._id,
+    label: category.name,
+  })) || [];
+  const [catgData, setCatgData] = useState(null);
+  const [openModalAddCatg, setOpenModalAddCatg] = useState(false);
+  const [modalTitle, setModalTitle] = useState('New Category');
+  const [addCategory, { isLoading: loadingAddCatg }] = useAddCategoryMutation();
+  const [updateCategory, { isLoading: loadingUpdateCatg }] = useUpdateCategoryMutation();
+
+  const formAddCatg = useForm({
+    initialValues: {
+      name: '',
+      slug: '',
+      parentCategory: null,
+      description: '',
+    },
+    validate: {
+      name: (value) => (!value ? 'Name is required' : null),
+    },
+  });
+
+  useEffect(() => {
+    if (catgData) {
+      formAddCatg.setValues({
+        name: catgData.name || '',
+        slug: catgData.slug || '',
+        parentCategory: catgData.parentCategory?._id || null,
+        description: catgData.description || '',
       });
-      setCategoryModalOpen(true);
+    }
+  }, [catgData]);
+
+  const handleOpenModalAddCatg = (title, data) => {
+    setModalTitle(title);
+    setCatgData(data);
+    setOpenModalAddCatg(true);
+  }
+  const handleCloseModalAddCatg = () => {
+    setOpenModalAddCatg(false);
+    formAddCatg.reset();
+  }
+
+  const handleSubmitAddCatg = async (values) => {
+    const slugValue = values?.slug === '' ? generateSlug(values?.name) : generateSlug(values?.slug);
+    const payload = {
+      name: values?.name,
+      slug: slugValue,
+      parentCategory: values?.parentCategory,
+      description: values?.description,
+    };
+    if (modalTitle === 'Edit Category') {
+      try {
+        await updateCategory({
+          id: catgData?._id,
+          body: payload
+        }).unwrap();
+        handleCloseModalAddCatg();
+        successSnackbar('Category updated successfully.');
+      } catch (error) {
+        errorSnackbar(error?.data?.message);
+      }
+    } else {
+      try {
+        await addCategory(payload).unwrap();
+        successSnackbar('Category added successfully.');
+        handleCloseModalAddCatg();
+      } catch (error) {
+        errorSnackbar(error?.data?.message);
+      }
     }
   };
 
-
-  console.log('selectedCategory',selectedCategory)
-  const handleClickDeleteRow = async (e, id) => {
-    e.stopPropagation();
-    try {
-      await deleteCategory(id).unwrap();
-      notifications.show({
-        title: 'Success',
-        message: 'Category deleted successfully',
-        color: 'green',
-      });
-    } catch (error) {
-      notifications.show({
-        title: 'Error',
-        message: error?.data?.message || 'Something went wrong',
-        color: 'red',
-      });
-    }
+  // Delete bulk
+  const [openBulkDeleteModal, setOpenBulkDeleteModal] = useState(false);
+  const [deleteMultipleCategories, { isLoading: loadingBulkDelete }] = useDeleteMultipleCategoriesMutation();
+  const handleOpenBulkDeleteModal = () => {
+    setOpenBulkDeleteModal(true);
   };
 
-  const handleUpdateCategory = async (values) => {
-    try {
-      await updateCategory({
-        id: selectedCategory.id,
-        ...values
-      }).unwrap();
-      
-      notifications.show({
-        title: 'Success',
-        message: 'Category updated successfully',
-        color: 'green',
-      });
-      
-      setCategoryModalOpen(false);
-      setSelectedCategory(null);
-    } catch (error) {
-      notifications.show({
-        title: 'Error',
-        message: error?.data?.message || 'Failed to update category',
-        color: 'red',
-      });
-    }
+  const handleCloseBulkDeleteModal = () => {
+    setOpenBulkDeleteModal(false);
   };
 
   const handleBulkAction = async (action) => {
-    if (!selectedRecords.length) {
-      notifications.show({
-        title: 'Warning',
-        message: 'Please select at least one category',
-        color: 'yellow',
-      });
-      return;
-    }
-
-    try {
-      if (action === 'delete') {
-        const ids = selectedRecords.map(item => item.id);
-        await deleteMultipleCategories(ids).unwrap();
-        notifications.show({
-          title: 'Success',
-          message: 'Categories deleted successfully',
-          color: 'green',
-        });
-        setSelectedRecords([]);
-      }
-    } catch (error) {
-      notifications.show({
-        title: 'Error',
-        message: error?.data?.message || 'Something went wrong',
-        color: 'red',
-      });
+    if (action === 'delete') {
+      handleOpenBulkDeleteModal();
     }
   };
 
-  const handleSelectAll = (checked, categories) => {
-    if (checked) {
-      setSelectedRecords(categories.map(category => ({ id: category._id })));
-    } else {
+  const handleBulkDeleteCategories = async () => {
+    try {
+      await deleteMultipleCategories(selectedRecords.map(item => item?._id)).unwrap();
+      handleCloseBulkDeleteModal();
       setSelectedRecords([]);
+      successSnackbar('Categories deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting comments:', error);
+      errorSnackbar(error.data.message);
+    }
+  };
+
+  // Delete Single
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [deleteCategory, { isLoading: loadingDelete }] = useDeleteCategoryMutation();
+
+  const handleOpenModalDelete = (id) => {
+    setSelectedId(id);
+    setOpenModalDelete(true);
+  }
+  const handleCloseModalDelete = () => {
+    setSelectedId(null);
+    setOpenModalDelete(false);
+  }
+  const handleSubmitDelete = async () => {
+    try {
+      await deleteCategory(selectedId).unwrap();
+      successSnackbar('Category deleted successfully.');
+      handleCloseModalDelete();
+    } catch (error) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
   return {
-    categories: categoriesData?.data?.data.map(category => ({
-      ...category,
-      id: category._id
-    })) || [],
-    totalCategories: categoriesData?.data?.total || 0,
+    page,
+    setPage,
     isLoading,
-    isUpdating,
-    isCategoryModalOpen,
-    setCategoryModalOpen,
-    selectedCategory,
-    setSelectedCategory,
+    isFetching,
+    categoriesData,
     selectedRecords,
     setSelectedRecords,
-    searchBy,
     setSearchBy,
     filterParams,
     handleChangeFilter,
-    handleClickEditRow,
-    handleClickDeleteRow,
-    handleSelectAll,
+
+    // Delete Single
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    loadingDelete,
+    handleSubmitDelete,
+
+    // Delete Bulk
+    loadingBulkDelete,
+    openBulkDeleteModal,
+    handleCloseBulkDeleteModal,
     handleBulkAction,
-    handleUpdateCategory,
+    handleBulkDeleteCategories,
+
+    // Add/Edit Category
+    categoriesList,
+    modalTitle,
+    openModalAddCatg,
+    handleOpenModalAddCatg,
+    handleCloseModalAddCatg,
+    formAddCatg,
+    loadingAddModal: loadingAddCatg || loadingUpdateCatg,
+    handleSubmitAddCatg,
   };
 }

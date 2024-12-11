@@ -1,39 +1,18 @@
 import React from 'react'
 import CustomModal from '@/components/CustomModal'
-import useAddCategory from './useAddCategory'
 import { Grid } from '@mantine/core'
 import FormField from '@/components/FormField'
 import CustomButton from '@/components/CustomButton'
 import useCategories from '../useCategories'
 
-export default function AddCategory({ open, setOnClose, selectedCategory, onUpdate }) {
-  const { categories } = useCategories();
-  
-  const {
-    form,
-    handleSubmit,
-    handleNameChange,
-    handleSlugChange,
-    isLoading,
-  } = useAddCategory({ 
-    handleClose: () => setOnClose(false),
-    selectedCategory,
-    onUpdate 
-  });
-
-  const categoriesList = categories?.map((category) => ({
-    value: category._id,
-    label: category.name,
-  })) || [];
+export default function AddCategory({ title, open, onClose, form, handleSubmit, isLoading }) {
+  const { categoriesList } = useCategories();
 
   return (
     <CustomModal
-      title={selectedCategory ? "Edit Category" : "New Category"}
+      title={title}
       open={open}
-      onClose={() => {
-        setOnClose(false);
-        form.reset();
-      }}
+      onClose={onClose}
     >
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid gutter="30px">
@@ -43,7 +22,6 @@ export default function AddCategory({ open, setOnClose, selectedCategory, onUpda
               type="text"
               placeholder="Enter category name"
               {...form.getInputProps('name')}
-              onChange={handleNameChange}
             />
           </Grid.Col>
           <Grid.Col span={12}>
@@ -52,7 +30,6 @@ export default function AddCategory({ open, setOnClose, selectedCategory, onUpda
               type="text"
               placeholder="Enter slug or it will be generated automatically"
               {...form.getInputProps('slug')}
-              onChange={handleSlugChange}
             />
           </Grid.Col>
           <Grid.Col span={12}>
@@ -74,16 +51,16 @@ export default function AddCategory({ open, setOnClose, selectedCategory, onUpda
             />
           </Grid.Col>
           <Grid.Col span={12}>
-            <CustomButton 
-              color='#1B84FF' 
-              fullWidth 
+            <CustomButton
+              color='#1B84FF'
+              fullWidth
               type='submit'
               loading={isLoading}
               disabled={isLoading}
             >
-              {isLoading 
-                ? (selectedCategory ? 'Updating...' : 'Adding...') 
-                : (selectedCategory ? 'Update Category' : 'Add New Category')
+              {isLoading
+                ? (title === 'Edit Category' ? 'Updating...' : 'Adding...')
+                : (title === 'Edit Category' ? 'Update Category' : 'Add New Category')
               }
             </CustomButton>
           </Grid.Col>

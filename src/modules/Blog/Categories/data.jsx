@@ -5,7 +5,7 @@ import { ActionIcon, Group, Box } from '@mantine/core';
 import { ImgPostVehicle } from '@/assets/images';
 import { IconEye, IconTrash, IconPencil } from '@/assets/icons';
 
-export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
+export const getColumns = (onClickEdit, onClickDelete) => [
   {
     accessor: 'name',
     title: 'Name',
@@ -13,12 +13,10 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
   {
     accessor: 'description',
     title: 'Description',
-    textAlign: 'center',
   },
   {
     accessor: 'slug',
     title: 'Slug',
-    textAlign: 'center',
   },
   {
     accessor: 'count',
@@ -29,13 +27,13 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
     accessor: '_id',
     title: 'Actions',
     textAlign: 'center',
-    render: ({ id, slug }) => {
+    render: (data) => {
       return (
         <Group justify='center' wrap='nowrap'>
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickEdit(e, id)}
+            onClick={(e) => onClickEdit('Edit Category', data)}
           >
             <IconPencil />
           </ActionIcon>
@@ -43,7 +41,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDelete(e, id)}
+            onClick={() => onClickDelete(data._id)}
           >
             <IconTrash />
           </ActionIcon>
@@ -51,7 +49,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={() => window.location.href = `https://new-auto-wheel.netlify.app/blog/${slug}`}
+            onClick={() => window.location.href = `https://new-auto-wheel.netlify.app/blog/${data?.slug}`}
           >
             <IconEye />
           </ActionIcon>

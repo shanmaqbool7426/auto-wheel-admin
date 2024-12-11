@@ -22,8 +22,7 @@ export const categoriesAPIs = BASE_API.injectEndpoints({
     }),
 
     updateCategory: builder.mutation({
-      query(data) {
-        const { id, ...body } = data;
+      query({ id, body }) {
         return {
           url: `${END_POINTS.UPDATE_CATEGORY}/${id}`,
           method: 'PUT',
@@ -34,15 +33,15 @@ export const categoriesAPIs = BASE_API.injectEndpoints({
     }),
     // bulk delete
     deleteMultipleCategories: builder.mutation({
-        query(ids) {
-          return {
-            url: `${END_POINTS.DELETE_MULTIPLE_CATEGORIES}`,
-            method: 'POST', // Changed from DELETE to POST
-            body: { ids },
-          };
-        },
-        invalidatesTags: ['CATEGORIES'],
-      }),
+      query(ids) {
+        return {
+          url: `${END_POINTS.DELETE_MULTIPLE_CATEGORIES}`,
+          method: 'POST', // Changed from DELETE to POST
+          body: { ids },
+        };
+      },
+      invalidatesTags: ['CATEGORIES'],
+    }),
 
     deleteCategory: builder.mutation({
       query(id) {
@@ -63,4 +62,4 @@ export const {
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
   useDeleteMultipleCategoriesMutation,
-    } = categoriesAPIs;
+} = categoriesAPIs;

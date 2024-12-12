@@ -28,4 +28,7 @@ export { default as IconTypeVideo } from './file-manager/IconTypeVideo';
 export { default as IconTypeMusic } from './file-manager/IconTypeMusic';
 export { default as IconTypeDocument } from './file-manager/IconTypeDocument';
 export { default as IconTypeFolder } from './file-manager/IconTypeFolder';
-
+export { default as IconCalendarBlue } from './common/IconCalendarBlue';
+export { default as IconDecrement } from './common/IconDecrement';
+export { default as IconIncrement } from './common/IconIncrement';
+export { default as IconArrowRightRed } from './common/IconArrowRightRed';

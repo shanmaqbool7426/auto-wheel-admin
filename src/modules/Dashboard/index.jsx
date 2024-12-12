@@ -1,19 +1,31 @@
 'use client';
 import React from 'react';
 import { Box, Grid } from '@mantine/core';
-import OverviewCard from './OverviewCard';
+import OverviewSection from './OverviewSection';
+import LocationBaseUser from './LocationBaseUser';
+import TopPerformingPost from './TopPerformingPost';
+import UserReviews from './UserReviews';
+import LatestNotificationPost from './LatestNotificationPost';
 
 export default function Dashboard() {
   return (
     <Box>
-      <Grid>
-        <Grid.Col span={3}>
-          <OverviewCard
-            title="Visitors"
-            value="130"
-          />
-        </Grid.Col>
-      </Grid>
+      <OverviewSection />
+
+      <LocationBaseUser />
+
+      <TopPerformingPost />
+
+      <section style={{ paddingTop: '24px' }}>
+        <Grid>
+          <Grid.Col span={6}>
+            <UserReviews />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <LatestNotificationPost />
+          </Grid.Col>
+        </Grid>
+      </section>
     </Box>
   )
 }

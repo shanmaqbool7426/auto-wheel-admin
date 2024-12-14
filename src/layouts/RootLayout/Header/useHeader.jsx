@@ -18,6 +18,7 @@ export default function useHeader() {
       [PATH_NAME.BLOG_CATEGORY]: 'Category',
       [PATH_NAME.BLOG_TAG]: 'Tag',
       [PATH_NAME.COMMENTS]: 'Comments',
+      [PATH_NAME.MAKES]: 'Makes',
       [`${PATH_NAME.COMMENTS}/${activeTab}`]: 'Comments',
       [PATH_NAME.LOCATION]: 'Location',
       [PATH_NAME.USER_MANAGEMENT_USERS_LIST]: 'User List',

@@ -5,6 +5,7 @@ export const PATH_NAME = {
   BLOG_CATEGORY: '/blog/category',
   BLOG_TAG: '/blog/tags',
   COMMENTS: '/comments',
+  MAKES: '/make',
   LOCATION: '/location',
   USER_MANAGEMENT_USERS_LIST: '/user-management/users-list',
   USER_MANANAEMENT_USER_ROLES: '/user-management/user-roles',

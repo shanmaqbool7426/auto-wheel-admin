@@ -39,4 +39,7 @@ export const END_POINTS = {
   // Comment endpoints
   COMMENTS: '/comment/filtered',
   COMMENTS_DELETE: '/comment/bulk-delete',
+  // Make endpoints
+  MAKE: '/browes-by-make',
+  MAKE_DELETE: '/make/bulk-delete',
 }

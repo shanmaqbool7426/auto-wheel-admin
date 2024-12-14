@@ -24,6 +24,7 @@ export const navMenu = [
   },
   { label: 'Comments', href: PATH_NAME.COMMENTS, icon: IconMenuComments },
   { label: 'Location', href: PATH_NAME.LOCATION, icon: IconMenuLocation },
+  { label: 'Makes', href: PATH_NAME.MAKES, icon: IconMenuLocation },
   {
     label: 'User Management', href: PATH_NAME.USER_MANAGEMENT_USERS_LIST, icon: IconMenuUserManagement,
     links: [

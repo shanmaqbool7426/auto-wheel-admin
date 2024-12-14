@@ -4,7 +4,7 @@ import {
   IconAlertTriangle,
   IconAlertHexagon
 } from '@tabler/icons-react';
-import styles from './Snackbar.module.css';
+import styles from './snackbar.module.css';
 import { Box } from '@mantine/core';
 
 const position = 'top-center';

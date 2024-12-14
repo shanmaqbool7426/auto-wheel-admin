@@ -9,6 +9,7 @@ import { Box } from '@mantine/core';
 
 const position = 'top-center';
 
+
 export const errorSnackbar = (message) => {
 
   notifications.show({

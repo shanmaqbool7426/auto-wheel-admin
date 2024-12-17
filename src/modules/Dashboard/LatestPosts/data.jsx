@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { ActionIcon, Group, Box } from '@mantine/core';
 import Image from 'next/image';
-import styles from './TopPerformingPost.module.css';
+import styles from './LatestPosts.module.css';
 import { ImgPostVehicle } from '@/assets/images';
 
 export const columns = [
@@ -43,8 +43,8 @@ export const columns = [
     title: 'Type',
   },
   {
-    accessor: 'price',
-    title: 'Price',
+    accessor: 'user',
+    title: 'User',
   },
   {
     accessor: 'views',
@@ -69,15 +69,15 @@ export const columns = [
   },
 ]
 
-export const followersData = [
+export const data = [
   {
     id: "6f9sd34969a0f1",
     title: "USED 2.0 L 2020 KIA Picanto...",
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "20,000",
+    user: 'John Doe',
+    type: "Car",
     views: "100",
     clicks: "200",
     status: 'active',
@@ -88,11 +88,11 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
+    user: 'John Doe',
+    type: "Car",
     views: "98",
     clicks: "154",
-    status: 'active',
+    status: 'pending',
   },
   {
     id: "6f9sd34969a0f3",
@@ -100,8 +100,8 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
+    user: 'John Doe',
+    type: "Car",
     views: "98",
     clicks: "154",
     status: 'active',
@@ -112,11 +112,11 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
+    user: 'John Doe',
+    type: "Car",
     views: "98",
     clicks: "154",
-    status: 'active',
+    status: 'pending',
   },
   {
     id: "6f9sd34969a0f5",
@@ -124,11 +124,11 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
+    user: 'John Doe',
+    type: "Car",
     views: "98",
     clicks: "154",
-    status: 'pending',
+    status: 'active',
   },
   {
     id: "6f9sd34969a0f6",
@@ -136,8 +136,8 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
+    user: 'John Doe',
+    type: "Car",
     views: "98",
     clicks: "154",
     status: 'active',

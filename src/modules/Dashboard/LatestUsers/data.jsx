@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { ActionIcon, Group, Box } from '@mantine/core';
 import Image from 'next/image';
-import styles from './TopPerformingPost.module.css';
+import styles from './LatestUsers.module.css';
 import { ImgPostVehicle } from '@/assets/images';
 
 export const columns = [
@@ -39,48 +39,41 @@ export const columns = [
     },
   },
   {
-    accessor: 'type',
-    title: 'Type',
+    accessor: 'email',
+    title: 'Email',
   },
   {
-    accessor: 'price',
-    title: 'Price',
+    accessor: 'followers',
+    title: 'Followers',
   },
   {
-    accessor: 'views',
-    title: 'Views',
+    accessor: 'location',
+    title: 'Location',
   },
   {
-    accessor: 'clicks',
-    title: 'Clicks',
+    accessor: 'activeAds',
+    title: 'Active Ads',
+    textAlign: 'center',
   },
   {
-    accessor: 'status',
-    title: 'Status',
-    render: ({ status }) => {
-      return (
-        <>
-          <Box className={styles.statusBadge} style={{ backgroundColor: status === 'active' ? '#4CB64A' : '#F9C643' }}>
-            {status === 'active' ? 'Active' : 'Pending'}
-          </Box>
-        </>
-      )
-    },
+    accessor: 'pendingAds',
+    title: 'Pending Ads',
+    textAlign: 'center',
   },
 ]
 
-export const followersData = [
+export const data = [
   {
     id: "6f9sd34969a0f1",
     title: "USED 2.0 L 2020 KIA Picanto...",
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "20,000",
-    views: "100",
-    clicks: "200",
-    status: 'active',
+    followers: '1325',
+    email: "abc@gmail.com",
+    location: "Perth",
+    activeAds: "154",
+    pendingAds: '400',
   },
   {
     id: "6f9sd34969a0f2",
@@ -88,11 +81,11 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
-    views: "98",
-    clicks: "154",
-    status: 'active',
+    followers: '1325',
+    email: "abc@gmail.com",
+    location: "Sydney",
+    activeAds: "154",
+    pendingAds: '300',
   },
   {
     id: "6f9sd34969a0f3",
@@ -100,11 +93,11 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
-    views: "98",
-    clicks: "154",
-    status: 'active',
+    followers: '1325',
+    email: "abc@gmail.com",
+    location: "Perth",
+    activeAds: "154",
+    pendingAds: '300',
   },
   {
     id: "6f9sd34969a0f4",
@@ -112,11 +105,11 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
-    views: "98",
-    clicks: "154",
-    status: 'active',
+    followers: '1325',
+    email: "abc@gmail.com",
+    location: "Perth",
+    activeAds: "154",
+    pendingAds: '200',
   },
   {
     id: "6f9sd34969a0f5",
@@ -124,11 +117,11 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
-    views: "98",
-    clicks: "154",
-    status: 'pending',
+    followers: '1325',
+    email: "abc@gmail.com",
+    location: "Perth",
+    activeAds: "154",
+    pendingAds: '200',
   },
   {
     id: "6f9sd34969a0f6",
@@ -136,10 +129,10 @@ export const followersData = [
     model: "2016 Ford Escape",
     image: ImgPostVehicle,
     createdDate: new Date(),
-    type: 'Car',
-    price: "$ 20,000",
-    views: "98",
-    clicks: "154",
-    status: 'active',
+    followers: '1325',
+    email: "abc@gmail.com",
+    location: "Perth",
+    activeAds: "154",
+    pendingAds: '300',
   },
 ]

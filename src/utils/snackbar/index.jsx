@@ -1,6 +1,6 @@
 import { notifications } from '@mantine/notifications';
-
 const position = 'top-center';
+
 
 export const errorSnackbar = (message) => {
 

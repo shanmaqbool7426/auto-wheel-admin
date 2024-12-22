@@ -266,23 +266,23 @@ export const useAddVehicle = () => {
   });
 
     // Function to recursively merge edit data with initial values
-    const mergeWithInitialValues = (initial, edit) => {
-      if (!edit) return initial;
+    // const mergeWithInitialValues = (initial, edit) => {
+    //   if (!edit) return initial;
   
-      const merged = { ...initial };
+    //   const merged = { ...initial };
       
-      Object.keys(initial).forEach(key => {
-        if (edit.hasOwnProperty(key)) {
-          if (typeof initial[key] === 'object' && !Array.isArray(initial[key]) && initial[key] !== null) {
-            merged[key] = mergeWithInitialValues(initial[key], edit[key]);
-          } else {
-            merged[key] = edit[key];
-          }
-        }
-      });
+    //   Object.keys(initial).forEach(key => {
+    //     if (edit.hasOwnProperty(key)) {
+    //       if (typeof initial[key] === 'object' && !Array.isArray(initial[key]) && initial[key] !== null) {
+    //         merged[key] = mergeWithInitialValues(initial[key], edit[key]);
+    //       } else {
+    //         merged[key] = edit[key];
+    //       }
+    //     }
+    //   });
   
-      return merged;
-    };
+    //   return merged;
+    // };
     
   
   const handleSubmit = (values) => {

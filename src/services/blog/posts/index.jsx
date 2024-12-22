@@ -13,6 +13,14 @@ export const postAPIs = BASE_API.injectEndpoints({
       providesTags: ['BLOG_POSTS'],
     }),
 
+    getPostById: builder.query({
+      query: (id) => ({
+        url: `${END_POINTS.GET_BLOG_BY_ID}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['BLOG_POSTS'],
+    }),
+
     searchPosts: builder.query({
       query: (params) => ({
         url: `${END_POINTS.BLOG_SEARCH}`,
@@ -109,6 +117,7 @@ export const postAPIs = BASE_API.injectEndpoints({
 
 export const {
   useGetPostsQuery,
+  useGetPostByIdQuery,
   useSearchPostsQuery,
   useGetCategoriesQuery,
   useGetTagsQuery,

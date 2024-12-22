@@ -7,18 +7,18 @@ import { notifications } from '@mantine/notifications';
 export const generateSlug = (text) => {
   return text
     ? text
-        .toString()
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, '-')        // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')    // Remove all non-word chars
-        .replace(/\-\-+/g, '-')      // Replace multiple - with single -
-        .replace(/^-+/, '')          // Trim - from start of text
-        .replace(/-+$/, '')          // Trim - from end of text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')        // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')    // Remove all non-word chars
+      .replace(/\-\-+/g, '-')      // Replace multiple - with single -
+      .replace(/^-+/, '')          // Trim - from start of text
+      .replace(/-+$/, '')          // Trim - from end of text
     : '';
 };
 
-export default function useAddCategory({ handleClose, selectedCategory, onUpdate }) {
+export default function useAddCategory() {
   const [addCategory, { isLoading: isAdding }] = useAddCategoryMutation();
   const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
 
@@ -86,7 +86,7 @@ export default function useAddCategory({ handleClose, selectedCategory, onUpdate
           color: 'green',
         });
       }
-      
+
       form.reset();
       setIsSlugManuallyEdited(false);
       handleClose();

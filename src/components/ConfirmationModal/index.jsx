@@ -38,7 +38,7 @@ export default function ConfirmationModal(props) {
             <CustomButton onClick={onClose} variant="default">
               Cancel
             </CustomButton>
-            <CustomButton onClick={onSubmit} loading={isLoading}>
+            <CustomButton onClick={onSubmit} loading={isLoading} disabled={isLoading}>
               {okText}
             </CustomButton>
           </Group>

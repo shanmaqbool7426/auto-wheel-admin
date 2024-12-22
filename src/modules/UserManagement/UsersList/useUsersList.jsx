@@ -72,7 +72,6 @@ export default function useComments() {
   }, [modalData]);
 
   const handdleOpenAddUserModal = (type, data) => {
-    console.log('Open Modal', data);
     setModalType(type);
     setModalData(data);
     setIsOpenAddUserModal(true);

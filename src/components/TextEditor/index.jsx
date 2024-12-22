@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { RichTextEditor, Link } from '@mantine/tiptap';
@@ -26,6 +27,12 @@ export default function TextEditor({ content = '', setContent }) {
     },
   });
 
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
+
   return (
     <RichTextEditor
       editor={editor}
@@ -35,7 +42,7 @@ export default function TextEditor({ content = '', setContent }) {
         content: styles.content,
       }}
     >
-      <RichTextEditor.Toolbar sticky stickyOffset={60}>
+      <RichTextEditor.Toolbar>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
           <RichTextEditor.Italic />

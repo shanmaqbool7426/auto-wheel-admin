@@ -49,7 +49,7 @@ export default function PostCard({ form, isLoading, isEdit }) {
 
         <Grid.Col span={12}>
           <Group position="apart">
-            <CustomButton 
+            <CustomButton
               variant="outline"
               color="gray"
               onClick={handleCancel}
@@ -58,13 +58,13 @@ export default function PostCard({ form, isLoading, isEdit }) {
               Cancel
             </CustomButton>
 
-            <CustomButton 
-              color='#1B84FF' 
+            <CustomButton
+              color='#1B84FF'
               type='submit'
               loading={isLoading}
             >
-              {isLoading 
-                ? `${isEdit ? 'Updating' : 'Creating'} Post...` 
+              {isLoading
+                ? `${isEdit ? 'Updating' : 'Creating'} Post...`
                 : `${isEdit ? 'Update' : 'Create'} Post`
               }
             </CustomButton>

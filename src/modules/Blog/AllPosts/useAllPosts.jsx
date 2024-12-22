@@ -27,8 +27,6 @@ export default function useAllPosts() {
     date: '',
   });
 
-  console.log('filterParams:::for: ', selectedRecords)
-
   const [deleteMultiplePost] = useDeleteMultiplePostMutation();
   const [deletePost] = useDeletePostMutation();
   const [duplicatePost] = useDuplicatePostMutation();
@@ -51,10 +49,8 @@ export default function useAllPosts() {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleClickEditRow = (e, id) => {
-    e.stopPropagation();
-    console.log('Edit Row', id);
-    alert(`Edit Row ${id}`);
+  const handleClickEditRow = (id) => {
+    router.push(`${PATH_NAME.BLOG_NEW_POSTS}?id=${id}`);
   }
 
   const handleClickDeleteRow = (e, id) => {
@@ -78,31 +74,23 @@ export default function useAllPosts() {
   const handleBulkAction = async (action) => {
     if (action === 'delete' && selectedRecords.length > 0) {
       try {
-
-        console.log('selectedRecords:::for: ', selectedRecords)
         // if (window.confirm(`Are you sure you want to delete ${selectedRows.length} selected posts?`)) {
         //   await Promise.all(selectedRows.map(id => deletePost(id)));
         //   setSelectedRows([]); // Clear selection after deletion
         // }
         const ids = selectedRecords.map((item) => item.id)
-
-        console.log('ids:::for: ', ids)
         await deleteMultiplePost(ids)
       } catch (error) {
         console.error('Error deleting posts:', error);
       }
     }
     else if (action === 'duplicate' && selectedRecords.length > 0) {
-
-      console.log('selectedRecords:::for: ', selectedRecords)
       const ids = selectedRecords.map((item) => item.id)
-      console.log('ids:::for: ', ids)
       await duplicateMultiplePost(ids)
     }
   };
 
   const { data: statusCountsData } = useGetStatusCountsQuery()
-  console.log('statusCountsData:::for: ', statusCountsData)
 
   const handleNavigateNewPost = () => {
     try {
@@ -120,6 +108,7 @@ export default function useAllPosts() {
     setSearchBy,
     filterParams,
     handleChangeFilter,
+
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,

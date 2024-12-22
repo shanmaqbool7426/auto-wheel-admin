@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { usePathname, useParams } from 'next/navigation';
+import { usePathname, useParams, useSearchParams } from 'next/navigation';
 import { PATH_NAME } from '@/constants/pathname';
 
 export default function useHeader() {
   const { activeTab } = useParams();
   const pathname = usePathname();
-
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('id');
   const [title, setTitle] = useState('');
   const [isNotification, setIsNotification] = React.useState(true);
 
@@ -28,9 +29,12 @@ export default function useHeader() {
       [PATH_NAME.EMAIL]: 'Email',
       [PATH_NAME.FILE_MANAGER]: 'File Manager',
     };
-
-    setTitle(titleMap[pathname] || 'Dashboard');
-  }, [pathname]);
+    if (pathname === PATH_NAME.BLOG_NEW_POSTS && postId) {
+      setTitle('Edit Post');
+    } else {
+      setTitle(titleMap[pathname] || 'Dashboard');
+    }
+  }, [pathname, postId, activeTab]);
 
   return {
     isNotification,

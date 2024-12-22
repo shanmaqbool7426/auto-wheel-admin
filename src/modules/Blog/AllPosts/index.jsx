@@ -19,6 +19,8 @@ export default function AllPosts() {
     setSearchBy,
     filterParams,
     handleChangeFilter,
+
+    editableRowData,
     handleClickEditRow,
     handleClickDeleteRow,
     handleClickDuplicate,

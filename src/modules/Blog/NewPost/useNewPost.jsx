@@ -1,45 +1,44 @@
+import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
-import { useAddPostMutation, useGetCategoriesQuery, useGetTagsQuery } from '@/services/blog/posts';
 import { showNotification } from '@mantine/notifications';
-// import { useNavigate } from 'react-router-dom';
-export default function useNewPost(initialPost = null) {
+import { useSearchParams } from 'next/navigation'
+import {
+  useAddPostMutation,
+  useGetCategoriesQuery,
+  useGetTagsQuery,
+  useUpdatePostMutation,
+  useGetPostByIdQuery,
+} from '@/services/blog/posts';
+
+export default function useNewPost() {
+
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('id');
+
   const [addPost, { isLoading }] = useAddPostMutation();
   const [updatePost, { isLoading: isUpdating }] = useUpdatePostMutation();
-  const { data: categoriesData } = useGetCategoriesQuery();
-  const { data: tagsData } = useGetTagsQuery();
+  const { data: getCategoriesData } = useGetCategoriesQuery();
+  const catgData = getCategoriesData?.data?.data?.map(catg => ({ value: catg?._id, label: catg?.name })) || [];
+  const { data: getTagsData } = useGetTagsQuery();
+  const tagsData = getTagsData?.data?.data?.map(tag => ({ value: tag?._id, label: tag?.name })) || [];
 
-  // Transform initial post data for form
-  const getInitialValues = (post) => {
-    if (!post) return {
-      title: '',
-      content: '',
-      author: '',
-      categories: [],
-      tags: [],
-      isSticky: false,
-      visibility: 'Draft',
-      publishDate: null,
-      scheduledAt: null,
-      imageUrl: null,
-    };
+  const { data: postDetails, isLoading: loadingPostDetails } = useGetPostByIdQuery(postId, { skip: !postId });
 
-    return {
-      title: post.title || '',
-      content: post.content || '',
-      author: post.author || '',
-      categories: post.categories?.map(cat => cat.id) || [],
-      tags: post.tags?.map(tag => tag.id) || [],
-      isSticky: post.isSticky || false,
-      visibility: post.visibility || 'Draft',
-      publishDate: post.publishDate ? new Date(post.publishDate) : null,
-      scheduledAt: post.scheduledAt ? new Date(post.scheduledAt) : null,
-      imageUrl: post.imageUrl || null, // This will be the URL for existing image
-      existingImageUrl: post.imageUrl || null, // Keep track of existing image URL
-    };
+  const initialValues = {
+    title: '',
+    content: '',
+    author: '',
+    categories: [],
+    tags: [],
+    isSticky: false,
+    visibility: 'Draft',
+    publishDate: null,
+    scheduledAt: null,
+    imageUrl: null,
   };
 
   const form = useForm({
-    initialValues: getInitialValues(initialPost),
+    initialValues: initialValues,
     validate: {
       title: (value) => (!value ? 'Title is required' : null),
       content: (value) => (!value ? 'Content is required' : null),
@@ -52,12 +51,38 @@ export default function useNewPost(initialPost = null) {
         return null;
       },
     },
+    onValuesChange: (values) => {
+      console.log('values::: ', values);
+    }
   });
+
+  useEffect(() => {
+    if (postId && postDetails) {
+      console.log('postDetails:', postDetails);
+      form.setValues({
+        title: postDetails?.data?.title || '',
+        content: postDetails?.data?.content || '',
+        author: postDetails?.data?.author || '',
+        categories: postDetails?.data?.categories?.map(cat => cat.name) || [],
+        tags: postDetails?.data?.tags?.map(tag => tag?.name) || [],
+        isSticky: postDetails?.data?.isSticky || false,
+        visibility: postDetails?.data?.visibility || 'Draft',
+        publishDate: postDetails?.data?.publishDate ? new Date(postDetails?.data?.publishDate) : null,
+        scheduledAt: postDetails?.data?.scheduledAt ? new Date(postDetails?.data?.scheduledAt) : null,
+        imageUrl: postDetails?.data?.imageUrl || null,
+        existingImageUrl: postDetails?.data?.imageUrl || null,
+      });
+      console.log('form values after setValues:', form.values);
+    }
+
+  }, [postId, postDetails]);
+
+
 
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      
+
       Object.keys(values).forEach(key => {
         if (key === 'existingImageUrl') {
           // Skip this field as it's only for internal use
@@ -78,8 +103,8 @@ export default function useNewPost(initialPost = null) {
         }
       });
 
-      if (initialPost) {
-        formData.append('id', initialPost.id);
+      if (postId) {
+        formData.append('id', postId);
         await updatePost(formData).unwrap();
         showNotification({
           title: 'Success',
@@ -105,10 +130,11 @@ export default function useNewPost(initialPost = null) {
 
   return {
     form,
-    categoriesData,
+    catgData,
     tagsData,
     handleSubmit,
     isLoading: isLoading || isUpdating,
-    isEdit: !!initialPost,
+    isEdit: !!postId,
+    loadingPostDetails,
   };
 }

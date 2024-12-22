@@ -69,7 +69,23 @@ export default function FormField(props) {
           dropdown: styles.selectDropdown,
           option: styles.selectOption,
         }}
-      />),
+      />
+    ),
+    'multiselect': () => (
+      <MultiSelect
+        {...rest}
+        data={data}
+        // rightSection={<IconSelect />}
+        classNames={{
+          label: styles.label,
+          input: styles.input,
+          // section: styles.selectSection,
+          dropdown: styles.selectDropdown,
+          option: styles.selectOption,
+        }}
+      />
+
+    ),
     'datetime': () => (
       <DateTimePicker
         rightSection={<IconInputDate />}
@@ -94,14 +110,15 @@ export default function FormField(props) {
     'tags': () => (
       <TagsInput
         {...rest}
+        data={data}
         classNames={{
           label: styles.label,
           input: styles.input,
         }}
       />
     ),
+
     'switch': () => <Switch {...rest} />,
-    'multiselect': () => <MultiSelect data={data} {...rest} />,
     'radio': () => <RadioGroup {...rest}>{options.map((option) => (<Radio key={option.value} value={option.value} label={option.label} />))}</RadioGroup>,
 
 

@@ -6,7 +6,7 @@ import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
 import CustomButton from '@/components/CustomButton';
 import useTags from './useTags';
-import { getColumns, data } from './data';
+import { getColumns } from './data';
 import { IconPlus } from '@/assets/icons';
 import styles from './Tags.module.css';
 import AddTag from './AddTag';
@@ -14,6 +14,8 @@ import AddTag from './AddTag';
 
 export default function Tags() {
   const {
+    page,
+    setPage,
     selectedRecords,
     setSelectedRecords,
     isTagModalOpen,
@@ -28,12 +30,13 @@ export default function Tags() {
     handleClickDeleteRow,
     handleBulkAction,
     handleUpdateTag,
-    tags,
+    tagsData,
     isLoading,
+    isFetching,
   } = useTags();
 
+  console.log('tagsData::: ', tagsData)
 
-  
   const columns = getColumns(handleClickEditRow, handleClickDeleteRow);
 
   return (
@@ -85,11 +88,14 @@ export default function Tags() {
 
       <DataTable
         columns={columns}
-        records={tags}
+        records={tagsData?.data?.data}
         selection
         selectedRecords={selectedRecords}
         onSelectedRecordsChange={setSelectedRecords}
-        loading={isLoading}
+        totalRecords={tagsData?.data?.total || 0}
+        page={page}
+        onPageChange={setPage}
+        fetching={isLoading || isFetching}
       />
 
       <AddTag

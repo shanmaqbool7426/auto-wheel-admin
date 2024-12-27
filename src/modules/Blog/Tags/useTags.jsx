@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { 
+import {
   useGetTagsQuery,
   useDeleteTagMutation,
   useDeleteMultipleTagsMutation,
@@ -10,6 +10,7 @@ import { notifications } from '@mantine/notifications';
 
 export default function useTags() {
   // State
+  const [page, setPage] = useState(1);
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState(null);
@@ -30,7 +31,7 @@ export default function useTags() {
   };
 
   // API Hooks
-  const { data: tagsData, isLoading } = useGetTagsQuery(searchParams);
+  const { data: tagsData, isLoading, isFetching } = useGetTagsQuery(searchParams);
   const [deleteTag] = useDeleteTagMutation();
   const [deleteMultipleTags] = useDeleteMultipleTagsMutation();
   const [updateTag, { isLoading: isUpdating }] = useUpdateTagMutation();
@@ -58,13 +59,13 @@ export default function useTags() {
         id: selectedTag.id,
         ...values
       }).unwrap();
-      
+
       notifications.show({
         title: 'Success',
         message: 'Tag updated successfully',
         color: 'green',
       });
-      
+
       setIsTagModalOpen(false);
       setSelectedTag(null);
     } catch (error) {
@@ -125,6 +126,8 @@ export default function useTags() {
   };
 
   return {
+    page,
+    setPage,
     selectedRecords,
     setSelectedRecords,
     isTagModalOpen,
@@ -139,9 +142,9 @@ export default function useTags() {
     handleClickDeleteRow,
     handleBulkAction,
     handleUpdateTag,
-    tags: tagsData?.data?.data.map(tag => ({...tag, id: tag._id})) || [],
-    totalTags: tagsData?.data?.total || 0,
+    tagsData,
     isLoading,
+    isFetching,
     isUpdating,
   };
 }

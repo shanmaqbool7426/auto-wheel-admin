@@ -1,8 +1,5 @@
 import styles from './Tags.module.css';
-import Image from 'next/image';
-import dayjs from 'dayjs';
-import { ActionIcon, Group, Box } from '@mantine/core';
-import { ImgPostVehicle } from '@/assets/images';
+import { ActionIcon, Group } from '@mantine/core';
 import { IconEye, IconTrash, IconPencil } from '@/assets/icons';
 
 export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
@@ -41,7 +38,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickDuplicate) => [
           <ActionIcon
             size={20}
             className={styles.actionButton}
-            onClick={(e) => onClickDelete(e, _id)}
+            onClick={() => onClickDelete(_id)}
           >
             <IconTrash />
           </ActionIcon>

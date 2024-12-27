@@ -10,6 +10,7 @@ import { getColumns } from './data';
 import { IconPlus } from '@/assets/icons';
 import styles from './Tags.module.css';
 import AddTag from './AddTag';
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 
 export default function Tags() {
@@ -18,26 +19,39 @@ export default function Tags() {
     setPage,
     selectedRecords,
     setSelectedRecords,
+    tagsData,
+    isLoading,
+    isFetching,
+    setSearchBy,
+    filterParams,
+    handleChangeFilter,
+
+    // Delete Single
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    loadingDelete,
+    handleSubmitDelete,
+
+    // Delete Bulk
+    loadingBulkDelete,
+    openBulkDeleteModal,
+    handleCloseBulkDeleteModal,
+    handleBulkAction,
+    handleBulkDeleteTags,
+
+
     isTagModalOpen,
     setIsTagModalOpen,
     selectedTag,
     setSelectedTag,
-    searchBy,
-    setSearchBy,
-    filterParams,
-    handleChangeFilter,
+
     handleClickEditRow,
-    handleClickDeleteRow,
-    handleBulkAction,
     handleUpdateTag,
-    tagsData,
-    isLoading,
-    isFetching,
+    isUpdating,
   } = useTags();
 
-  console.log('tagsData::: ', tagsData)
-
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow);
+  const columns = getColumns(handleClickEditRow, handleOpenModalDelete);
 
   return (
     <>
@@ -45,21 +59,20 @@ export default function Tags() {
         <Box className={styles.filterbarLeft}>
           <Box className={styles.searchbar}>
             <Search
-              value={searchBy}
               setSearchBy={setSearchBy}
-              onChange={(e) => setSearchBy(e.target.value)}
               placeholder="Search tags..."
             />
           </Box>
           <Box className={styles.dropdown}>
             <FormField
+              disabled={selectedRecords?.length === 0}
               type="select"
               name="actions"
               data={[
-                { value: 'delete', label: 'Delete Selected' },
+                { value: 'delete', label: 'Delete' },
               ]}
               placeholder="Bulk Action"
-              onChange={(value) => handleBulkAction(value)}
+              onChange={(_value, option) => handleBulkAction(option.value)}
             />
           </Box>
         </Box>
@@ -67,14 +80,14 @@ export default function Tags() {
           <Box className={styles.rightDropdown}>
             <FormField
               type="select"
-              name="date"
+              name="sortOrder"
               data={[
-                { value: 'newToOld', label: 'Date, new to old' },
-                { value: 'oldToNew', label: 'Date, old to new' },
+                { value: 'desc', label: 'Date, new to old' },
+                { value: 'asc', label: 'Date, old to new' },
               ]}
               placeholder="Sort by date"
-              value={filterParams.date}
-              onChange={(value) => handleChangeFilter('date', value)}
+              value={filterParams?.sortOrder}
+              onChange={(_value, option) => handleChangeFilter('sortOrder', option.value)}
             />
           </Box>
           <CustomButton
@@ -106,6 +119,24 @@ export default function Tags() {
         }}
         selectedTag={selectedTag}
         onUpdate={handleUpdateTag}
+      />
+
+      <ConfirmationModal
+        title="Delete Categories"
+        message="Are you sure you want to delete selected categories?"
+        open={openBulkDeleteModal}
+        onClose={handleCloseBulkDeleteModal}
+        onSubmit={handleBulkDeleteTags}
+        isLoading={loadingBulkDelete}
+      />
+
+      <ConfirmationModal
+        title="Delete Category"
+        message="Are you sure you want to delete selected category?"
+        open={openModalDelete}
+        onClose={handleCloseModalDelete}
+        onSubmit={handleSubmitDelete}
+        isLoading={loadingDelete}
       />
     </>
   );

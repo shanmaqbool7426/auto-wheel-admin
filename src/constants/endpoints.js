@@ -43,4 +43,10 @@ export const END_POINTS = {
   // Make endpoints
   MAKE: '/browes-by-make',
   MAKE_DELETE: '/make/bulk-delete',
+
+  // Vehicle endpoints
+  VEHICLES: '/new-vehicles',
+  NEW_VEHICLES: '/new-vehicles',
+  GET_VEHICLE_BY_ID: '/new-vehicles/get-vehicle-by-id',
+
 }

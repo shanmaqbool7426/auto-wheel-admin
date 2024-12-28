@@ -23,6 +23,8 @@ export default function CompareVehiclesModule() {
     loadingVehicles,
     isFetching,
     loadingCompare,
+    isCompareModalOpen,
+    setIsCompareModalOpen,
     handleAddToCompare,
     handleRemoveFromCompare,
     handleClearCompare,
@@ -32,6 +34,7 @@ export default function CompareVehiclesModule() {
 
   const columns = getColumns(handleAddToCompare, selectedVehicles);
 
+  
   return (
     <Box className={styles.container}>
       {/* Filter Bar */}

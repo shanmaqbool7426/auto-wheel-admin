@@ -1,44 +1,98 @@
 'use client';
-import { useState } from 'react';
-import { 
+import { useState, useEffect } from 'react';
+import { notifications } from '@mantine/notifications';
+import { PAGE_SIZE } from '@/constants/pagination';
+import { successSnackbar, errorSnackbar } from '@/utils/snackbar';
+import {
   useGetTagsQuery,
   useDeleteTagMutation,
   useDeleteMultipleTagsMutation,
   useUpdateTagMutation
 } from '@/services/blog/tags';
-import { notifications } from '@mantine/notifications';
 
 export default function useTags() {
-  // State
+  // GET Tags data
+  const [page, setPage] = useState(1);
   const [selectedRecords, setSelectedRecords] = useState([]);
-  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
-  const [selectedTag, setSelectedTag] = useState(null);
   const [searchBy, setSearchBy] = useState('');
-  const [filterParams, setFilterParams] = useState({
-    actions: '',
-    sortBy: 'createdAt',
+  const initParams = {
     sortOrder: 'desc',
-  });
+    page,
+    limit: PAGE_SIZE,
+  }
+  const [filterParams, setFilterParams] = useState(initParams);
+  const { data: tagsData, isLoading, isFetching } = useGetTagsQuery(filterParams);
 
-  // Query parameters
-  const searchParams = {
-    search: searchBy,
-    sortBy: filterParams.sortBy,
-    sortOrder: filterParams.date === 'oldToNew' ? 'asc' : 'desc',
-    page: 1,
-    limit: 10,
-  };
+  // Search query parameters
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, search: searchBy }));
+  }, [searchBy]);
 
-  // API Hooks
-  const { data: tagsData, isLoading } = useGetTagsQuery(searchParams);
-  const [deleteTag] = useDeleteTagMutation();
-  const [deleteMultipleTags] = useDeleteMultipleTagsMutation();
-  const [updateTag, { isLoading: isUpdating }] = useUpdateTagMutation();
+  useEffect(() => {
+    setFilterParams(prev => ({ ...prev, page: page }));
+  }, [page]);
 
-  // Handlers
+  // handle change sortOrder
   const handleChangeFilter = (name, value) => {
     setFilterParams(prev => ({ ...prev, [name]: value }));
   };
+
+  // Delete bulk
+  const [openBulkDeleteModal, setOpenBulkDeleteModal] = useState(false);
+  const [deleteMultipleTags, { isLoading: loadingBulkDelete }] = useDeleteMultipleTagsMutation();
+
+  const handleOpenBulkDeleteModal = () => {
+    setOpenBulkDeleteModal(true);
+  };
+  const handleCloseBulkDeleteModal = () => {
+    setOpenBulkDeleteModal(false);
+  };
+
+  const handleBulkAction = async (action) => {
+    if (action === 'delete') {
+      handleOpenBulkDeleteModal();
+    }
+  };
+
+  const handleBulkDeleteTags = async () => {
+    try {
+      await deleteMultipleTags(selectedRecords.map(item => item?._id)).unwrap();
+      handleCloseBulkDeleteModal();
+      setSelectedRecords([]);
+      successSnackbar('Tags deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting comments:', error);
+      errorSnackbar(error.data.message);
+    }
+  };
+
+  // Delete Single
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [deleteTag, { isLoading: loadingDelete }] = useDeleteTagMutation();
+
+  const handleOpenModalDelete = (id) => {
+    setSelectedId(id);
+    setOpenModalDelete(true);
+  }
+  const handleCloseModalDelete = () => {
+    setSelectedId(null);
+    setOpenModalDelete(false);
+  }
+  const handleSubmitDelete = async () => {
+    try {
+      await deleteTag(selectedId).unwrap();
+      successSnackbar('Category deleted successfully.');
+      handleCloseModalDelete();
+    } catch (error) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+
+  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [updateTag, { isLoading: isUpdating }] = useUpdateTagMutation();
 
   const handleClickEditRow = (e, id) => {
     e.stopPropagation();
@@ -58,90 +112,50 @@ export default function useTags() {
         id: selectedTag.id,
         ...values
       }).unwrap();
-      
-      notifications.show({
-        title: 'Success',
-        message: 'Tag updated successfully',
-        color: 'green',
-      });
-      
+
+      successSnackbar('Tag updated successfully');
+
       setIsTagModalOpen(false);
       setSelectedTag(null);
     } catch (error) {
-      notifications.show({
-        title: 'Error',
-        message: error?.data?.message || 'Failed to update tag',
-        color: 'red',
-      });
-    }
-  };
-
-  const handleClickDeleteRow = async (e, id) => {
-    e.stopPropagation();
-    try {
-      await deleteTag(id).unwrap();
-      notifications.show({
-        title: 'Success',
-        message: 'Tag deleted successfully',
-        color: 'green',
-      });
-    } catch (error) {
-      notifications.show({
-        title: 'Error',
-        message: error?.data?.message || 'Something went wrong',
-        color: 'red',
-      });
-    }
-  };
-
-  const handleBulkAction = async (action) => {
-    if (!selectedRecords.length) {
-      notifications.show({
-        title: 'Warning',
-        message: 'Please select at least one tag',
-        color: 'yellow',
-      });
-      return;
-    }
-
-    try {
-      if (action === 'delete') {
-        const ids = selectedRecords.map(item => item.id);
-        await deleteMultipleTags(ids).unwrap();
-        notifications.show({
-          title: 'Success',
-          message: 'Tags deleted successfully',
-          color: 'green',
-        });
-        setSelectedRecords([]);
-      }
-    } catch (error) {
-      notifications.show({
-        title: 'Error',
-        message: error?.data?.message || 'Something went wrong',
-        color: 'red',
-      });
+      errorSnackbar(error?.data?.message || 'Failed to update tag');
     }
   };
 
   return {
+    page,
+    setPage,
     selectedRecords,
     setSelectedRecords,
+    tagsData,
+    isLoading,
+    isFetching,
+    setSearchBy,
+    filterParams,
+    handleChangeFilter,
+
+    // Delete Single
+    openModalDelete,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    loadingDelete,
+    handleSubmitDelete,
+
+    // Delete Bulk
+    loadingBulkDelete,
+    openBulkDeleteModal,
+    handleCloseBulkDeleteModal,
+    handleBulkAction,
+    handleBulkDeleteTags,
+
+
     isTagModalOpen,
     setIsTagModalOpen,
     selectedTag,
     setSelectedTag,
-    searchBy,
-    setSearchBy,
-    filterParams,
-    handleChangeFilter,
+
     handleClickEditRow,
-    handleClickDeleteRow,
-    handleBulkAction,
     handleUpdateTag,
-    tags: tagsData?.data?.data.map(tag => ({...tag, id: tag._id})) || [],
-    totalTags: tagsData?.data?.total || 0,
-    isLoading,
     isUpdating,
   };
 }

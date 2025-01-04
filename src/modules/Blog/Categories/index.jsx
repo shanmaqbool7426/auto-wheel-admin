@@ -77,7 +77,7 @@ export default function Categories() {
           <Box className={styles.rightDropdown}>
             <FormField
               type="select"
-              name="date"
+              name="sortOrder"
               data={[
                 { value: 'desc', label: 'Date, new to old' },
                 { value: 'asc', label: 'Date, old to new' },

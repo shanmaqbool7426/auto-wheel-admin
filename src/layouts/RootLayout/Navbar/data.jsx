@@ -13,6 +13,7 @@ import { PATH_NAME } from '@/constants/pathname';
 
 export const navMenu = [
   { label: 'Dashboard', href: PATH_NAME.ROOT, icon: IconMenuDashboard },
+  { label: 'Add Vehicle', href: PATH_NAME.ADD_VEHICLE, icon: IconMenuDashboard },
   {
     label: 'Blog', href: PATH_NAME.BLOG_ALL_POSTS, icon: IconMenuBlog,
     links: [
@@ -23,6 +24,7 @@ export const navMenu = [
     ],
   },
   { label: 'Comments', href: PATH_NAME.COMMENTS, icon: IconMenuComments },
+  { label: 'Compare Vehicles', href: PATH_NAME.COMPARE_VEHICLES, icon: IconMenuComments },
   { label: 'Location', href: PATH_NAME.LOCATION, icon: IconMenuLocation },
   { label: 'Makes', href: PATH_NAME.MAKES, icon: IconMenuLocation },
   {

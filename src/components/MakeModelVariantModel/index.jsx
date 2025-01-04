@@ -16,9 +16,11 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BsArrowRight, BsSearch } from "react-icons/bs";
+import { useGetMakesQuery } from "@/services/make";
 
 const MakeModelVariantModel = ({
   isOpen,
+  type,
   onClose: closeModal,
   selection,
   setSelection,
@@ -29,15 +31,15 @@ const MakeModelVariantModel = ({
   const [models, setModels] = useState({});
   const [variants, setVariants] = useState({});
   const [activeTab, setActiveTab] = useState("make"); // State to track active tab
-
-console.log("selection",selection)
+  const {data:makesData} = useGetMakesQuery({type})
+console.log("selection type",type)
 
   useEffect(() => {
     const fetchedMakes = [];
     const fetchedModels = {};
     const fetchedVariants = {};
 
-    fetchMakesByTypeData?.data?.forEach((make) => {
+    makesData?.data?.forEach((make) => {
       fetchedMakes.push(make.name);
       fetchedModels[make.name] = [];
       make.models.forEach((model) => {
@@ -49,7 +51,7 @@ console.log("selection",selection)
     setMakes(fetchedMakes);
     setModels(fetchedModels);
     setVariants(fetchedVariants);
-  }, [fetchMakesByTypeData]);
+  }, [makesData]);
 
   const [makeSearch, setMakeSearch] = useState("");
   const [modelSearch, setModelSearch] = useState("");

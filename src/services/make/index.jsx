@@ -6,7 +6,7 @@ export const makeAPIs = BASE_API.injectEndpoints({
 
         getMakes: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.MAKE}`,
+        url: `${END_POINTS?.MAKE}?type=${params?.type}`,
         method: 'GET',
         params,
       }),

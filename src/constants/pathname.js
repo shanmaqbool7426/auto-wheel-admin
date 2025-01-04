@@ -4,6 +4,8 @@ export const PATH_NAME = {
   BLOG_NEW_POSTS: '/blog/new-posts',
   BLOG_CATEGORY: '/blog/category',
   BLOG_TAG: '/blog/tags',
+  COMPARE_VEHICLES: '/compare-vehicle',
+  ADD_VEHICLE: '/vehicle-add',
   COMMENTS: '/comments',
   MAKES: '/make',
   LOCATION: '/location',

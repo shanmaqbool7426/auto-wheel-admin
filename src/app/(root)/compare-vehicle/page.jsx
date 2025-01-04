@@ -1,8 +1,8 @@
 import React from 'react'
-import CompareVehiclesModule from '@/modules/compare-vehicle'
+import CompareList from '@/modules/compare-vehicle/CompareList'
 
 export default function CompareVehiclePage() {
   return (
-    <CompareVehiclesModule />
+    <CompareList />
   )
 }

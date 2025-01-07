@@ -8,7 +8,7 @@ import { IconPlus } from '@/assets/icons';
 import styles from './Banner.module.css';
 import useBanner from './useBanner';
 import { getColumns } from './data';
-import AddBanner from './AddBanner';
+import AddBanner from './addBanner/index';
 import ConfirmationModal from '@/components/ConfirmationModal';
 
 export default function BannerModule() {

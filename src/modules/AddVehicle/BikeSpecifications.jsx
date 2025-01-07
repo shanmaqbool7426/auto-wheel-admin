@@ -4,23 +4,15 @@ import { memo } from 'react';
 export const BikeSpecifications = memo(({ form }) => {
   return (
     <Box>
-      {/* Engine Specifications */}
       <EngineSpecs form={form} />
-
-      {/* Performance & Transmission */}
       <PerformanceSpecs form={form} />
-
-      {/* Dimensions */}
       <DimensionsSpecs form={form} />
-
-      {/* Chassis & Suspension */}
       <ChassisSpecs form={form} />
-
-      {/* Wheels & Tyres */}
       <WheelsAndTyresSpecs form={form} />
     </Box>
   );
 });
+BikeSpecifications.displayName = 'BikeSpecifications';
 
 const EngineSpecs = ({ form }) => (
   <Box mb="xl">

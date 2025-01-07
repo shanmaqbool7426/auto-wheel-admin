@@ -7,6 +7,7 @@ import { IconTrash, IconUpload } from '@/assets/icons';
 import useAddBanner from './useAddBanner';
 import styles from './AddBanner.module.css';
 
+
 export default function AddBanner({ 
   title, 
   open, 

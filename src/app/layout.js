@@ -31,7 +31,7 @@ export default function Layout({ children }) {
       <body>
         <StoreProvider>
           <MantineProvider theme={theme} stylesTransform={emotionTransform}>
-            <MantineEmotionProvider>
+            <MantineEmotionProvider>      
               <Notifications />
               {children}
             </MantineEmotionProvider>

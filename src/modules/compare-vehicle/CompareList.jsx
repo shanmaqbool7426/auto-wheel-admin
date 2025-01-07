@@ -24,14 +24,18 @@ export default function CompareList() {
     const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
     const { comparisons, isLoading } = useCompareVehicle();
     const [deleteComparisonSetMutation] = useDeleteComparisonSetMutation();
+    const [comparison, setComparison] = useState(null);
 
-    const handleDelete = async (compareSetId) => {
-        const response = await deleteComparisonSetMutation(compareSetId);
+
+    const handleDelete = async (id) => {
+        const response = await deleteComparisonSetMutation(id);
         console.log('Delete:', response);
     };
 
-    const handleEdit = (compareSetId) => {
-        console.log('Edit:', compareSetId);
+    const handleEdit = (comparison) => {
+        console.log('Edit:', comparison);
+        setIsComparisonModalOpen(true);
+        setComparison(comparison);
     };
 
     if (isLoading) return <LoadingOverlay visible />;
@@ -63,12 +67,12 @@ export default function CompareList() {
                                 <MdEdit 
                                     size={25} 
                                     className={styles.editIcon}
-                                    onClick={() => handleEdit(comparison.compareSetId)}
+                                    onClick={() => handleEdit(comparison)}
                                 />
                                 <MdDelete 
                                     size={25}
                                     className={styles.deleteIcon}
-                                    onClick={() => handleDelete(comparison.compareSetId)}
+                                    onClick={() => handleDelete(comparison._id)}
                                 />
                             </div>
 
@@ -139,6 +143,7 @@ export default function CompareList() {
             <AddComparison
                 open={isComparisonModalOpen}
                 setOnClose={() => setIsComparisonModalOpen(false)}
+                comparison={comparison}
             />
         </Box>
     );

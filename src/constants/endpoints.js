@@ -49,5 +49,6 @@ export const END_POINTS = {
   NEW_VEHICLES: '/new-vehicles',
   GET_VEHICLE_BY_ID: '/new-vehicles/get-vehicle-by-id',
   COMPARISON: '/comparison',
+  BANNER: '/banners',
 
 }

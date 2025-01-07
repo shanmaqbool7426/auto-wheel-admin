@@ -15,30 +15,30 @@ export const comparisonAPIs = BASE_API.injectEndpoints({
       providesTags: ['COMPARISON'],
     }),
 
-    addComparisonSet: builder.mutation({
-      query: (body) => ({
-        url: `${END_POINTS?.COMPARISON}`,
-        method: 'POST',
-        body,
+      addComparisonSet: builder.mutation({
+        query: (body) => ({
+          url: `${END_POINTS?.COMPARISON}`,
+          method: 'POST',
+          body,
+        }),
+        invalidatesTags: ['COMPARISON'],
       }),
-      invalidatesTags: ['COMPARISON'],
-    }),
 
-    updateComparisonSet: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `${END_POINTS?.COMPARISON}/${id}`,
-        method: 'PUT',
-        body: data,
+      updateComparisonSet: builder.mutation({
+        query: ({ id, data }) => ({
+          url: `${END_POINTS?.COMPARISON}/${id}`,
+          method: 'PUT',
+          body: data,
+        }),
+        invalidatesTags: ['COMPARISON'],
       }),
-      invalidatesTags: ['COMPARISON'],
-    }),
 
     deleteComparisonSet: builder.mutation({
-      query(ids) {
+      query(id) {
         return {
-          url: `${END_POINTS?.COMPARISON_DELETE}`,
-          method: 'POST',
-          body: { ids: ids },
+          url: `${END_POINTS?.COMPARISON}/${id}`,
+          method: 'DELETE'
+          // body: { ids: ids },
         };
       },
         invalidatesTags: ['COMPARISON'],
@@ -70,6 +70,7 @@ export const comparisonAPIs = BASE_API.injectEndpoints({
 
 export const {
   useGetComparisonSetsQuery,
+  useUpdateComparisonSetMutation,
   useAddComparisonSetMutation,
   useDeleteComparisonSetMutation,
   useAddComparisonVehicleMutation,

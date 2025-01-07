@@ -5,9 +5,12 @@ import {
   useGetNewVehiclesQuery,
   useDeleteBulkNewVehiclesMutation,
 } from '@/services/newVehicles';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+
+
 
 export default function useNewVehicles() {
+  const router = useRouter();
   const { activeTab } = useParams();
   const [searchBy, setSearchBy] = useState();
   const [page, setPage] = useState(1);

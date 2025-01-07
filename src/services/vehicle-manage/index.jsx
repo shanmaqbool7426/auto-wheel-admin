@@ -55,22 +55,15 @@ export const usersAPIs = BASE_API.injectEndpoints({
         invalidatesTags: ['VEHICLES'],
     }),
     updateVehicle: builder.mutation({
-      query: ({ userId, ...body }) => ({
-        url: `${END_POINTS?.VEHICLES}`,
+      query: ({ vehicleId, ...body }) => ({
+        url: `${END_POINTS?.VEHICLES}/update/${vehicleId}`,
         method: 'PUT',
         body,
       }),
       invalidatesTags: ['VEHICLES'],
     }),
 
-    updateVehicle: builder.mutation({
-      query: ({userId, ...body}) => ({
-        url: `${END_POINTS?.VEHICLES}/${userId}`,
-        method: 'PUT',
-        body,
-      }),
-    }),
-
+    
 // image upload
 
 uploadImage: builder.mutation({

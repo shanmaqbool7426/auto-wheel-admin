@@ -1,26 +1,34 @@
-import { Grid, NumberInput, MultiSelect, TextInput, Textarea, FileInput } from '@mantine/core';
+import { Grid, NumberInput, MultiSelect, TextInput, Textarea, FileInput, Box, Image } from '@mantine/core';
 import { useUploadImageMutation } from '@/services/vehicle-manage';
+import { useState, useEffect } from 'react';
+import { IconX } from '@tabler/icons-react';
 
 export const GeneralInformation = ({ form }) => {
   const [uploadImage] = useUploadImageMutation();
+  const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  const [defaultImageFile, setDefaultImageFile] = useState(null);
+  const [defaultImagePreview, setDefaultImagePreview] = useState(form.values.defaultImage || null);
 
-  const handleDefaultImageUpload = async (file) => {
+  const handleDefaultImageUpload = (file) => {
     if (file) {
-      const formData = new FormData();
-      formData.append('images', file);
+      // Create preview URL
+      const previewUrl = URL.createObjectURL(file);
+      setDefaultImagePreview(previewUrl);
+      setDefaultImageFile(file);
       
-      try {
-        const response = await uploadImage(formData).unwrap();
-        const imageUrl = response?.data[0];
-        form.setFieldValue('defaultImage', imageUrl);
-      } catch (error) {
-        console.error('Failed to upload image:', error);
-      }
+      // Update form
+      form.setFieldValue('defaultImage', file);
     }
   };
 
   const handleAdditionalImagesUpload = async (files) => {
     if (files?.length) {
+      // Create preview URLs
+      const newPreviews = files.map(file => URL.createObjectURL(file));
+      setPreviews(prev => [...prev, ...newPreviews]);
+      setFiles(prev => [...prev, ...files]);
+
       const uploadPromises = files.map(file => {
         const formData = new FormData();
         formData.append('images', file);
@@ -30,12 +38,38 @@ export const GeneralInformation = ({ form }) => {
       try {
         const responses = await Promise.all(uploadPromises);
         const imageUrls = responses.map(response => response?.data[0]);
-        form.setFieldValue('images', imageUrls);
+        form.setFieldValue('images', [...(form.values.images || []), ...imageUrls]);
       } catch (error) {
         console.error('Failed to upload images:', error);
       }
     }
   };
+
+  const removeAdditionalImage = (index) => {
+    const newFiles = [...files];
+    newFiles.splice(index, 1);
+    setFiles(newFiles);
+
+    const newPreviews = [...previews];
+    URL.revokeObjectURL(newPreviews[index]);
+    newPreviews.splice(index, 1);
+    setPreviews(newPreviews);
+
+    const currentImages = form.values.images || [];
+    const newImages = [...currentImages];
+    newImages.splice(index, 1);
+    form.setFieldValue('images', newImages);
+  };
+
+  // Cleanup preview URLs when component unmounts
+  useEffect(() => {
+    return () => {
+      if (defaultImagePreview) {
+        URL.revokeObjectURL(defaultImagePreview);
+      }
+      previews.forEach(preview => URL.revokeObjectURL(preview));
+    };
+  }, []);
 
   return (
     <Grid>
@@ -97,24 +131,86 @@ export const GeneralInformation = ({ form }) => {
 
       {/* Images */}
       <Grid.Col span={12}>
-        <FileInput
-          label="Default Image"
-          accept="image/*"
-          onChange={handleDefaultImageUpload}
-          required
-          placeholder="Upload main vehicle image"
-          name="defaultImage"
-        />
+        <Box mb="md">
+          <FileInput
+            label="Default Image"
+            accept="image/*"
+            onChange={handleDefaultImageUpload}
+            required
+            placeholder="Upload main vehicle image"
+            name="defaultImage"
+          />
+          {defaultImagePreview && (
+            <Box mt="xs">
+              <Image
+                src={defaultImagePreview}
+                alt="Default preview"
+                width={200}
+                height={150}
+                fit="contain"
+                radius="md"
+              />
+            </Box>
+          )}
+        </Box>
       </Grid.Col>
+
       <Grid.Col span={12}>
-        <FileInput
-          label="Additional Images"
-          multiple
-          accept="image/*"
-          placeholder="Upload additional vehicle images"
-          onChange={handleAdditionalImagesUpload}
-          name="additionalImages"
-        />
+        <Box>
+          <FileInput
+            label="Additional Images"
+            multiple
+            maxFiles={5}
+            value={files}
+            accept="image/*"
+            placeholder="Upload additional vehicle images"
+            onChange={handleAdditionalImagesUpload}
+            name="additionalImages"
+          />
+          {previews.length > 0 && (
+            <Box 
+              mt="xs" 
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '10px'
+              }}
+            >
+              {previews.map((preview, index) => (
+                <Box 
+                  key={index} 
+                  style={{ 
+                    position: 'relative',
+                    width: '150px'
+                  }}
+                >
+                  <Image
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
+                    width={150}
+                    height={100}
+                    fit="contain"
+                    radius="md"
+                  />
+                  <Box
+                    onClick={() => removeAdditionalImage(index)}
+                    style={{
+                      position: 'absolute',
+                      top: 5,
+                      right: 5,
+                      background: 'white',
+                      borderRadius: '50%',
+                      cursor: 'pointer',
+                      padding: '2px'
+                    }}
+                  >
+                    <IconX size={16} />
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          )}
+        </Box>
       </Grid.Col>
 
       {/* Pros and Cons */}

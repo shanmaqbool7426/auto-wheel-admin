@@ -1,5 +1,6 @@
 export const PATH_NAME = {
   ROOT: '/',
+  VEHICLES: '/vehicle',
   BLOG_ALL_POSTS: '/blog/all-posts',
   BLOG_NEW_POSTS: '/blog/new-posts',
   BLOG_CATEGORY: '/blog/category',

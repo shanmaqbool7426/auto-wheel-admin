@@ -6,19 +6,21 @@ import CustomButton from '@/components/CustomButton';
 import useAddComparison from './useAddComparison';
 import MakeModelVariantModel from '@/components/MakeModelVariantModel';
 
-export default function AddComparison({ open, setOnClose }) {
+export default function AddComparison({ open, setOnClose, comparison }) {
   const {
     form,
     handleSubmit,
     isLoading,
-  } = useAddComparison(setOnClose);
+  } = useAddComparison(setOnClose, comparison);
 
   const [isMakeModelOpen, setIsMakeModelOpen] = useState(false);
   const [selection, setSelection] = useState({
-    make: '',
-    model: '',
-    variant: '',
+    make: comparison?.make || '',
+    model: comparison?.model || '',
+    variant: comparison?.variant || '',
   });
+
+  console.log("comparison>>>>>>>", comparison)
   const [activeField, setActiveField] = useState(''); // 'vehicle1' or 'vehicle2'
 
   const handleFieldClick = (fieldName) => {
@@ -27,7 +29,7 @@ export default function AddComparison({ open, setOnClose }) {
   };
 
   const handleMakeModelSelect = (selectedData) => {
-    console.log('selectedData',selectedData)
+    console.log('selectedData', selectedData)
     const formattedValue = `${selectedData.make} ${selectedData.model}${selectedData.variant ? ' ' + selectedData.variant : ''}`;
 
     form.setFieldValue(activeField, formattedValue);
@@ -38,13 +40,23 @@ export default function AddComparison({ open, setOnClose }) {
   useEffect(() => {
     form.setFieldValue(activeField, `${selection.make} ${selection.model}${selection.variant ? ' ' + selection.variant : ''}`);
   }, [selection])
-  
+
+  useEffect(() => {
+    if (comparison) {
+      comparison?.vehicles?.map((item) => {
+        form.setFieldValue('vehicle1', `${item.make} ${item.model}${item.variant ? ' ' + item.variant : ''}`);
+        form.setFieldValue('vehicle2', `${item.make} ${item.model}${item.variant ? ' ' + item.variant : ''}`);
+      })  
+      form.setFieldValue('type', `${comparison?.type}`);
+
+    }
+  }, [comparison])
 
 
   return (
     <>
       <CustomModal
-        title="Add Comparison"
+        title={comparison ? "Edit Comparison" : "Add Comparison"}
         open={open}
         onClose={() => setOnClose(false)}
       >
@@ -95,13 +107,13 @@ export default function AddComparison({ open, setOnClose }) {
             </Grid.Col>
 
             <Grid.Col span={12}>
-              <CustomButton 
-                color='#1B84FF' 
-                fullWidth 
-                type='submit' 
+              <CustomButton
+                color='#1B84FF'
+                fullWidth
+                type='submit'
                 loading={isLoading}
               >
-                Add Comparison
+                {comparison ? "Update Comparison" : "Add Comparison"}
               </CustomButton>
             </Grid.Col>
           </Grid>

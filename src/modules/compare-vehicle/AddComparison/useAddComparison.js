@@ -1,6 +1,6 @@
 import { useForm } from '@mantine/form';
-import { useAddComparisonSetMutation } from '@/services/comparison';
-const useAddComparison = (setOnClose) => {
+import { useAddComparisonSetMutation, useUpdateComparisonSetMutation } from '@/services/comparison';
+const useAddComparison = (setOnClose, comparison) => {
   const form = useForm({
     initialValues: {
       vehicle1: '',
@@ -13,6 +13,7 @@ const useAddComparison = (setOnClose) => {
   });
 
   const [addComparisonSet] = useAddComparisonSetMutation()
+  const [updateComparisonSet] = useUpdateComparisonSetMutation()
   const handleSubmit = async (values) => {
     try {
       console.log('Form submitted:', form.getValues());
@@ -20,7 +21,11 @@ const useAddComparison = (setOnClose) => {
       const payload = [vehicle1,vehicle2]
       
       console.log('payload',payload)
-      await addComparisonSet({vehicles:payload,type:"car"}).unwrap()
+      if(comparison){
+        await updateComparisonSet({id:comparison._id,data:{vehicles:payload,type:comparison.type}})
+      }else{
+        await addComparisonSet({vehicles:payload,type:"car"}).unwrap()
+      }
       setOnClose(false);
     //   form.reset();
     } catch (error) {

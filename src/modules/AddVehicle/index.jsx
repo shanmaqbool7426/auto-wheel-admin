@@ -24,17 +24,17 @@ import useMakes from '../Makes/useMakes';
 //   import MakeModelVariantModel from '@/components/MakeModelVariantModel';
 
 const AddVehicle = memo(({ editData }) => {
-  const { form, handleSubmit, isLoading } = useAddVehicle(editData);
+  const { form, handleSubmit, isLoading } = useAddVehicle(editData?.data);
   const { makesData, transformedMakesData } = useMakes()
   const [activeTab, setActiveTab] = useState('basic');
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [selection, setSelection] = useState({
-    make: '',
-    model: '',
-    variant: ''
+    make: editData?.data?.info?.make || '',
+    model: editData?.data?.info?.model || '',
+    variant: editData?.data?.info?.variant || ''
   });
 
-  console.log("editData>>>>>>>>>", editData)
+  console.log("aaaaaaaa>>>>>>>>>", form.values)
 
   // Current year for the year dropdown
   const currentYear = new Date().getFullYear();
@@ -118,9 +118,9 @@ const AddVehicle = memo(({ editData }) => {
 
   // Effect to update form when selection changes
   useEffect(() => {
-    form.setFieldValue('make', selection.make);
-    form.setFieldValue('model', selection.model);
-    form.setFieldValue('variant', selection.variant);
+    form.setFieldValue('make', form.values.make);
+    form.setFieldValue('model', form.values.model);
+    form.setFieldValue('variant', form.values.variant);
   }, [selection]);
 
   return (
@@ -151,6 +151,7 @@ const AddVehicle = memo(({ editData }) => {
                       { value: 'bike', label: 'Bike' },
                       { value: 'truck', label: 'Truck' }
                     ]}
+                    value={form.values.type}
                     {...form.getInputProps('type')}
                   />
                 </Grid.Col>
@@ -172,6 +173,7 @@ const AddVehicle = memo(({ editData }) => {
                     placeholder="Select make"
                     {...form.getInputProps('make')}
                     name="make"
+                    value={form.values.make}
                   />
                 </Grid.Col>
 
@@ -181,7 +183,7 @@ const AddVehicle = memo(({ editData }) => {
                     label="Model"
                     required
                     placeholder="Select model"
-                    value={selection.model}
+                    value={form.values.model}
                     onClick={() => setIsModelOpen(true)}
                     readOnly
                     styles={{ input: { cursor: 'pointer' } }}
@@ -194,7 +196,7 @@ const AddVehicle = memo(({ editData }) => {
                     label="Variant"
                     required
                     placeholder="Select variant"
-                    value={selection.variant}
+                    value={form.values.variant}
                     onClick={() => setIsModelOpen(true)}
                     readOnly
                     styles={{ input: { cursor: 'pointer' } }}
@@ -206,6 +208,7 @@ const AddVehicle = memo(({ editData }) => {
                   <Select
                     label="Year"
                     placeholder="Select year"
+                    value={form.values.year}
                     required
                     data={years}
                     {...form.getInputProps('year')}
@@ -217,6 +220,7 @@ const AddVehicle = memo(({ editData }) => {
                   <Select
                     label="Body Type"
                     placeholder="Select body type"
+                    value={form.values.bodyType}  
                     required
                     data={getBodyTypesByVehicleType(form.values.type)}
                     {...form.getInputProps('bodyType')}
@@ -239,6 +243,7 @@ const AddVehicle = memo(({ editData }) => {
                 setOpened={setIsModelOpen}
                 setSelection={setSelection}
                 onClose={() => setIsModelOpen(false)}
+                type={form.values.type}
               />
               {/* </Modal> */}
             </Tabs.Panel>

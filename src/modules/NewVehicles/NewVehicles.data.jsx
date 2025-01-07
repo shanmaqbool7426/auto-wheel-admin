@@ -3,11 +3,9 @@ import dayjs from 'dayjs';
 import { ActionIcon, Group, Box, Badge } from '@mantine/core';
 // Import icons from @tabler/icons-react
 import { IconEdit, IconTrash, IconEye } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import styles from './NewVehicles.module.css';
 
-export const getColumns = (onClickEdit, onClickDelete, onClickView) => {
-    const router = useRouter();
+export const getColumns = (handleEdit, handleDelete, router) => {
     return [
         {
             accessor: 'image',
@@ -89,7 +87,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickView) => {
                         size="sm"
                         variant="subtle"
                         color="blue"
-                        onClick={() => onClickEdit(row._id)}
+                        onClick={() => handleEdit(row._id)}
                     >
                         <IconEdit size={16} />
                     </ActionIcon>
@@ -97,7 +95,7 @@ export const getColumns = (onClickEdit, onClickDelete, onClickView) => {
                         size="sm"
                         variant="subtle"
                         color="red"
-                        onClick={() => onClickDelete(row._id)}
+                        onClick={() => handleDelete(row._id)}
                     >
                         <IconTrash size={16} />
                     </ActionIcon>

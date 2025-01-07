@@ -40,10 +40,10 @@ export default function NewVehicles() {
 
   } = useNewVehicles();
 
-  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate);
-  const [bulkActionValue, setBulkActionValue] = React.useState('');
-
   const router = useRouter();
+
+  const columns = getColumns(handleClickEditRow, handleClickDeleteRow, handleClickDuplicate, router);
+  const [bulkActionValue, setBulkActionValue] = React.useState('');
 
   console.log(">>>>>data", data);
   return (

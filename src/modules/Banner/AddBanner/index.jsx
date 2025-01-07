@@ -3,9 +3,10 @@ import { Grid, Image, ActionIcon, Box, FileInput } from '@mantine/core';
 import CustomModal from '@/components/CustomModal';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
-import { IconTrash, IconUpload } from '@/assets/icons';
+import { IconTrash,  } from '@/assets/icons';
 import useAddBanner from './useAddBanner';
 import styles from './AddBanner.module.css';
+import { IconUpload } from '@tabler/icons-react';
 
 
 export default function AddBanner({ 
@@ -87,7 +88,7 @@ export default function AddBanner({
                 placeholder="Choose image"
                 {...form.getInputProps('image')}
                 accept="image/*"
-                icon={<IconUpload size={14} />} 
+                icon={<IconUpload  size={14} />} 
                 onChange={handleImageChange}
                 error={form.errors.image}
               />

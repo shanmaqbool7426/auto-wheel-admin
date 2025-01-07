@@ -39,4 +39,9 @@ export const navMenu = [
   { label: 'Chat', href: PATH_NAME.CHAT, icon: IconMenuChat },
   { label: 'Email', href: PATH_NAME.EMAIL, icon: IconMenuEmail },
   { label: 'File Manager', href: PATH_NAME.FILE_MANAGER, icon: IconMenuFileManager },
+  { label: 'Settings', href: PATH_NAME.SETTINGS_BANNER, icon: IconMenuProfileSettings, links: [
+    { label: 'Banner', href: PATH_NAME.SETTINGS_BANNER },
+    // { label: 'Notifications', href: PATH_NAME.SETTINGS_NOTIFICATIONS },
+    // { label: 'Security', href: PATH_NAME.SETTINGS_SECURITY },
+  ] },
 ];

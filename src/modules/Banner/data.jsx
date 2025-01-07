@@ -23,6 +23,15 @@ export const getColumns = ({ handleOpenModalDelete, handleEditBanner }) => [
     )
   },
   {
+    accessor: 'link',
+    title: 'Link',
+    render: (data) => (
+      <a href={data.link} target='_blank' rel='noopener noreferrer'>
+        {data.link}
+      </a>
+    )
+  },
+  {
     accessor: 'order',
     title: 'Display Order',
     textAlign: 'center',

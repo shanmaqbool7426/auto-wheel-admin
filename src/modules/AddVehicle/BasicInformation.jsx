@@ -1,5 +1,5 @@
 import { Grid, TextInput, NumberInput, Select, Modal, Box } from '@mantine/core';
-import { memo, useState } from 'react';
+import { memo, useState, Suspense } from 'react';
 import { useGetMakesQuery, useGetModelsQuery, useGetVariantsQuery } from '@/services/make';
 // import { AddNewMakeModel } from '@/components/AddNewMakeModel';
 import MakeModelVariantModel from '@/components/MakeModelVariantModel';
@@ -49,100 +49,101 @@ export const BasicInformation = memo(({ form, isModelOpen, setIsModelOpen }) => 
   };
 
   return (
-    <Box>
-      <Grid>
-        {/* Vehicle Type */}
-        <Grid.Col span={4}>
-          <Select
-            label="Vehicle Type"
-            placeholder="Select vehicle type"
-            required
-            data={[
-              { value: 'car', label: 'Car' },
-              { value: 'bike', label: 'Bike' },
-              { value: 'truck', label: 'Truck' }
-            ]}
-            {...form.getInputProps('type')}
-          />
-        </Grid.Col>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Box>
+        <Grid>
+          {/* Vehicle Type */}
+          <Grid.Col span={4}>
+            <Select
+              label="Vehicle Type"
+              placeholder="Select vehicle type"
+              required
+              data={[
+                { value: 'car', label: 'Car' },
+                { value: 'bike', label: 'Bike' },
+                { value: 'truck', label: 'Truck' }
+              ]}
+              {...form.getInputProps('type')}
+            />
+          </Grid.Col>
 
-        {/* Make */}
-        <Grid.Col span={4}>
-          <TextInput
-            onClick={(event)=>handleMakeOpen(event)}
-            placeholder="Select make"
-            required
-            // daa={makes.map(make => ({ value: make.id, label: make.name }))}
-            {...form.getInputProps('make')}
-            onChange={handleMakeChange}
-            loading={isLoadingMakes}
-          />
-        </Grid.Col>
+          {/* Make */}
+          <Grid.Col span={4}>
+            <TextInput
+              onClick={(event)=>handleMakeOpen(event)}
+              placeholder="Select make"
+              required
+              // daa={makes.map(make => ({ value: make.id, label: make.name }))}
+              {...form.getInputProps('make')}
+              onChange={handleMakeChange}
+              loading={isLoadingMakes}
+            />
+          </Grid.Col>
 
-        {/* Model */}
-        <Grid.Col span={4}>
-          <Select
-            label="Model"
-            placeholder="Select model"
-            onClick={handleModelOpen}
-            data={models.map(model => ({ value: model.id, label: model.name }))}
-            {...form.getInputProps('model')}
-            onChange={handleModelChange}
-            disabled={!selectedMake}
-            loading={isLoadingModels}
-          />
-        </Grid.Col>
+          {/* Model */}
+          <Grid.Col span={4}>
+            <Select
+              label="Model"
+              placeholder="Select model"
+              onClick={handleModelOpen}
+              data={models.map(model => ({ value: model.id, label: model.name }))}
+              {...form.getInputProps('model')}
+              onChange={handleModelChange}
+              disabled={!selectedMake}
+              loading={isLoadingModels}
+            />
+          </Grid.Col>
 
-        {/* Variant */}
-        <Grid.Col span={4}>
-          <Select
-            label="Variant"
-            placeholder="Select variant"
-            onClick={handleModelOpen}
+          {/* Variant */}
+          <Grid.Col span={4}>
+            <Select
+              label="Variant"
+              placeholder="Select variant"
+              onClick={handleModelOpen}
 
-            required
-            data={variants.map(variant => ({ value: variant.id, label: variant.name }))}
-            {...form.getInputProps('variant')}
-            disabled={!selectedModel}
-            loading={isLoadingVariants}
-          />
-        </Grid.Col>
+              required
+              data={variants.map(variant => ({ value: variant.id, label: variant.name }))}
+              {...form.getInputProps('variant')}
+              disabled={!selectedModel}
+              loading={isLoadingVariants}
+            />
+          </Grid.Col>
 
-        {/* Year */}
-        <Grid.Col span={4}>
-          <Select
-            label="Year"
-            placeholder="Select year"
-            required
-            data={years.map(year => ({ value: year, label: year.toString() }))}
-            {...form.getInputProps('year')}
-          />
-        </Grid.Col>
+          {/* Year */}
+          <Grid.Col span={4}>
+            <Select
+              label="Year"
+              placeholder="Select year"
+              required
+              data={years.map(year => ({ value: year, label: year.toString() }))}
+              {...form.getInputProps('year')}
+            />
+          </Grid.Col>
 
-        {/* Body Type */}
-        <Grid.Col span={4}>
-          <Select
-            label="Body Type"
-            placeholder="Select body type"
-            required
-            data={getBodyTypesByVehicleType(form.values.type)}
-            {...form.getInputProps('bodyType')}
-            disabled={!form.values.type}
-          />
-        </Grid.Col>
-      </Grid>
+          {/* Body Type */}
+          <Grid.Col span={4}>
+            <Select
+              label="Body Type"
+              placeholder="Select body type"
+              required
+              data={getBodyTypesByVehicleType(form.values.type)}
+              {...form.getInputProps('bodyType')}
+              disabled={!form.values.type}
+            />
+          </Grid.Col>
+        </Grid>
 
-      {/* Add New Make/Model Modal */}
-      <MakeModelVariantModel
-        isOpen={isModelOpen}
-        onClose={() => setIsModelOpen(false)}
-        selection={selection}
-        setSelection={setSelection}
-        fetchMakesByTypeData={fetchMakesByTypeData}
-        hide={hide}
-      />
-       
-    </Box>
+        {/* Add New Make/Model Modal */}
+        <MakeModelVariantModel
+          isOpen={isModelOpen}
+          onClose={() => setIsModelOpen(false)}
+          selection={selection}
+          setSelection={setSelection}
+          fetchMakesByTypeData={fetchMakesByTypeData}
+          hide={hide}
+        />
+      </Box>
+    </Suspense>
   );
 });
 

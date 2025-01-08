@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import styles from './UserRoles.module.css';
 import { Box, Title, Grid } from '@mantine/core';
 import Search from '@/components/Search';
@@ -21,7 +21,7 @@ export default function UserRoles() {
 
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <Card>
         <Box className={styles.pageHeader}>
           <Title order={2} className={styles.pageTitle}>User Role</Title>
@@ -45,6 +45,6 @@ export default function UserRoles() {
         open={isOpenModal}
         setOnClose={setIsOpenModal}
       />
-    </>
+    </Suspense>
   )
 }

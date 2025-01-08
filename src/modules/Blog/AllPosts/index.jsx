@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import styles from './AllPosts.module.css';
 import { Box } from '@mantine/core';
 import Search from '@/components/Search';
@@ -38,7 +38,7 @@ export default function AllPosts() {
   const [bulkActionValue, setBulkActionValue] = React.useState('');
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <Box className={styles.filterbar}>
         <Box className={styles.filterbarLeft}>
           <Box className={styles.searchbar}>
@@ -117,6 +117,6 @@ export default function AllPosts() {
           onPageChange={setPage}
         />
       </Box>
-    </>
+    </Suspense>
   )
 }

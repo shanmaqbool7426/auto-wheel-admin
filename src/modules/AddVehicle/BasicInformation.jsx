@@ -133,7 +133,7 @@ export const BasicInformation = memo(({ form, isModelOpen, setIsModelOpen }) => 
       </Grid>
 
       {/* Add New Make/Model Modal */}
-      <MakeModelVariantMode l
+      <MakeModelVariantModel
         isOpen={isModelOpen}
         onClose={() => setIsModelOpen(false)}
         selection={selection}
@@ -145,6 +145,8 @@ export const BasicInformation = memo(({ form, isModelOpen, setIsModelOpen }) => 
     </Box>
   );
 });
+
+BasicInformation.displayName = 'BasicInformation';
 
 // Helper function to get body types based on vehicle type
 const getBodyTypesByVehicleType = (type) => {

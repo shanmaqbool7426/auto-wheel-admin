@@ -40,6 +40,8 @@ export const TruckSpecifications = memo(({ form }) => {
   );
 });
 
+TruckSpecifications.displayName = 'TruckSpecifications';
+
 const EngineSpecs = ({ form }) => (
   <Box mb="xl">
     <Title order={3} mb="md">Engine Specifications</Title>

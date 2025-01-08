@@ -1,7 +1,8 @@
 import { Box, Grid, Title, NumberInput, TextInput, Select, MultiSelect } from '@mantine/core';
 import { memo } from 'react';
 
-const EngineSpecs = memo(function EngineSpecs({ form }) {
+// Define components with proper display names using function declarations
+function EngineSpecsComponent({ form }) {
   return (
     <Box mb="xl">
       <Title order={3} mb="md">Engine Specifications</Title>
@@ -74,9 +75,11 @@ const EngineSpecs = memo(function EngineSpecs({ form }) {
       </Grid>
     </Box>
   );
-});
+}
+EngineSpecsComponent.displayName = 'EngineSpecsComponent';
+const EngineSpecs = memo(EngineSpecsComponent);
 
-const PerformanceSpecs = memo(function PerformanceSpecs({ form }) {
+function PerformanceSpecsComponent({ form }) {
   return (
     <Box mb="xl">
       <Title order={3} mb="md">Performance & Transmission</Title>
@@ -131,9 +134,11 @@ const PerformanceSpecs = memo(function PerformanceSpecs({ form }) {
       </Grid>
     </Box>
   );
-});
+}
+PerformanceSpecsComponent.displayName = 'PerformanceSpecsComponent';
+const PerformanceSpecs = memo(PerformanceSpecsComponent);
 
-const DimensionsSpecs = memo(function DimensionsSpecs({ form }) {
+function DimensionsSpecsComponent({ form }) {
   return (
     <Box mb="xl">
       <Title order={3} mb="md">Dimensions</Title>
@@ -188,9 +193,11 @@ const DimensionsSpecs = memo(function DimensionsSpecs({ form }) {
       </Grid>
     </Box>
   );
-});
+}
+DimensionsSpecsComponent.displayName = 'DimensionsSpecsComponent';
+const DimensionsSpecs = memo(DimensionsSpecsComponent);
 
-const ChassisSpecs = memo(function ChassisSpecs({ form }) {
+function ChassisSpecsComponent({ form }) {
   return (
     <Box mb="xl">
       <Title order={3} mb="md">Chassis & Suspension</Title>
@@ -215,9 +222,11 @@ const ChassisSpecs = memo(function ChassisSpecs({ form }) {
       </Grid>
     </Box>
   );
-});
+}
+ChassisSpecsComponent.displayName = 'ChassisSpecsComponent';
+const ChassisSpecs = memo(ChassisSpecsComponent);
 
-const WheelsAndTyresSpecs = memo(function WheelsAndTyresSpecs({ form }) {
+function WheelsAndTyresSpecsComponent({ form }) {
   return (
     <Box mb="xl">
       <Title order={3} mb="md">Wheels & Tyres</Title>
@@ -274,9 +283,11 @@ const WheelsAndTyresSpecs = memo(function WheelsAndTyresSpecs({ form }) {
       </Grid>
     </Box>
   );
-});
+}
+WheelsAndTyresSpecsComponent.displayName = 'WheelsAndTyresSpecsComponent';
+const WheelsAndTyresSpecs = memo(WheelsAndTyresSpecsComponent);
 
-function BikeSpecifications({ form }) {
+function BikeSpecificationsComponent({ form }) {
   return (
     <Box>
       <EngineSpecs form={form} />
@@ -287,6 +298,7 @@ function BikeSpecifications({ form }) {
     </Box>
   );
 }
+BikeSpecificationsComponent.displayName = 'BikeSpecificationsComponent';
 
-// Export the main component
-export default memo(BikeSpecifications);
+// Export the memoized component
+export default memo(BikeSpecificationsComponent);

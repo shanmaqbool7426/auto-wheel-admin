@@ -39,6 +39,7 @@ export const CarSpecifications = memo(({ form }) => {
     </Box>
   );
 });
+CarSpecifications.displayName = 'CarSpecifications';
 
 const EngineSpecs = ({ form }) => {
   const engineType = form.values.carSpecs?.engine?.type;
@@ -182,6 +183,7 @@ const EngineSpecs = ({ form }) => {
     </Box>
   );
 };
+EngineSpecs.displayName = 'EngineSpecs';
 
 const DimensionsSpecs = ({ form }) => (
   <Box mb="xl">
@@ -266,6 +268,7 @@ const DimensionsSpecs = ({ form }) => (
     </Grid>
   </Box>
 );
+DimensionsSpecs.displayName = 'DimensionsSpecs';
 
 const TransmissionSpecs = ({ form }) => (
   <Box mb="xl">
@@ -289,6 +292,7 @@ const TransmissionSpecs = ({ form }) => (
     </Grid>
   </Box>
 );
+TransmissionSpecs.displayName = 'TransmissionSpecs';
 
 const SuspensionSpecs = ({ form }) => (
   <Box mb="xl">
@@ -337,6 +341,7 @@ const SuspensionSpecs = ({ form }) => (
     </Grid>
   </Box>
 );
+SuspensionSpecs.displayName = 'SuspensionSpecs';
 
 const WheelsAndTyresSpecs = ({ form }) => (
   <Box mb="xl">
@@ -385,6 +390,7 @@ const WheelsAndTyresSpecs = ({ form }) => (
     </Grid>
   </Box>
 );
+WheelsAndTyresSpecs.displayName = 'WheelsAndTyresSpecs';
 
 const FuelConsumptionSpecs = ({ form }) => (
   <Box mb="xl">
@@ -417,6 +423,7 @@ const FuelConsumptionSpecs = ({ form }) => (
     </Grid>
   </Box>
 );
+FuelConsumptionSpecs.displayName = 'FuelConsumptionSpecs';
 
 const SafetySpecs = ({ form }) => (
   <Box mb="xl">
@@ -511,6 +518,7 @@ const SafetySpecs = ({ form }) => (
     </Grid>
   </Box>
 );
+SafetySpecs.displayName = 'SafetySpecs';
 
 const ExteriorSpecs = ({ form }) => (
   <Box mb="xl">
@@ -612,7 +620,7 @@ const ExteriorSpecs = ({ form }) => (
     </Grid>
   </Box>
 );
-
+ExteriorSpecs.displayName = 'ExteriorSpecs';
 
 const EntertainmentSpecs = ({ form }) => (
   <Box mb="xl">
@@ -680,6 +688,7 @@ const EntertainmentSpecs = ({ form }) => (
     </Grid>
   </Box>
 );
+EntertainmentSpecs.displayName = 'EntertainmentSpecs';
 
 const ComfortSpecs = ({ form }) => (
   <Box mb="xl">
@@ -933,5 +942,6 @@ const ComfortSpecs = ({ form }) => (
     </Grid>
   </Box>
 );
+ComfortSpecs.displayName = 'ComfortSpecs';
 
 export default CarSpecifications;

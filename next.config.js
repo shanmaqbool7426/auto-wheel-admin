@@ -11,11 +11,10 @@ const nextConfig = {
     };
     return config;
   },
-  // Add this for Netlify
-  target: 'serverless',
   images: {
     unoptimized: true,
-  }
+  },
+  output: 'standalone'
 };
 
 module.exports = nextConfig; 

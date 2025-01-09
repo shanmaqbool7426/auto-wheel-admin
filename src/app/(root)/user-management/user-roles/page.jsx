@@ -1,10 +1,10 @@
-import ClientWrapper from '@/components/ClientWrapper';
-import UserRolesContent from '@/modules/UserManagement/UserRoles/UserRolesContent';
+// import ClientWrapper from '@/components/ClientWrapper';
+// import UserRolesContent from '@/modules/UserManagement/UserRoles/UserRolesContent';
 
-export default function UserRolesPage() {
-  return (
-    <ClientWrapper>
-      <UserRolesContent />
-    </ClientWrapper>
-  );
-}
+// export default function UserRolesPage() {
+//   return (
+//     <ClientWrapper>
+//       <UserRolesContent />
+//     </ClientWrapper>
+//   );
+// }

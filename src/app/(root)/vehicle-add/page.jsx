@@ -1,10 +1,9 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import { useGetVehicleByIdQuery } from '@/services/vehicle-manage';
-import AddVehicle from '@/modules/AddVehicle';
+import AddVehicle from '@/modules/addVehicle';
 import { LoadingOverlay } from '@mantine/core';
 import ClientWrapper from '@/components/ClientWrapper';
-import { Suspense } from 'react';
 
 export default function EditVehiclePage() {
   const searchParams = useSearchParams();

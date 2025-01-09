@@ -1,8 +1,12 @@
 import React from 'react';
 import NewVehicles from '@/modules/NewVehicles';
+import ClientWrapper from '@/components/ClientWrapper';
+
 
 export default function VehiclePage() {
   return (
-    <NewVehicles />
-  )
+    <ClientWrapper>
+      <NewVehicles />
+    </ClientWrapper>
+  );
 }

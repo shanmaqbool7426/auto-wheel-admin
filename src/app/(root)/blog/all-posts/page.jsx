@@ -1,10 +1,11 @@
 import React, { Suspense } from 'react';
 import AllPosts from '@/modules/Blog/AllPosts'
+import ClientWrapper from '@/components/ClientWrapper';
 
-export default function AllPostsPage() {
+export default function BlogAllPostsPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <ClientWrapper>
       <AllPosts />
-    </Suspense>
-  )
+    </ClientWrapper>
+  );
 }

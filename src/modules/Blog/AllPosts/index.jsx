@@ -1,4 +1,4 @@
-'use client';
+
 import React, { Suspense } from 'react';
 import styles from './AllPosts.module.css';
 import { Box } from '@mantine/core';

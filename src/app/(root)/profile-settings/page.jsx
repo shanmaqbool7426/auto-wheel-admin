@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ProfileSettings from '@/modules/ProfileSettings'
 
 export default function ProfileSettingsPage() {
   return (
-    <ProfileSettings />
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProfileSettings />
+    </Suspense>
   )
 }

@@ -4,7 +4,7 @@ import { LoadingOverlay } from '@mantine/core';
 
 export default function ClientWrapper({ children }) {
   return (
-    <Suspense fallback={<LoadingOverlay visible />}>
+    <Suspense fallback={<LoadingOverlay visible={true} />}>
       {children}
     </Suspense>
   );

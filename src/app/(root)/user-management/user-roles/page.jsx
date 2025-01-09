@@ -4,7 +4,7 @@
 // export default function UserRolesPage() {
 //   return (
 //     <ClientWrapper>
-//       <UserRolesContent />
+//       <UserRoles />
 //     </ClientWrapper>
-//   );
+//   )
 // }

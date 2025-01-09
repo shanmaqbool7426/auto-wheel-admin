@@ -1,7 +1,10 @@
 import React from 'react'
+import ClientWrapper from '@/components/ClientWrapper';
 
 export default function FileManagePage() {
   return (
-    <div>FileManagePage</div>
+    <ClientWrapper>
+      <div>FileManagePage</div>
+    </ClientWrapper>
   )
 }

@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react'
 import ProfileSettings from '@/modules/ProfileSettings'
-
+import ClientWrapper from '@/components/ClientWrapper';
 export default function ProfileSettingsPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <ClientWrapper>
       <ProfileSettings />
-    </Suspense>
+    </ClientWrapper>
   )
 }

@@ -14,7 +14,6 @@ export default function useNewPost() {
 
   const searchParams = useSearchParams();
   const postId = searchParams.get('id');
-
   const [addPost, { isLoading }] = useAddPostMutation();
   const [updatePost, { isLoading: isUpdating }] = useUpdatePostMutation();
   const { data: getCategoriesData } = useGetCategoriesQuery();

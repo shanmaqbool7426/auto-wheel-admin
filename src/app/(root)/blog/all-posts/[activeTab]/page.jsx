@@ -1,8 +1,10 @@
-import React from 'react'
-import AllPosts from '@/modules/Blog/AllPosts'
+import ClientWrapper from '@/components/ClientWrapper';
+import AllPosts from '@/modules/Blog/AllPosts';
 
-export default function PostPage() {
+export default function AllPostsPage() {
   return (
-    <AllPosts />
-  )
+    <ClientWrapper>
+      <AllPosts />
+    </ClientWrapper>
+  );
 }

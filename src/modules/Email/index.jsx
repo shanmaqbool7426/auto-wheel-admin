@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 // import React from 'react';
 // import styles from './Email.module.css';
 // import { Box } from '@mantine/core';

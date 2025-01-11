@@ -3,7 +3,7 @@ import UsersList from  '@/modules/UserManagement/UsersList';
 import ClientWrapper from '@/components/ClientWrapper';
 
 export default function UsersListPage() {
-  return (
+  return (    
     <ClientWrapper>
       <UsersList />
     </ClientWrapper>

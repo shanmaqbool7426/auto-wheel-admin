@@ -1,7 +1,7 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import { useGetVehicleByIdQuery } from '@/services/vehicle-manage';
-import AddVehicle from '@/modules/addVehicle';
+import AddVehicle from '@/modules/AddVehicle';
 import { LoadingOverlay } from '@mantine/core';
 import ClientWrapper from '@/components/ClientWrapper';
 

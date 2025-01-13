@@ -18,6 +18,7 @@
     "@emotion/utils": "^1.4.1",
     "@mantine/core": "^7.14.0",
     "@mantine/dates": "^7.13.5",
+    "@mantine/dropzone": "^7.15.3",
     "@mantine/emotion": "^7.13.2",
     "@mantine/form": "^7.13.4",
     "@mantine/hooks": "^7.14.0",
@@ -46,17 +47,13 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.7",
-    "@babel/eslint-parser": "^7.23.3",
-    "@types/node": "^22.10.5",
-    "@types/react": "^19.0.4",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "14.0.4",
+    "@types/node": "22.10.5",
+    "@types/react": "19.0.4",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.15",
     "postcss": "^8.4.47",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "5.7.3"
   }
 }

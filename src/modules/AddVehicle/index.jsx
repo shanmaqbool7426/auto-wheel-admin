@@ -118,11 +118,13 @@ const AddVehicle = memo(({ editData }) => {
 
   // Effect to update form when selection changes
   useEffect(() => {
-    form.setFieldValue('make', form.values.make);
-    form.setFieldValue('model', form.values.model);
-    form.setFieldValue('variant', form.values.variant);
+    form.setFieldValue('make', editData?.data?.info?.make || selection.make);
+    form.setFieldValue('model', editData?.data?.info?.model || selection.model);
+    form.setFieldValue('variant', editData?.data?.info?.variant || selection.variant);
   }, [selection]);
 
+
+  console.log(">>>>>>>>>>", form.values)
   return (
     <Box p="md">
       <Paper shadow="xs" p="md" pos="relative">
@@ -195,7 +197,7 @@ const AddVehicle = memo(({ editData }) => {
                   <TextInput
                     label="Variant"
                     required
-                    placeholder="Select variant"
+                    placeh  older="Select variant"
                     value={form.values.variant}
                     onClick={() => setIsModelOpen(true)}
                     readOnly

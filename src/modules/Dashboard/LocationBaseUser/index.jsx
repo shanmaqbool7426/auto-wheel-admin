@@ -31,3 +31,14 @@
 //     </Box>
 //   )
 // }
+
+
+import React from 'react'
+
+const LocationBaseUser = () => {
+  return (
+    <div>LocationBaseUser</div>
+  )
+}
+
+export default LocationBaseUser

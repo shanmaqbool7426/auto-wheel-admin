@@ -5,6 +5,7 @@ const useAddComparison = (setOnClose, comparison) => {
     initialValues: {
       vehicle1: '',
       vehicle2: '',
+      type: '',
     },
     validate: {
       vehicle1: (value) => (!value ? 'Vehicle 1 is required' : null),
@@ -22,9 +23,9 @@ const useAddComparison = (setOnClose, comparison) => {
       
       console.log('payload',payload)
       if(comparison){
-        await updateComparisonSet({id:comparison._id,data:{vehicles:payload,type:comparison.type}})
+        await updateComparisonSet({id:comparison._id,data:{vehicles:payload,type:form.values.type}})
       }else{
-        await addComparisonSet({vehicles:payload,type:"car"}).unwrap()
+        await addComparisonSet({vehicles:payload,type:form.values.type}).unwrap()
       }
       setOnClose(false);
     //   form.reset();

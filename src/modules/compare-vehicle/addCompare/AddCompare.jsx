@@ -44,7 +44,10 @@ export default function AddCompare({ open, setOnClose }) {
                   { value: 'bike', label: 'Bikes' },
                   { value: 'truck', label: 'Trucks' }
                 ]}
-                onChange={(value) => {/* Add filter logic */}}
+                value={form.values.type}
+                onChange={(value) => {
+                  form.setFieldValue('type', value);
+                }}
               />
             </Box>
           </Grid.Col>

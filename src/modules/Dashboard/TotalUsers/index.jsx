@@ -54,3 +54,13 @@
 //     </section>
 //   )
 // }
+
+import React from 'react'
+
+const TotalUsers = () => {
+  return (
+    <div>index</div>
+  )
+}
+
+export default TotalUsers

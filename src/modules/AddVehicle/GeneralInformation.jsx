@@ -1,41 +1,26 @@
-import { Grid, NumberInput, MultiSelect, TextInput, Textarea, FileInput, Box, Image } from '@mantine/core';
+import { Grid, NumberInput, MultiSelect, TextInput, Textarea, Box, Image, SimpleGrid, Title, Text } from '@mantine/core';
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useUploadImageMutation } from '@/services/vehicle-manage';
 import { useState, useEffect } from 'react';
-import { IconX } from '@tabler/icons-react';
+import { IconX, IconStar, IconStarFilled } from '@tabler/icons-react';
+import classes from './GeneralInformation.module.css';
 
 export const GeneralInformation = ({ form }) => {
   const [uploadImage] = useUploadImageMutation();
-  const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
-  const [defaultImageFile, setDefaultImageFile] = useState(null);
-  const [defaultImagePreview, setDefaultImagePreview] = useState(form.values.defaultImage || null);
 
-  const handleDefaultImageUpload = (file) => {
-    if (file) {
-      // Create preview URL
-      const previewUrl = URL.createObjectURL(file);
-      setDefaultImagePreview(previewUrl);
-      setDefaultImageFile(file);
-      
-      // Update form
-      form.setFieldValue('defaultImage', file);
-    }
-  };
-
-  const handleAdditionalImagesUpload = async (files) => {
+  const handleFileDrop = async (files) => {
     if (files?.length) {
-      // Create preview URLs
       const newPreviews = files.map(file => URL.createObjectURL(file));
       setPreviews(prev => [...prev, ...newPreviews]);
-      setFiles(prev => [...prev, ...files]);
-
-      const uploadPromises = files.map(file => {
-        const formData = new FormData();
-        formData.append('images', file);
-        return uploadImage(formData).unwrap();
-      });
 
       try {
+        const uploadPromises = files.map(file => {
+          const formData = new FormData();
+          formData.append('images', file);
+          return uploadImage(formData).unwrap();
+        });
+
         const responses = await Promise.all(uploadPromises);
         const imageUrls = responses.map(response => response?.data[0]);
         form.setFieldValue('images', [...(form.values.images || []), ...imageUrls]);
@@ -45,11 +30,7 @@ export const GeneralInformation = ({ form }) => {
     }
   };
 
-  const removeAdditionalImage = (index) => {
-    const newFiles = [...files];
-    newFiles.splice(index, 1);
-    setFiles(newFiles);
-
+  const removeImage = (index) => {
     const newPreviews = [...previews];
     URL.revokeObjectURL(newPreviews[index]);
     newPreviews.splice(index, 1);
@@ -61,15 +42,44 @@ export const GeneralInformation = ({ form }) => {
     form.setFieldValue('images', newImages);
   };
 
-  // Cleanup preview URLs when component unmounts
-  useEffect(() => {
-    return () => {
-      if (defaultImagePreview) {
-        URL.revokeObjectURL(defaultImagePreview);
-      }
-      previews.forEach(preview => URL.revokeObjectURL(preview));
-    };
-  }, []);
+  const setDefaultImage = (index) => {
+    const currentImages = [...(form.values.images || [])];
+    const [selectedImage] = currentImages.splice(index, 1);
+    currentImages.unshift(selectedImage);
+    form.setFieldValue('images', currentImages);
+    form.setFieldValue('defaultImage', selectedImage);
+  };
+
+  const previewImages = previews.map((url, index) => (
+    <Box key={index} className={classes.imageContainer}>
+      <Box className={classes.imageWrapper}>
+        <Image
+          src={url}
+          alt={`Preview ${index + 1}`}
+          className={classes.previewImage}
+        />
+        <Box className={classes.imageOverlay}>
+          <Box className={classes.imageActions}>
+            <Box 
+              className={classes.actionButton}
+              onClick={() => setDefaultImage(index)}
+            >
+              {index === 0 ? <IconStarFilled size={16} /> : <IconStar size={16} />}
+            </Box>
+            <Box 
+              className={classes.actionButton}
+              onClick={() => removeImage(index)}
+            >
+              <IconX size={16} />
+            </Box>
+          </Box>
+          <Text className={classes.defaultLabel}>
+            {index === 0 ? 'Default' : ''}
+          </Text>
+        </Box>
+      </Box>
+    </Box>
+  ));
 
   return (
     <Grid>
@@ -131,85 +141,27 @@ export const GeneralInformation = ({ form }) => {
 
       {/* Images */}
       <Grid.Col span={12}>
-        <Box mb="md">
-          <FileInput
-            label="Default Image"
-            accept="image/*"
-            onChange={handleDefaultImageUpload}
-            required
-            placeholder="Upload main vehicle image"
-            name="defaultImage"
-          />
-          {defaultImagePreview && (
-            <Box mt="xs">
-              <Image
-                src={defaultImagePreview}
-                alt="Default preview"
-                width={200}
-                height={150}
-                fit="contain"
-                radius="md"
-              />
-            </Box>
-          )}
-        </Box>
-      </Grid.Col>
-
-      <Grid.Col span={12}>
-        <Box>
-          <FileInput
-            label="Additional Images"
-            multiple
-            maxFiles={5}
-            value={files}
-            accept="image/*"
-            placeholder="Upload additional vehicle images"
-            onChange={handleAdditionalImagesUpload}
-            name="additionalImages"
-          />
-          {previews.length > 0 && (
-            <Box 
-              mt="xs" 
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '10px'
-              }}
+        <Box mb="xl">
+          <Title order={4} mb="lg">Upload Photos</Title>
+          <Box className={classes.uploadContainer}>
+            <Dropzone
+              accept={IMAGE_MIME_TYPE}
+              onDrop={handleFileDrop}
+              className={classes.dropzone}
             >
-              {previews.map((preview, index) => (
-                <Box 
-                  key={index} 
-                  style={{ 
-                    position: 'relative',
-                    width: '150px'
-                  }}
-                >
-                  <Image
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    width={150}
-                    height={100}
-                    fit="contain"
-                    radius="md"
-                  />
-                  <Box
-                    onClick={() => removeAdditionalImage(index)}
-                    style={{
-                      position: 'absolute',
-                      top: 5,
-                      right: 5,
-                      background: 'white',
-                      borderRadius: '50%',
-                      cursor: 'pointer',
-                      padding: '2px'
-                    }}
-                  >
-                    <IconX size={16} />
-                  </Box>
-                </Box>
-              ))}
-            </Box>
-          )}
+              <Image
+                src="/upload.png"
+                alt="Upload"
+                className={classes.uploadImage}
+              />
+            </Dropzone>
+
+            {previews.length > 0 && (
+              <SimpleGrid cols={4} spacing="md" mt="md">
+                {previewImages}
+              </SimpleGrid>
+            )}
+          </Box>
         </Box>
       </Grid.Col>
 
@@ -257,24 +209,6 @@ export const GeneralInformation = ({ form }) => {
         />
       </Grid.Col>
     </Grid>
-  );
-};
-
-// Helper component for image preview
-const ImagePreview = ({ url }) => {
-  if (!url) return null;
-  
-  return (
-    <img 
-      src={url} 
-      alt="Preview" 
-      style={{ 
-        maxWidth: '100px', 
-        maxHeight: '100px', 
-        objectFit: 'cover', 
-        marginTop: '8px' 
-      }} 
-    />
   );
 };
 

@@ -1,13 +1,12 @@
-import ClientWrapper from '@/components/ClientWrapper';
-import AllPosts from '@/modules/Blog/AllPosts';
-import { Suspense } from 'react';
+import React from 'react';
+import dynamic from 'next/dynamic';
+import Loading from '@/components/Loading';
+
+const BlogPosts = dynamic(() => import('@/components/BlogPosts'), {
+  ssr: false,
+  loading: () => <Loading />
+});
 
 export default function AllPostsPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ClientWrapper> 
-        <AllPosts />
-      </ClientWrapper>
-    </Suspense>
-  );
+  return <BlogPosts />;
 }

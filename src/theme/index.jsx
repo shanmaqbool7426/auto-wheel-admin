@@ -4,6 +4,7 @@ import { createTheme } from "@mantine/core";
 import { RED } from "@/constants/colors";
 import { components } from "@/theme/components";
 
+
 export const theme = createTheme({
 	colors: {
 		red: RED,

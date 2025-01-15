@@ -106,11 +106,11 @@ const AddVehicle = memo(({ editData }) => {
   const renderSpecifications = () => {
     switch (vehicleType) {
       case 'car':
-        return <CarSpecifications form={form} />;
+        return <>car</>;
       case 'bike':
-        return <BikeSpecifications form={form} />;
+        return <>bike</>;
       case 'truck':
-        return <TruckSpecifications form={form} />;
+        return <>truck</>;
       default:
         return <Box>Please select a vehicle type first</Box>;
     }

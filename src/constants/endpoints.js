@@ -1,5 +1,8 @@
 export const END_POINTS = {
-  // ... existing endpoints ...
+  // Dashboard endpoints
+  GET_LATEST_USERS: '/user/latest-users',
+  GET_LATEST_POSTS: '/blog/latest',
+  GET_TOP_PERFORMING_POSTS: '/blog/top-performing',
 
   // User Profile Management
   GET_PROFILE: '/user/profile',
@@ -48,5 +51,6 @@ export const END_POINTS = {
   VEHICLES: '/new-vehicles',
   NEW_VEHICLES: '/new-vehicles',
   GET_VEHICLE_BY_ID: '/new-vehicles/get-vehicle-by-id',
+  COMPARISON: '/comparison',
 
 }

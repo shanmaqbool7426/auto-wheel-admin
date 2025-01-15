@@ -16,9 +16,9 @@ import {
 import { memo, useEffect, useState } from 'react';
 import { useAddVehicle } from './useAddVehicle';
 import MakeModelVariantModel from '@/components/MakeModelVariantModel';
-import { CarSpecifications } from './CarSpecifications';
-import { BikeSpecifications } from './BikeSpecifications';
-import { TruckSpecifications } from './TruckSpecifications';
+// import { CarSpecifications } from './CarSpecifications';
+// import { BikeSpecifications } from './BikeSpecifications';
+// import { TruckSpecifications } from './TruckSpecifications';
 import { GeneralInformation } from './GeneralInformation';
 import useMakes from '../Makes/useMakes';
 //   import MakeModelVariantModel from '@/components/MakeModelVariantModel';

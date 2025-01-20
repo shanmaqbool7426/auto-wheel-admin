@@ -1,7 +1,7 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useGetVehicleByIdQuery } from '@/services/vehicle-manage';
-import AddVehicle from '@/modules/AddVehicle';
+// import AddVehicle from '@/modules/AddVehicle';
 import { LoadingOverlay } from '@mantine/core';
 
 export default function EditVehiclePage() {
@@ -14,5 +14,5 @@ export default function EditVehiclePage() {
     return <LoadingOverlay visible />;
   }
 
-  return <AddVehicle editData={vehicleData} />;
+  return <>page</>
 }

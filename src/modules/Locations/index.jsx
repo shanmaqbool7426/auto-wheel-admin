@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Box } from '@mantine/core';
+import { Box, ActionIcon, Drawer, Grid, Autocomplete } from '@mantine/core';
 import Search from '@/components/Search';
 import FormField from '@/components/FormField';
 import DataTable from '@/components/DataTable';
@@ -11,6 +11,8 @@ import { IconPlus } from '@/assets/icons';
 import styles from './Locations.module.css';
 import AddLocation from './AddLocation';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import { IconFilter } from '@tabler/icons-react';
+
 
 export default function Locations() {
   const {
@@ -30,6 +32,18 @@ export default function Locations() {
     handleBulkAction,
     handleBulkDeleteLocations,
     loadingBulkDelete,
+
+    selectedCountry,
+    selectedState,
+    selectedCity,
+    handleCountryChange,
+    handleStateChange,
+    Country,
+    cities,
+    states,
+    openFilterDrawer,
+    handleOpenDrawer,
+    handleCloseDrawer,
   } = useLocations();
 
   const columns = getColumns();
@@ -58,6 +72,9 @@ export default function Locations() {
           </Box>
         </Box>
         <Box className={styles.filterbarRight}>
+          <ActionIcon variant="outline" color='#ced4da' onClick={handleOpenDrawer}>
+            <IconFilter style={{ width: '70%', height: '70%' }} stroke={1.5} />
+          </ActionIcon>
           <Box>
             <CustomButton
               leftSection={<IconPlus />}
@@ -96,6 +113,64 @@ export default function Locations() {
         onSubmit={handleBulkDeleteLocations}
         isLoading={loadingBulkDelete}
       />
+
+      <Drawer
+        title="Location Filters"
+        opened={openFilterDrawer}
+        onClose={handleCloseDrawer}
+        position="right"
+        classNames={{
+          content: styles.drawerContent,
+          title: styles.drawerTitle,
+        }}
+      >
+        <form>
+          <Grid gutter="24px">
+
+            <Grid.Col span={12}>
+              <Autocomplete
+                label="Country"
+                placeholder="Select country"
+                data={Country.getAllCountries().map((country) => ({
+                  value: country.isoCode,
+                  label: country.name,
+                }))}
+                value={selectedCountry}
+                onChange={handleCountryChange}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={12}>
+              <Autocomplete
+                label="State"
+                placeholder="Select state"
+                data={states}
+                value={selectedState}
+                onChange={handleStateChange}
+                disabled={!selectedCountry}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={12}>
+              <Autocomplete
+                label="City"
+                placeholder="Select city"
+                data={cities}
+                value={selectedCity}
+                onChange={(city) => setSelectedCity(city)}
+                disabled={!selectedState}
+              />
+            </Grid.Col>
+
+            <Grid.Col span={12}>
+              <CustomButton color='#1B84FF' fullWidth type='submit'>
+                Apply
+              </CustomButton>
+            </Grid.Col>
+
+          </Grid>
+        </form>
+      </Drawer>
     </>
   )
 }

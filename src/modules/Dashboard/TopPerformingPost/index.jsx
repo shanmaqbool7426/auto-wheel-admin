@@ -11,7 +11,6 @@ import {
 export default function TopPerformingPost() {
 
   const { data, isLoading } = useGetTopPerformingPostsQuery();
-  console.log('data::: ', data)
 
   return (
     <section className={styles.section}>

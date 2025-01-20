@@ -68,3 +68,12 @@
   background-color: transparent;
   color: #1B84FF;
 }
+
+.drawerContent {
+  border-radius: 12px 0 0 12px;
+}
+
+.drawerTitle {
+  font-size: 20px;
+  font-weight: 600;
+}

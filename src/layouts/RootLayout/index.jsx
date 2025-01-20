@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -36,7 +36,9 @@ export default function RootLayout({ children }) {
       }}
     >
       <AppShell.Header>
-        <Header />
+        <Suspense fallback={<div className="h-16 bg-white shadow-sm"></div>}>
+          <Header />
+        </Suspense>
       </AppShell.Header>
 
       <AppShell.Navbar p={0}>

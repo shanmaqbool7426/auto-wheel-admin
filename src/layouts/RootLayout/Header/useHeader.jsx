@@ -1,14 +1,21 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import { usePathname, useParams, useSearchParams } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 import { PATH_NAME } from '@/constants/pathname';
 
 export default function useHeader() {
   const { activeTab } = useParams();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const postId = searchParams.get('id');
   const [title, setTitle] = useState('');
   const [isNotification, setIsNotification] = React.useState(true);
+  const [postId, setPostId] = useState(null);
+
+  // Move searchParams logic to a separate effect
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setPostId(params.get('id'));
+  }, []);
 
   useEffect(() => {
     const titleMap = {
@@ -29,6 +36,7 @@ export default function useHeader() {
       [PATH_NAME.EMAIL]: 'Email',
       [PATH_NAME.FILE_MANAGER]: 'File Manager',
     };
+    
     if (pathname === PATH_NAME.BLOG_NEW_POSTS && postId) {
       setTitle('Edit Post');
     } else {
@@ -39,5 +47,5 @@ export default function useHeader() {
   return {
     isNotification,
     title,
-  }
+  };
 }

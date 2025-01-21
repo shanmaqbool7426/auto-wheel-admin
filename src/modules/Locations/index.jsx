@@ -12,6 +12,7 @@ import styles from './Locations.module.css';
 import AddLocation from './AddLocation';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { IconFilter } from '@tabler/icons-react';
+import FilterDrawer from './FilterDrawer';
 
 
 export default function Locations() {
@@ -33,17 +34,11 @@ export default function Locations() {
     handleBulkDeleteLocations,
     loadingBulkDelete,
 
-    selectedCountry,
-    selectedState,
-    selectedCity,
-    handleCountryChange,
-    handleStateChange,
-    Country,
-    cities,
-    states,
     openFilterDrawer,
     handleOpenDrawer,
     handleCloseDrawer,
+    handleSubmit,
+    filterForm,
   } = useLocations();
 
   const columns = getColumns();
@@ -72,9 +67,10 @@ export default function Locations() {
           </Box>
         </Box>
         <Box className={styles.filterbarRight}>
-          <ActionIcon variant="outline" color='#ced4da' onClick={handleOpenDrawer}>
-            <IconFilter style={{ width: '70%', height: '70%' }} stroke={1.5} />
-          </ActionIcon>
+          <Box className={styles.filterButton} onClick={handleOpenDrawer}>
+            <IconFilter style={{ width: '70%', height: '70%' }} stroke={1.5} /> Filter
+          </Box>
+
           <Box>
             <CustomButton
               leftSection={<IconPlus />}
@@ -114,63 +110,12 @@ export default function Locations() {
         isLoading={loadingBulkDelete}
       />
 
-      <Drawer
-        title="Location Filters"
-        opened={openFilterDrawer}
+      <FilterDrawer
+        open={openFilterDrawer}
         onClose={handleCloseDrawer}
-        position="right"
-        classNames={{
-          content: styles.drawerContent,
-          title: styles.drawerTitle,
-        }}
-      >
-        <form>
-          <Grid gutter="24px">
-
-            <Grid.Col span={12}>
-              <Autocomplete
-                label="Country"
-                placeholder="Select country"
-                data={Country.getAllCountries().map((country) => ({
-                  value: country.isoCode,
-                  label: country.name,
-                }))}
-                value={selectedCountry}
-                onChange={handleCountryChange}
-              />
-            </Grid.Col>
-
-            <Grid.Col span={12}>
-              <Autocomplete
-                label="State"
-                placeholder="Select state"
-                data={states}
-                value={selectedState}
-                onChange={handleStateChange}
-                disabled={!selectedCountry}
-              />
-            </Grid.Col>
-
-            <Grid.Col span={12}>
-              <Autocomplete
-                label="City"
-                placeholder="Select city"
-                data={cities}
-                value={selectedCity}
-                onChange={(city) => setSelectedCity(city)}
-                disabled={!selectedState}
-              />
-            </Grid.Col>
-
-            <Grid.Col span={12}>
-              <CustomButton color='#1B84FF' fullWidth type='submit'>
-                Apply
-              </CustomButton>
-            </Grid.Col>
-
-          </Grid>
-        </form>
-      </Drawer>
+        form={filterForm}
+        handleSubmit={handleSubmit}
+      />
     </>
   )
 }

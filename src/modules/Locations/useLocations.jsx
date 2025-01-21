@@ -106,12 +106,12 @@ export default function useLocations() {
     setCities(fetchedCities);
   };
 
+
   const filterForm = useForm({
-    mode: 'uncontrolled',
     initialValues: {
-      country: '',
-      state: '',
-      city: '',
+      country: "",
+      state: "",
+      city: "",
     },
   });
 
@@ -122,18 +122,15 @@ export default function useLocations() {
     setOpenFilterDrawer(false)
   }
 
+  const handleSubmit = (values) => {
+    console.log("Form Submitted:", values);
+  };
+
   // const handleFilterSubmit = async (values) => {
   //   console.log('Form Data:: ', values);
   // };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    handleFilterSubmit({
-      country: selectedCountry,
-      state: selectedState,
-      city: selectedCity,
-    });
-  };
+
 
 
 
@@ -160,16 +157,10 @@ export default function useLocations() {
     handleBulkDeleteLocations,
     loadingBulkDelete,
 
-    selectedCountry,
-    selectedState,
-    selectedCity,
-    handleCountryChange,
-    handleStateChange,
-    Country,
-    cities,
-    states,
     openFilterDrawer,
     handleOpenDrawer,
     handleCloseDrawer,
+    handleSubmit,
+    filterForm,
   };
 }
